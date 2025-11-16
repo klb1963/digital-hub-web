@@ -1,5 +1,32 @@
-import { OpenDigitalHubHero } from '../components/hero/OpenDigitalHubHero';
+// src/app/page.tsx
+
+import { HeroSection } from '@/sections/home/HeroSection';
+import { IntroSection } from '@/sections/home/IntroSection';
+import { AudienceSection } from '@/sections/home/AudienceSection';
+import { ServicesSection } from '@/sections/home/ServicesSection';
+import { ProjectsSection } from '@/sections/home/ProjectsSection';
+import { AIApproachSection } from '@/sections/home/AIApproachSection';
+import { ProcessSection } from '@/sections/home/ProcessSection';
+import { WorkFormatsSection } from '@/sections/home/WorkFormatsSection';
+import { AboutMeSection } from '@/sections/home/AboutMeSection';
+import { CtaSection } from '@/sections/home/CtaSection';
+import { FooterSection } from '@/sections/home/FooterSection';
 
 export default function HomePage() {
-  return <OpenDigitalHubHero />;
+  return (
+    <main className="min-h-screen bg-[#0F1115]">
+      <HeroSection />
+      <IntroSection />
+      <AudienceSection />
+      <ServicesSection />
+      <ProjectsSection />
+      <AIApproachSection />
+      <ProcessSection />
+      <WorkFormatsSection />
+      <AboutMeSection />
+      <CtaSection />
+      <FooterSection />
+      {/* Здесь позже появятся остальные секции: Audience, Services и т.д. */}
+    </main>
+  );
 }
