@@ -90,7 +90,7 @@ export function FocusSection() {
 
   return (
     <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-24 md:flex-row md:items-start md:gap-12">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-28 pb-24 md:flex-row md:items-start md:gap-12">
         {/* Левая колонка: заголовок + "аккордеон" табов */}
         <motion.div
           className="w-full md:w-[40%]"

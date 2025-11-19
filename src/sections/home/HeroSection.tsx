@@ -1,7 +1,7 @@
 // src/sections/home/HeroSection.tsx
-'use client';
+"use client";
 
-import { motion, type Variants } from 'framer-motion';
+import { motion, type Variants } from "framer-motion";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -27,9 +27,37 @@ const itemVariants: Variants = {
 export function HeroSection() {
   return (
     <section
-      className="min-h-[80vh] bg-[#0F1115] text-slate-100"
+      className="
+        relative
+        min-h-[80vh]
+        overflow-hidden
+        bg-[#05070B]
+        text-slate-100
+      "
     >
-      <div className="mx-auto flex max-w-3xl flex-col justify-center px-6 pt-32 pb-24">
+      {/* 🔹 Фоновое изображение с анимацией */}
+      <div
+        className="
+          pointer-events-none
+          absolute inset-0
+          opacity-25
+          hero-binary-bg
+          hero-binary-animated
+        "
+      />
+
+      {/* 🔹 Тёмная вуаль + градиент для читаемости текста */}
+      <div
+        className="
+          pointer-events-none
+          absolute inset-0
+          bg-gradient-to-b
+          from-black/70 via-black/50 to-black/80
+        "
+      />
+
+      {/* Контент поверх подложки */}
+      <div className="relative mx-auto flex max-w-3xl flex-col justify-center px-6 pt-32 pb-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -74,12 +102,16 @@ export function HeroSection() {
           </motion.div>
 
           {/* CTA */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-8"
-          >
+          <motion.div variants={itemVariants} className="mt-8">
             <button
-              className="inline-flex items-center justify-center rounded-full border border-slate-500/60 px-6 py-2.5 text-sm font-medium text-slate-50 hover:border-slate-300 hover:bg-slate-50/5 transition"
+              className="
+                inline-flex items-center justify-center
+                rounded-full border border-slate-500/60
+                px-6 py-2.5
+                text-sm font-medium text-slate-50
+                hover:border-slate-300 hover:bg-slate-50/5
+                transition
+              "
             >
               Обсудить идею
             </button>

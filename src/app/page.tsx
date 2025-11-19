@@ -18,7 +18,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#0F1115]">
       <HeroSection />
       <IntroSection />
-      <AboutMeSection />
+      
       <FocusSection />
       {/* <AudienceSection />
       <ServicesSection /> 
@@ -27,6 +27,7 @@ export default function HomePage() {
       <ProjectsSection />
       <AIApproachSection />
       <ProcessSection />
+      <AboutMeSection />
       <CtaSection />
       <FooterSection />
       {/* Здесь позже появятся остальные секции: Audience, Services и т.д. */}
