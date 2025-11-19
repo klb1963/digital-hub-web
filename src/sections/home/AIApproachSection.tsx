@@ -96,7 +96,7 @@ function AISlider() {
       className="
         relative
         aspect-square
-        w-[420px] lg:w-[520px]
+        w-80 lg:w-96
         overflow-hidden
         rounded-2xl
         border border-slate-800/80
