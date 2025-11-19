@@ -70,7 +70,7 @@ const focusItems: {
     category: 'Как мы можем сотрудничать',
     summary: 'Гибкие форматы: от проекта под ключ до CTO-наставника',
     title: 'Гибкие форматы — от проекта под ключ до CTO-наставника',
-    imageSrc: '/images/focus/focus-formats-01.jpg',
+    imageSrc: '/images/focus/focus-formats-01.png',
     imageAlt: 'Рабочее место с ноутбуком и заметками по проекту',
     bullets: [
       'Проектная работа под ключ с понятными этапами и результатами.',
