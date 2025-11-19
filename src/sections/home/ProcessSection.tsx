@@ -37,15 +37,15 @@ export function ProcessSection() {
             variants={itemVariants}
             className="text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl"
           >
-            Как мы работаем
+            Как строится работа
           </motion.h2>
 
           <motion.p
             variants={itemVariants}
             className="mt-3 max-w-2xl text-sm text-slate-400 md:text-base"
           >
-            Простой, прозрачный и быстрый процесс — от первых вопросов до работающего
-            продукта и устойчивой цифровой экосистемы.
+            Простой и быстрый процесс — от первых вопросов 
+            до работающего прототипа.
           </motion.p>
 
           {/* Таймлайн */}

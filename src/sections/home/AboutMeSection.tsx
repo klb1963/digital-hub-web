@@ -1,6 +1,7 @@
 // src/sections/home/AboutMeSection.tsx
 'use client';
 
+import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 
 const containerVariants: Variants = {
@@ -35,7 +36,7 @@ export function AboutMeSection() {
           {/* Заголовок */}
           <motion.h2
             variants={itemVariants}
-            className="text-xl font-semibold tracking-tight text-slate-50 md:text-2xl"
+            className="text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl"
           >
             Обо мне
           </motion.h2>
@@ -48,45 +49,71 @@ export function AboutMeSection() {
             цифровой инфраструктуры.
           </motion.p>
 
-          {/* Карточки */}
+          {/* Двухколоночный блок */}
           <motion.div
             variants={itemVariants}
-            className="mt-8 grid gap-6 md:grid-cols-3"
+            className="mt-10 grid items-start gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1.4fr)]"
           >
-            {/* Опыт */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/20 p-5">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                20+ лет в IT и преподавании
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Работал инженером, архитектором, руководил проектами, создавал
-                учебные программы, преподавал программирование. Умею объяснять
-                сложное простым языком и вести команды к результату.
-              </p>
+            {/* Левая колонка: карточка с фото */}
+            <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-6 shadow-[0_18px_45px_rgba(0,0,0,0.55)] md:p-7">
+              <Image
+                src="/images/avatar-01.jpg"
+                alt="Leonid Kleimann"
+                width={112}
+                height={112}
+                className="h-28 w-28 rounded-2xl object-cover ring-2 ring-slate-700/70"
+              />
+
+              <div className="mt-5 space-y-1">
+                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400">
+                  LEONID KLEIMANN
+                </p>
+                <p className="text-sm font-semibold text-slate-50 md:text-base">
+                  Technology Architect &amp; Product Engineer
+                </p>
+                <p className="text-xs text-slate-400 md:text-sm">
+                  Помогающий практик для фаундеров и ИТ-команд.
+                </p>
+              </div>
             </div>
 
-            {/* CTO-подход */}
-            <div class-name="rounded-2xl border border-slate-800 bg-slate-900/20 p-5">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                Практикующий CTO и архитектурный ментор
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Выстраиваю продукт и экосистему как единое целое: архитектура,
-                стек, процессы, roadmap, интеграции, безопасность, деплой,
-                автоматизации.
-              </p>
-            </div>
+            {/* Правая колонка: три акцента */}
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
+                <h3 className="text-base font-semibold text-slate-50 md:text-lg">
+                  20+ лет в IT-индустрии
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-300 md:text-base">
+                  Работал инженером, архитектором, руководил проектами, создавал
+                  учебные программы, преподавал программирование. Умею объяснять
+                  сложное простым языком и вести проект к результату.
+                </p>
+              </div>
 
-            {/* Стек */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/20 p-5">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                Современный стек и инженерный подход
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Next.js, Node.js, NestJS, PostgreSQL, Docker, CI/CD, Traefik,
-                Payload CMS, Supabase, Stripe, Jitsi, Zulip, n8n — плюс
-                системная работа c AI как с инженерным партнёром.
-              </p>
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
+                <h3 className="text-base font-semibold text-slate-50 md:text-lg">
+                  Практикующий CTO
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-300 md:text-base">
+                  Смотрю на продукт и экосистему целиком: архитектура, стек,
+                  процессы, roadmap, интеграции, безопасность, деплой,
+                  автоматизации. Помогаю фаундерам принимать технологические
+                  решения, которые выдерживают реальность, а не только
+                  презентации.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5">
+                <h3 className="text-base font-semibold text-slate-50 md:text-lg">
+                  Современный стек и использование AI
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-300 md:text-base">
+                  Next.js, Node.js, NestJS, PostgreSQL, Docker, CI/CD, Traefik,
+                  Payload CMS, Supabase, Stripe, Jitsi, Zulip, n8n — плюс
+                  системная работа с AI как с инженерным партнёром, а не просто
+                  «генерацией текстов».
+                </p>
+              </div>
             </div>
           </motion.div>
         </motion.div>
