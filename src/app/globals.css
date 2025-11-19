@@ -47,3 +47,22 @@ body {
 .hero-binary-animated {
   animation: hero-pan 45s linear infinite alternate;
 }
+
+@keyframes ai-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.95),
+      0 0 0 0 rgba(129, 140, 248, 0.0);
+  }
+  40% {
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.95),
+      0 0 35px 10px rgba(129, 140, 248, 0.45);
+  }
+  70% {
+    box-shadow: 0 18px 55px rgba(15, 23, 42, 0.95),
+      0 0 55px 18px rgba(56, 189, 248, 0.35);
+  }
+}
+
+.ai-glow-card {
+  animation: ai-glow-pulse 7s ease-in-out infinite;
+}

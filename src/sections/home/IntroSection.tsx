@@ -18,7 +18,7 @@ const introVariants: Variants = {
 export function IntroSection() {
   return (
     <section className="bg-[#05070B] text-slate-100">
-      <div className="mx-auto max-w-5xl px-4 pb-32 pt-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 pt-24 pb-24 sm:px-6 lg:px-8">
         <motion.div
           variants={introVariants}
           initial="hidden"

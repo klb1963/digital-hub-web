@@ -26,7 +26,7 @@ const itemVariants: Variants = {
 export function AboutMeSection() {
   return (
     <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto max-w-5xl px-6 pb-24">
+      <div className="mx-auto max-w-5xl pt-24 px-6 pb-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -57,11 +57,11 @@ export function AboutMeSection() {
             {/* Левая колонка: карточка с фото */}
             <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-6 shadow-[0_18px_45px_rgba(0,0,0,0.55)] md:p-7">
               <Image
-                src="/images/avatar-01.jpg"
+                src="/images/avatar-03.png"
                 alt="Leonid Kleimann"
-                width={112}
-                height={112}
-                className="h-28 w-28 rounded-2xl object-cover ring-2 ring-slate-700/70"
+                width={200}
+                height={200}
+                className="h-80 w-80 rounded-2xl object-cover ring-2 ring-slate-700/70"
               />
 
               <div className="mt-5 space-y-1">

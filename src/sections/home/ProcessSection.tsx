@@ -25,7 +25,7 @@ const itemVariants: Variants = {
 export function ProcessSection() {
   return (
     <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto max-w-4xl px-6 pb-24">
+      <div className="mx-auto max-w-4xl pt-28 px-6 pb-28">
         <motion.div
           variants={containerVariants}
           initial="hidden"

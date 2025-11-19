@@ -1,7 +1,8 @@
 // src/sections/home/AIApproachSection.tsx
-'use client';
+"use client";
 
-import { motion, type Variants } from 'framer-motion';
+import Image from "next/image";
+import { motion, type Variants } from "framer-motion";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -26,67 +27,171 @@ const itemVariants: Variants = {
 
 export function AIApproachSection() {
   return (
-    <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto max-w-5xl px-6 pb-24">
+    <section className="bg-[#05070B] text-slate-100">
+      <div className="mx-auto max-w-6xl px-4 pb-28 pt-28 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
+          className="
+            relative overflow-hidden
+            rounded-3xl border border-slate-800/80
+            bg-gradient-to-br from-slate-950/90 via-slate-950/70 to-slate-950/90
+            shadow-[0_24px_70px_rgba(0,0,0,0.80)]
+          "
         >
-          {/* Заголовок секции */}
-          <motion.h2
+          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] lg:p-10">
+            {/* Левая колонка: текст и пункты */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col justify-center space-y-6"
+            >
+              <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300/80">
+                  AI в инженерном процессе
+                </p>
+                <h2 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
+                  Искусственный интеллект как инженерный партнёр
+                </h2>
+                <p className="max-w-xl text-sm text-slate-400 sm:text-base">
+                  Я не перекладываю работу на ИИ, а строю с ним совместный
+                  инженерный процесс: человек отвечает за смысл и решения,
+                  модели — за скорость, перебор вариантов и рутину.
+                </p>
+              </div>
+
+              <div className="space-y-4 text-sm text-slate-200">
+                {/* Пункт 1 */}
+                <div className="flex gap-3">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-4 w-4 text-indigo-300"
+                    >
+                      <path
+                        d="M5 12.5 9 16l10-10"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-50">
+                      На всех этапах цикла
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                      Использую AI для проработки архитектуры, генерации и
+                      ревью кода, анализа логов, подготовки документации и
+                      технических текстов.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Пункт 2 */}
+                <div className="flex gap-3">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-4 w-4 text-indigo-300"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      />
+                      <path
+                        d="M12 8v4l2 2"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-50">
+                      Фокус на качестве решений
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                      Модели помогают увидеть больше вариантов и быстрее прийти
+                      к рабочему решению, но ответственность за архитектуру и
+                      код остаётся на мне.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Пункт 3 */}
+                <div className="flex gap-3">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-4 w-4 text-indigo-300"
+                    >
+                      <path
+                        d="M5 7h14v4H5zM5 13h8v4H5z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-50">
+                      Практика, а не эксперименты
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                      AI — часть повседневного рабочего процесса, а не игрушка.
+                      Он ускоряет MVP-цикл, но не подменяет инженерное мышление
+                      и ответственность за результат.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+           {/* Правая колонка: иллюстрация */}
+            <motion.div
             variants={itemVariants}
-            className="text-xl font-semibold tracking-tight text-slate-50 md:text-2xl"
-          >
-            Искусственный интеллект как инженерный партнёр
-          </motion.h2>
+            className="relative mt-6 flex items-center justify-center lg:mt-0"
+            >
+            <div
+                className="
+                relative
+                aspect-square
+                w-[420px] lg:w-[520px]
+                overflow-hidden
+                rounded-2xl
+                border border-slate-800/80
+                bg-slate-900/60
+                shadow-[0_18px_55px_rgba(15,23,42,0.95)]
+                ai-glow-card              /* <-- вот этот класс */
+                "
+            >
+                <Image
+                src="/images/Human-and-AI-01.png"
+                alt="AI illustration"
+                fill
+                className="object-cover"
+                priority
+                />
 
-          <motion.p
-            variants={itemVariants}
-            className="mt-3 max-w-2xl text-sm text-slate-400 md:text-base"
-          >
-            Я не перекладываю работу на ИИ, а строю с ним совместный инженерный
-            процесс: человек отвечает за смысл и решения, модели&nbsp;— за
-            скорость, перебор вариантов и рутину.
-          </motion.p>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-6 grid gap-6 md:grid-cols-3"
-          >
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/20 p-5 text-sm text-slate-200">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                На всех этапах цикла
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Использую AI для проработки архитектуры, генерации и ревью кода,
-                анализа логов, подготовки документации и технических текстов.
-              </p>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/70 via-transparent to-indigo-500/35" />
             </div>
-
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/20 p-5 text-sm text-slate-200">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                Фокус на качестве решений
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                Модели помогают увидеть больше вариантов и быстрее прийти к
-                рабочему решению, но ответственность за архитектуру и код
-                остаётся на мне.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/20 p-5 text-sm text-slate-200">
-              <h3 className="text-sm font-semibold text-slate-50 md:text-base">
-                Практика, а не эксперименты
-              </h3>
-              <p className="mt-3 text-xs leading-relaxed text-slate-300 md:text-sm">
-                AI&nbsp;— часть повседневного рабочего процесса, а не игрушка.
-                Он ускоряет MVP-цикл, но не подменяет инженерное мышление и
-                ответственность за результат.
-              </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
