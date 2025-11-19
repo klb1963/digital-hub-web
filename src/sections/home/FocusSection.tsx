@@ -42,7 +42,7 @@ const focusItems: {
     category: 'Для кого я работаю',
     summary: 'Фаундерам, экспертам и малому бизнесу в Европе',
     title: 'Фаундерам, экспертам и малому бизнесу в Европе',
-    imageSrc: '/images/focus/focus-audience.jpg',
+    imageSrc: '/images/focus/focus-audience-02.png',
     imageAlt: 'Цифровой блокнот с контактами и идеями продукта',
     bullets: [
       'Фаундерам с идеей, но без технического партнёра.',
@@ -56,7 +56,7 @@ const focusItems: {
     category: 'Задачи',
     summary: 'От MVP и архитектуры до цифрового хаба вокруг продукта',
     title: 'От первых скетчей до архитектуры и MVP',
-    imageSrc: '/images/focus/focus-services.jpg',
+    imageSrc: '/images/focus/focus-services-02.png',
     imageAlt: 'Схема архитектуры и интерфейсы продукта',
     bullets: [
       'Помогаю сформулировать MVP так, чтобы его можно было реально собрать.',
@@ -70,7 +70,7 @@ const focusItems: {
     category: 'Как мы можем сотрудничать',
     summary: 'Гибкие форматы: от проекта под ключ до CTO-наставника',
     title: 'Гибкие форматы — от проекта под ключ до CTO-наставника',
-    imageSrc: '/images/focus/focus-formats.jpg',
+    imageSrc: '/images/focus/focus-formats-01.jpg',
     imageAlt: 'Рабочее место с ноутбуком и заметками по проекту',
     bullets: [
       'Проектная работа под ключ с понятными этапами и результатами.',
@@ -183,17 +183,17 @@ export function FocusSection() {
                 {current.title}
               </h3>
 
-              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-200 md:text-base">
-                {current.bullets.map((bullet, index) => (
-                  <li
-                    key={index}
-                    className="flex gap-2"
-                  >
-                    <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400" />
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-200 md:text-base">
+            {current.bullets.map((bullet, index) => (
+                <li
+                key={index}
+                className="flex items-center gap-2"
+                >
+                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400" />
+                <span>{bullet}</span>
+                </li>
+            ))}
+            </ul>
             </div>
           </motion.div>
         </motion.div>
