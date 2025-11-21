@@ -76,7 +76,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-3 text-xl text-slate-200 md:text-2xl"
           >
-            Technology Architect &amp; Product Engineer
+            Software Architect &amp; AI-Product Engineer
           </motion.p>
 
           {/* CTO-строка */}

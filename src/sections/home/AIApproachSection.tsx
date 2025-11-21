@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import { motion, type Variants, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -70,10 +70,13 @@ function AISlider() {
 
   const imageCount = aiImages.length;
 
-  const goTo = (nextDirection: number) => {
-    setDirection(nextDirection);
-    setIndex((prev) => (prev + nextDirection + imageCount) % imageCount);
-  };
+  const goTo = useCallback(
+    (nextDirection: number) => {
+      setDirection(nextDirection);
+      setIndex((prev) => (prev + nextDirection + imageCount) % imageCount);
+    },
+    [imageCount],
+  );
 
   useEffect(() => {
     // случайный старт
@@ -89,7 +92,7 @@ function AISlider() {
     }, 5000);
 
     return () => clearInterval(id);
-  }, [isHovered, imageCount]);
+  }, [isHovered, goTo]);
 
   return (
     <motion.div
