@@ -57,22 +57,38 @@ export async function getAllPosts(): Promise<Post[]> {
 
 // один пост по slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const data = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?where[slug][equals]=${encodeURIComponent(
-      slug
-    )}&where[_status][equals]=published&depth=2`
+  // Сначала пробуем стандартный фильтр по slug
+  const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
+    `/api/posts?where[slug][equals]=${encodeURIComponent(slug)}&depth=2&limit=1`
   );
 
-  return data.docs[0] ?? null;
+  if (bySlug.docs[0]) {
+    return bySlug.docs[0];
+  }
+
+  // Если почему-то ничего не нашли — подстраховка:
+  // загрузим до 50 постов и найдём slug вручную
+  const all = await fetchFromCMS<PayloadListResponse<Post>>(
+    `/api/posts?depth=2&limit=50`
+  );
+
+  const found = all.docs.find((p) => p.slug === slug);
+  return found ?? null;
 }
 
 // слуги всех опубликованных постов — для generateStaticParams
 export async function getAllPostSlugs(): Promise<string[]> {
-  const data = await fetchFromCMS<PayloadListResponse<Pick<Post, 'slug'>>>(
-    `/api/posts?where[_status][equals]=published&limit=1000&depth=0`
-  );
+  try {
+    const data = await fetchFromCMS<PayloadListResponse<Pick<Post, 'slug'>>>(
+      `/api/posts?limit=1000&depth=0`
+    );
 
-  return data.docs
-    .map((p) => p.slug)
-    .filter((slug): slug is string => Boolean(slug));
+    return data.docs
+      .map((p) => p.slug)
+      .filter((slug): slug is string => Boolean(slug));
+  } catch (err) {
+    console.error('Failed to load post slugs from CMS', err);
+    // Чтобы билд не падал, просто не генерируем ни одной статической страницы поста
+    return [];
+  }
 }

@@ -1,6 +1,9 @@
 // src/app/blog/page.tsx
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAllPosts } from '@/lib/cms';
+
+const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
 export const dynamic = 'force-static';
 
@@ -26,7 +29,20 @@ export default async function BlogPage() {
             key={post.id}
             className="border border-neutral-200 rounded-xl p-5 hover:border-neutral-400 transition"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              {post.coverImage?.url && (
+                <div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
+                  <Image
+                    src={`${CMS_URL}${post.coverImage.url}`}
+                    alt={post.title}
+                    fill
+                    sizes="128px"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-1 flex-col gap-2">
               <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
                 {post.publishDate && (
                   <time dateTime={post.publishDate}>
@@ -59,6 +75,7 @@ export default async function BlogPage() {
                   Читать →
                 </Link>
               </div>
+            </div> 
             </div>
           </article>
         ))}
