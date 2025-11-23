@@ -6,6 +6,9 @@ if (!CMS_URL) {
   throw new Error('CMS_URL / NEXT_PUBLIC_CMS_URL is not defined');
 }
 
+// 👇 добавляем флаг окружения
+const isDev = process.env.NODE_ENV !== 'production';
+
 type PayloadListResponse<T> = {
   docs: T[];
   totalDocs: number;
@@ -41,10 +44,8 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 
   const res = await fetch(url, {
     ...init,
-    // Для статического экспорта нужен "статический" fetch,
-    // иначе Next считает страницу динамической и роняет билд.
-    // Оставляем кэш по умолчанию (force-cache) — снимок CMS на момент билда.
-    cache: 'force-cache',
+    // 👇 в dev всегда тянем свежие данные, в проде — замораживаем снапшот
+    cache: (isDev ? 'no-store' : 'force-cache') as RequestCache,
   });
 
   if (!res.ok) {
