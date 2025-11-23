@@ -28,15 +28,15 @@ jobs:
           NEXT_PUBLIC_CMS_URL: ${{ secrets.NEXT_PUBLIC_CMS_URL }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
         run: npm run build
-      
+
       - name: Debug built index.html
         run: |
           echo "Commit on runner:"
           git rev-parse HEAD
           echo "Hero line from out/index.html:"
-          grep -n "Hero section" out/index.html || echo "NOT FOUND"
+          grep -n "Hero section" out/index.html || echo "Hero section NOT FOUND"
 
-      - name: Clean target directory on VPS
+      - name: Clean remote directory
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -51,16 +51,21 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "out/**"
+          source: "out/*"
           target: "/var/www/hub.leonidk.de/html"
           strip_components: 1
           overwrite: true
 
-      - name: Reload nginx
+      - name: Reload nginx and check hero on server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            cd /var/www/hub.leonidk.de/html
+            echo "Remote index.html md5:"
+            md5sum index.html || echo "index.html not found"
+            echo "Search Hero section in remote index.html:"
+            grep -n "Hero section" index.html || echo "Hero section NOT FOUND on server"
             sudo systemctl reload nginx
