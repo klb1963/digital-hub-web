@@ -28,6 +28,13 @@ jobs:
           NEXT_PUBLIC_CMS_URL: ${{ secrets.NEXT_PUBLIC_CMS_URL }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
         run: npm run build
+      
+      - name: Debug built index.html
+        run: |
+          echo "Commit on runner:"
+          git rev-parse HEAD
+          echo "Hero line from out/index.html:"
+          grep -n "Hero section" out/index.html || echo "NOT FOUND"
 
       - name: Clean target directory on VPS
         uses: appleboy/ssh-action@v1.0.3
