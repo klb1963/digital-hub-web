@@ -69,7 +69,6 @@ export function HeroSection() {
             className="text-4xl font-semibold tracking-tight md:text-5xl"
           >
             Леонид Кляйман
-            (Leonid Kleimann)
           </motion.h1>
 
           {/* Роль */}
