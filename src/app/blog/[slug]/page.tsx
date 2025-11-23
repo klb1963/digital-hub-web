@@ -5,8 +5,7 @@ import Image from 'next/image';
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
 type PageProps = {
-  // 👇 params приходит как Promise
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 // Нужен для output: 'export'
@@ -59,7 +58,7 @@ function renderLexicalContent(content: unknown) {
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  // 👇 правильно «разворачиваем» params
+  // 👇 правильно «разворачиваем» params (params — Promise)
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);

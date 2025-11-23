@@ -1,8 +1,9 @@
 // src/lib/cms.ts
-const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL;
+const CMS_URL =
+  process.env.NEXT_PUBLIC_CMS_URL ?? process.env.CMS_URL ?? '';
 
 if (!CMS_URL) {
-  throw new Error('NEXT_PUBLIC_CMS_URL is not defined');
+  throw new Error('CMS_URL / NEXT_PUBLIC_CMS_URL is not defined');
 }
 
 type PayloadListResponse<T> = {
@@ -19,15 +20,19 @@ export type Post = {
   slug: string;
   excerpt?: string | null;
   publishDate?: string | null;
-  category?: {
-    id: number;
-    title?: string;
-    slug?: string;
-  } | null;
-  coverImage?: {
-    id: number;
-    url?: string | null;
-  } | null;
+  category?:
+    | {
+        id: number;
+        title?: string;
+        slug?: string;
+      }
+    | null;
+  coverImage?:
+    | {
+        id: number;
+        url?: string | null;
+      }
+    | null;
   content?: unknown;
 };
 
@@ -36,8 +41,8 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 
   const res = await fetch(url, {
     ...init,
-    // для SSG: кешируем, нам не нужен runtime revalidate
-    cache: 'force-cache',
+    // В dev всегда берём свежие данные, в prod — кэшируем (для static export)
+    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
   });
 
   if (!res.ok) {
@@ -47,40 +52,39 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
   return (await res.json()) as T;
 }
 
-// все опубликованные посты
+// список постов
 export async function getAllPosts(): Promise<Post[]> {
   const data = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?where[_status][equals]=published&sort=-publishDate`
+    '/api/posts?where[_status][equals]=published&sort=-publishDate&depth=1',
   );
   return data.docs;
 }
 
 // один пост по slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  // Сначала пробуем стандартный фильтр по slug
   const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?where[slug][equals]=${encodeURIComponent(slug)}&depth=2&limit=1`
+    `/api/posts?where[slug][equals]=${encodeURIComponent(
+      slug,
+    )}&depth=2&limit=1`,
   );
 
-  if (bySlug.docs[0]) {
-    return bySlug.docs[0];
-  }
+  if (bySlug.docs[0]) return bySlug.docs[0];
 
-  // Если почему-то ничего не нашли — подстраховка:
-  // загрузим до 50 постов и найдём slug вручную
   const all = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?depth=2&limit=50`
+    '/api/posts?depth=2&limit=50',
   );
-
-  const found = all.docs.find((p) => p.slug === slug);
-  return found ?? null;
+  return all.docs.find((p) => p.slug === slug) ?? null;
 }
 
-// слуги всех опубликованных постов — для generateStaticParams
+// slug’и для generateStaticParams
 export async function getAllPostSlugs(): Promise<string[]> {
   try {
-    const data = await fetchFromCMS<PayloadListResponse<Pick<Post, 'slug'>>>(
-      `/api/posts?limit=1000&depth=0`
+    const data = await fetchFromCMS<
+      PayloadListResponse<Pick<Post, 'slug'>>
+    >(
+      '/api/posts?' +
+        'where[_status][equals]=published&' +
+        'limit=1000&depth=0',
     );
 
     return data.docs
@@ -88,7 +92,6 @@ export async function getAllPostSlugs(): Promise<string[]> {
       .filter((slug): slug is string => Boolean(slug));
   } catch (err) {
     console.error('Failed to load post slugs from CMS', err);
-    // Чтобы билд не падал, просто не генерируем ни одной статической страницы поста
     return [];
   }
 }

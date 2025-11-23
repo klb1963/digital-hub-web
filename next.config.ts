@@ -1,10 +1,12 @@
-import type { NextConfig } from "next";
+// next.config.ts
+import type { NextConfig } from 'next';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
-  output: "export",
-    // ✳️ ВАЖНО: добавляем это
+  // В продакшене делаем статический export, в dev — обычный режим
+  output: isProd ? 'export' : undefined,
   images: {
     unoptimized: true,
   },
