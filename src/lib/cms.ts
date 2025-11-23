@@ -41,9 +41,10 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 
   const res = await fetch(url, {
     ...init,
-    // ВАЖНО: не кешируем между билдами,
-    // иначе Next будет навсегда помнить старый список постов
-    cache: 'no-store',
+    // Для статического экспорта нужен "статический" fetch,
+    // иначе Next считает страницу динамической и роняет билд.
+    // Оставляем кэш по умолчанию (force-cache) — снимок CMS на момент билда.
+    cache: 'force-cache',
   });
 
   if (!res.ok) {
