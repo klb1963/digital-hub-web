@@ -85,7 +85,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-1 text-sm italic text-slate-400"
           >
-            CTO (Chief Technology Officer)*
+            aka CTO (Chief Technology Officer)*
           </motion.p>
 
           {/* Steps */}
@@ -98,7 +98,7 @@ export function HeroSection() {
             <p className="text-slate-200">→ к понятной архитектуре</p>
             <p className="text-slate-200">→ к работающему MVP</p>
             <p className="text-slate-200">
-              → к вашей устойчивой цифровой экосистеме
+              → к вашей устойчивой цифровой экосистеме!
             </p>
           </motion.div>
 
