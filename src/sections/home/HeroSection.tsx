@@ -68,7 +68,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="text-4xl font-semibold tracking-tight md:text-5xl"
           >
-            Леонид Кляйман
+            Hero section: Леонид Кляйман
             (Leonid Kleimann)
           </motion.h1>
 
