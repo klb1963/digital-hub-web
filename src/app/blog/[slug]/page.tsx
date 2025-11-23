@@ -1,6 +1,8 @@
 // src/app/blog/[slug]/page.tsx
+
 import { getAllPostSlugs, getPostBySlug } from '@/lib/cms';
 import Image from 'next/image';
+import Link from "next/link";
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
@@ -89,6 +91,17 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
+      {/* Навигация назад к списку постов */}
+      <div className="mb-6">
+        <Link
+          href="/blog"
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          <span className="mr-2">&larr;</span>
+          Назад к блогу
+        </Link>
+      </div>
+      
       <p className="text-sm text-gray-500 mb-2">{publishDate}</p>
       <h1 className="text-3xl font-semibold mb-4">{post.title}</h1>
 
@@ -122,6 +135,17 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="text-gray-500 text-sm">Нет содержимого</p>
         )}
       </section>
+         
+      {/* Навигация назад к списку постов */}
+      <div className="mb-6 mt-6">
+        <Link
+          href="/blog"
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          <span className="mr-2">&larr;</span>
+          Назад к блогу
+        </Link>
+      </div>
     </main>
   );
 }
