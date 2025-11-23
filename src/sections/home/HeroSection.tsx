@@ -68,7 +68,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="text-4xl font-semibold tracking-tight md:text-5xl"
           >
-            Hero section TEST: Леонид Кляйман
+            Леонид Кляйман
             (Leonid Kleimann)
           </motion.h1>
 
@@ -85,7 +85,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-1 text-sm italic text-slate-400"
           >
-            aka CTO (Chief Technology Officer)*
+            CTO (Chief Technology Officer)*
           </motion.p>
 
           {/* Steps */}
