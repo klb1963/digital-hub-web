@@ -41,8 +41,9 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 
   const res = await fetch(url, {
     ...init,
-    // В dev всегда берём свежие данные, в prod — кэшируем (для static export)
-    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
+    // ВАЖНО: не кешируем между билдами,
+    // иначе Next будет навсегда помнить старый список постов
+    cache: 'no-store',
   });
 
   if (!res.ok) {
