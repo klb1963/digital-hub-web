@@ -2,12 +2,17 @@
 
 import { getAllPostSlugs, getPostBySlug } from '@/lib/cms';
 import Image from 'next/image';
-import Link from "next/link";
+import Link from 'next/link';
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
+type PageParams = {
+  slug: string;
+};
+
 type PageProps = {
-  params: { slug: string };
+  // ⬅ ВАЖНО: в Next 15 params — Promise
+  params: Promise<PageParams>;
 };
 
 // Нужен для output: 'export'
@@ -60,7 +65,7 @@ function renderLexicalContent(content: unknown) {
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  // 👇 правильно «разворачиваем» params (params — Promise)
+  // ⬅ РАЗВОРАЧИВАЕМ Promise
   const { slug } = await params;
 
   const post = await getPostBySlug(slug);
@@ -70,16 +75,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <main className="mx-auto max-w-3xl px-4 py-10">
         <h1 className="text-2xl font-semibold mb-4">Пост не найден</h1>
         <p className="text-gray-600 mb-2">
-          slug:{' '}
-          <code className="font-mono">
-            {JSON.stringify(slug, null, 2)}
-          </code>
-        </p>
-        <p className="text-gray-600">
-          params (debug):{' '}
-          <code className="font-mono">
-            {JSON.stringify(await params, null, 2)}
-          </code>
+          slug: <code className="font-mono">{slug}</code>
         </p>
       </main>
     );
@@ -91,7 +87,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
-      {/* Навигация назад к списку постов */}
+      {/* Навигация наверх – обратно к списку постов */}
       <div className="mb-6">
         <Link
           href="/blog"
@@ -101,33 +97,40 @@ export default async function BlogPostPage({ params }: PageProps) {
           Назад к блогу
         </Link>
       </div>
-      
+
+      {/* Дата */}
       <p className="text-sm text-gray-500 mb-2">{publishDate}</p>
+
+      {/* Заголовок */}
       <h1 className="text-3xl font-semibold mb-4">{post.title}</h1>
 
-      {post.category?.title && (
+      {/* Категория */}
+      {typeof post.category === 'object' && post.category?.title && (
         <p className="text-sm text-gray-500 mb-6">
           Категория:{' '}
           <span className="font-medium">{post.category.title}</span>
         </p>
       )}
 
-        {post.excerpt && (
-            <p className="mb-4 text-lg text-gray-700">{post.excerpt}</p>
-        )}
+      {/* Excerpt */}
+      {post.excerpt && (
+        <p className="mb-4 text-lg text-gray-700">{post.excerpt}</p>
+      )}
 
-        {post.coverImage?.url && (
-            <div className="mb-6">
-                <Image
-                    src={`${CMS_URL}${post.coverImage.url}`}
-                    alt={post.title}
-                    width={800}
-                    height={400}
-                    className="w-full h-auto rounded-lg border border-gray-200"
-                />
-            </div>
-        )}
+      {/* Обложка */}
+      {post.coverImage?.url && (
+        <div className="mb-6">
+          <Image
+            src={`${CMS_URL}${post.coverImage.url}`}
+            alt={post.title}
+            width={800}
+            height={400}
+            className="w-full h-auto rounded-lg border border-gray-200"
+          />
+        </div>
+      )}
 
+      {/* Основной текст */}
       <section className="mt-6">
         {post.content ? (
           renderLexicalContent(post.content)
@@ -135,8 +138,8 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="text-gray-500 text-sm">Нет содержимого</p>
         )}
       </section>
-         
-      {/* Навигация назад к списку постов */}
+
+      {/* Навигация вниз (вторая копия) */}
       <div className="mb-6 mt-6">
         <Link
           href="/blog"

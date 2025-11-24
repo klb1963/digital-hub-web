@@ -17,13 +17,21 @@ type PayloadListResponse<T> = {
   totalPages: number;
 };
 
+export type Category = {
+  id: number;
+  title?: string;
+  slug?: string;
+};
+
 export type Post = {
   id: number;
   title: string;
   slug: string;
   excerpt?: string | null;
   publishDate?: string | null;
+  // На деле Payload сейчас отдаёт либо числовой ID, либо развёрнутый объект.
   category?:
+    | number
     | {
         id: number;
         title?: string;
@@ -55,21 +63,40 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
   return (await res.json()) as T;
 }
 
+// список категорий
+export async function getAllCategories(): Promise<Category[]> {
+  const data = await fetchFromCMS<PayloadListResponse<Category>>(
+    '/api/categories?' +
+      'limit=1000&' +
+      'depth=0',
+  );
+
+  return data.docs;
+}
+
 // список постов
 export async function getAllPosts(): Promise<Post[]> {
   const data = await fetchFromCMS<PayloadListResponse<Post>>(
-    '/api/posts?where[_status][equals]=published&sort=-publishDate&depth=1',
+    '/api/posts?' +
+      'where[_status][equals]=published&' +
+      'sort=-publishDate&' +
+      // пока не полагаемся на depth для категорий —
+      // всё равно подтягиваем их отдельно
+      'depth=1'
   );
+
   return data.docs;
 }
 
 // один пост по slug
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?where[slug][equals]=${encodeURIComponent(
-      slug,
-    )}&depth=2&limit=1`,
+    `/api/posts?` +
+      `where[slug][equals]=${encodeURIComponent(slug)}` +
+      `&limit=1` +
+      `&depth=2`
   );
+ 
 
   if (bySlug.docs[0]) return bySlug.docs[0];
 
@@ -87,7 +114,8 @@ export async function getAllPostSlugs(): Promise<string[]> {
     >(
       '/api/posts?' +
         'where[_status][equals]=published&' +
-        'limit=1000&depth=0',
+        'limit=1000&' +
+        'depth=0'
     );
 
     return data.docs
