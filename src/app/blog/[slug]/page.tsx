@@ -1,6 +1,11 @@
 // src/app/blog/[slug]/page.tsx
 
-import { getAllPostSlugs, getPostBySlug } from '@/lib/cms';
+import {
+  getAllPostSlugs,
+  getPostBySlug,
+  getAllPosts,
+} from '@/lib/cms';
+import type { Post } from '@/lib/cms';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -64,11 +69,55 @@ function renderLexicalContent(content: unknown) {
   );
 }
 
+// ────────────────────────────────────────────────────────────
+// Выбор «связанных» постов:
+//   1) сначала по той же категории, что и текущий
+//   2) затем остальные, пока не доберём limit
+// ────────────────────────────────────────────────────────────
+function pickRelatedPosts(
+  allPosts: Post[],
+  currentPost: Post,
+  limit = 3,
+): Post[] {
+  // отбрасываем текущий пост
+  const others = allPosts.filter((p) => p.id !== currentPost.id);
+
+  const currentCategoryId =
+    typeof currentPost.category === 'object' && currentPost.category
+      ? currentPost.category.id
+      : typeof currentPost.category === 'number'
+        ? currentPost.category
+        : null;
+
+  const sameCategory: Post[] = [];
+  const differentCategory: Post[] = [];
+
+  for (const p of others) {
+    const catId =
+      typeof p.category === 'object' && p.category
+        ? p.category.id
+        : typeof p.category === 'number'
+          ? p.category
+          : null;
+
+    if (currentCategoryId && catId === currentCategoryId) {
+      sameCategory.push(p);
+    } else {
+      differentCategory.push(p);
+    }
+  }
+
+  return [...sameCategory, ...differentCategory].slice(0, limit);
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   // ⬅ РАЗВОРАЧИВАЕМ Promise
   const { slug } = await params;
 
-  const post = await getPostBySlug(slug);
+  const [post, allPosts] = await Promise.all([
+    getPostBySlug(slug),
+    getAllPosts(),
+  ]);
 
   if (!post) {
     return (
@@ -84,6 +133,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   const publishDate = post.publishDate
     ? new Date(post.publishDate).toLocaleDateString('ru-RU')
     : '';
+
+  // связанные посты для блока «Читать еще»
+  const relatedPosts = pickRelatedPosts(allPosts, post, 3);  
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
@@ -138,6 +190,78 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="text-gray-500 text-sm">Нет содержимого</p>
         )}
       </section>
+
+      {/* Блок "Читать еще" */}
+      {relatedPosts.length > 0 && (
+        <section className="mt-10 border-t border-gray-200 pt-6">
+          <h2 className="mb-4 text-lg font-semibold">Читать ещё</h2>
+
+          <div className="space-y-4">
+            {relatedPosts.map((related) => {
+              const relatedDate = related.publishDate
+                ? new Date(related.publishDate).toLocaleDateString('ru-RU')
+                : '';
+
+              const relatedCategoryTitle =
+                typeof related.category === 'object' &&
+                related.category?.title
+                  ? related.category.title
+                  : undefined;
+
+              const relatedCoverUrl = related.coverImage?.url;
+
+              return (
+                <article
+                  key={related.id}
+                  className="rounded-xl border border-neutral-200 p-4 transition hover:border-neutral-400"
+                >
+                  <div className="flex gap-4">
+                    {relatedCoverUrl && (
+                      <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
+                        <Image
+                          src={`${CMS_URL}${relatedCoverUrl}`}
+                          alt={related.title}
+                          fill
+                          sizes="112px"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+                        {relatedDate && <time>{relatedDate}</time>}
+                        {relatedCategoryTitle && (
+                          <>
+                            <span>•</span>
+                            <span>{relatedCategoryTitle}</span>
+                          </>
+                        )}
+                      </div>
+
+                      <h3 className="text-base font-semibold">
+                        <Link
+                          href={`/blog/${related.slug}`}
+                          className="hover:underline"
+                        >
+                          {related.title}
+                        </Link>
+                      </h3>
+
+                      {related.excerpt && (
+                        <p className="text-sm text-neutral-600 line-clamp-2">
+                          {related.excerpt}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}      
 
       {/* Навигация вниз (вторая копия) */}
       <div className="mb-6 mt-6">
