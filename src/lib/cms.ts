@@ -84,7 +84,7 @@ export async function getAllPosts(
   params.set('where[_status][equals]', 'published');
   params.set('sort', '-publishDate');
   // категории всё равно подтягиваем отдельным запросом
-  params.set('depth', '0');
+  params.set('depth', '1');
 
   const q = options?.search?.trim();
   if (q) {
@@ -128,7 +128,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
       '/api/posts?' +
         'where[_status][equals]=published&' +
         'limit=1000&' +
-        'depth=0'
+        'depth=1'
     );
 
     return data.docs
