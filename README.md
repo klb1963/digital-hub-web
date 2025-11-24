@@ -1,38 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Digital Hub Web — Frontend (Next.js + Tailwind + Motion + Payload CMS)
 
-## Getting Started
+Проект — публичная часть Open Digital Hub, включающая лендинг, блог, страницы услуг и интеграцию с Payload CMS.
+Стек: Next.js 15, App Router, Tailwind CSS, Framer Motion, Payload CMS (headless).
 
-First, run the development server:
+⸻
 
-```bash
+🚀 Локальная разработка
+
+1. Убедись, что локальный Payload CMS запущен
+
+В отдельной папке /payload:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Payload поднимется обычно на:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Запусти frontend
 
-## Learn More
+В папке /digital-hub-web:
 
-To learn more about Next.js, take a look at the following resources:
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Фронтенд доступен на:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+http://localhost:3001
 
-## Deploy on Vercel
+3. Важные локальные переменные окружения
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Файл:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+.digital-hub-web/.env.local
 
-## Deploy on GitHub testing
+Минимально:
+
+CMS_URL=http://localhost:3000
+NEXT_PUBLIC_CMS_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=http://localhost:3001
+
+
+⸻
+
+🧱 Архитектура фронтенда
+	•	Next.js App Router
+	•	src/app/blog — блог, статически экспортируемый
+	•	src/lib/cms.ts — тонкая надстройка над Fetch для Payload API
+	•	src/sections/* — секции лендинга
+	•	src/app/(frontend) — клиентские страницы сайта
+	•	out/ — статический экспорт (генерируется при деплое)
+
+Блог строится статически (SSG), а данные берутся из Payload CMS во время билда.
+
+Поэтому любые новые категории/посты → требуют нового билда frontend, чтобы попасть на сайт.
+
+⸻
+
+📦 CI/CD: Автоматический деплой на VPS (hub.leonidk.de)
+
+1. Коммиты → GitHub Actions
+
+При git push origin main:
+	•	проект билдится (next build + next export)
+	•	папка out/ отправляется на VPS в /var/www/hub.leonidk.de/html
+	•	сайт обновляется автоматически
+
+Конфигурация лежит в:
+
+.github/workflows/deploy.yml
+
+2. Переменные в GitHub Secrets
+
+В репозитории:
+	•	VPS_HOST — IP сервера
+	•	VPS_USER — digital-hub
+	•	VPS_SSH_KEY — приватный ключ payload-ci
+	•	NEXT_PUBLIC_CMS_URL — URL Payload CMS
+	•	CMS_URL — внутренний URL для build-времени
+
+3. На сервере (VPS)
+
+Сайт находится в:
+
+/var/www/hub.leonidk.de/html
+
+Это обычные статические файлы → отдаёт Nginx/Traefik.
+
+⸻
+
+📰 Работа с блогом
+
+Где хранятся посты?
+
+Все посты и категории создаются в Payload:
+
+https://cms.leonidk.de/admin
+
+Как блогу попасть на сайт?
+
+Потому что frontend статический.
+
+Когда ты создаёшь или редактируешь посты / категории:
+
+👉 Нужно триггернуть новый деплой frontend
+(Hub → Admin → small commit → push → Actions → готово)
+
+⸻
+
+⚙️ Команды
+
+Локальный старт:
+
+npm run dev
+
+Проверка билда:
+
+npm run build
+
+Статический экспорт (локально):
+
+npm run export
+
+
+⸻
+
+📁 Структура проекта
+
+digital-hub-web/
+  ├── src/
+  │   ├── app/
+  │   │   ├── blog/
+  │   │   │   ├── page.tsx
+  │   │   │   └── [slug]/page.tsx
+  │   │   ├── (frontend)/
+  │   │   └── layout.tsx
+  │   ├── sections/
+  │   ├── lib/cms.ts      ← обращения к Payload CMS
+  ├── public/
+  ├── out/                ← генерируется при деплое
+  ├── package.json
+  ├── next.config.mjs
+  └── .github/workflows/deploy.yml
+
+
+⸻
+
+🔧 Используемые технологии
+	•	Next.js 15
+	•	React 18 / Server Components
+	•	Tailwind CSS
+	•	Framer Motion
+	•	Payload CMS (headless)
+	•	GitHub Actions
+	•	Nginx / Traefik на VPS
+
+⸻
+
+📌 Примечания
+	•	Блог не динамический, это не SSR.
+	•	Все данные запекаются в HTML во время билда.
+	•	Любое изменение в Payload → нужен redeploy фронтенда.
+
+Это архитектурное решение: быстрое, дешёвое, отказоустойчивое, идеально для MVP.
+
+⸻
+
+🤝 Автор
+
+Open Digital Hub — проект Leonid Kleimann
+https://hub.leonidk.de
+
+⸻
