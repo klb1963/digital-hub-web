@@ -169,3 +169,5 @@ Open Digital Hub — проект Leonid Kleimann
 https://hub.leonidk.de
 
 ⸻
+
+Изменение для публикации
