@@ -11,8 +11,7 @@ type BlogPageProps = {
   }>;
 };
 
-// страница становится динамической, т.к. мы используем await searchParams
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-static';
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   // разворачиваем query-параметры

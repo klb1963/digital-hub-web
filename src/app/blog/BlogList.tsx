@@ -2,6 +2,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -17,7 +18,9 @@ type BlogListProps = {
 export function BlogList({ posts, categories }: BlogListProps) {
   const searchParams = useSearchParams();
   const activeCategorySlug = searchParams.get('category') ?? 'all';
-  const searchQuery = searchParams.get('q') ?? '';
+
+  // Локальное состояние строки поиска (без привязки к URL)
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Словарь категорий по id
   const categoriesById = new Map(categories.map((cat) => [cat.id, cat]));
@@ -30,11 +33,8 @@ export function BlogList({ posts, categories }: BlogListProps) {
   };
   const categoriesWithAll: Category[] = [allCategory, ...categories];
 
-  // Форма обычная GET /blog, чтобы сервер перезапросил посты с нужным q
-  const hasCategoryFilter = activeCategorySlug !== 'all';
-
-  // Фильтрация постов по активной категории
-  const filteredPosts =
+  // Сначала фильтрация по категории
+  const filteredByCategory =
     activeCategorySlug === 'all'
       ? posts
       : posts.filter((post) => {
@@ -49,31 +49,38 @@ export function BlogList({ posts, categories }: BlogListProps) {
           return slug === activeCategorySlug;
         });
 
+  // Потом фильтрация по строке поиска (title + excerpt, case-insensitive)
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  const filteredPosts =
+    normalizedQuery.length === 0
+      ? filteredByCategory
+      : filteredByCategory.filter((post) => {
+          const title = post.title?.toLowerCase() ?? '';
+          const excerpt = (post.excerpt ?? '').toLowerCase();
+          return (
+            title.includes(normalizedQuery) || excerpt.includes(normalizedQuery)
+          );
+        });
+
   return (
     <>
-      {/* Поиск */}
-      <form
-        action="/blog"
-        method="GET"
-        className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:gap-3"
-      >
+      {/* Поисковая строка */}
+      <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:gap-3">
         <input
           type="text"
-          name="q"
-          defaultValue={searchQuery}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Поиск по заголовку и описанию…"
           className="w-full rounded-full border border-neutral-300 px-4 py-2 text-sm outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500"
         />
-        {hasCategoryFilter && (
-          <input type="hidden" name="category" value={activeCategorySlug} />
-        )}
         <button
-          type="submit"
+          type="button"
           className="inline-flex items-center justify-center rounded-full border border-neutral-800 px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-900 hover:text-white"
         >
           Найти
         </button>
-      </form>
+      </div>
 
       {/* Панель категорий сверху */}
       {categoriesWithAll.length > 0 && (
@@ -82,7 +89,6 @@ export function BlogList({ posts, categories }: BlogListProps) {
             const slug = cat.slug ?? '';
             const isActive = activeCategorySlug === slug;
 
-            // Сохраняем текущий поисковый запрос при переключении категорий
             const params = new URLSearchParams(searchParams.toString());
 
             if (slug === 'all') {
