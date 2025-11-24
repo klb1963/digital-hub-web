@@ -4,12 +4,24 @@ import { getAllPosts, getAllCategories } from '@/lib/cms';
 import { BlogList } from './BlogList';
 import type { Post, Category } from '@/lib/cms';
 
-export const dynamic = 'force-static';
+type BlogPageProps = {
+  // В Next 16 searchParams в серверном компоненте — Promise
+  searchParams: Promise<{
+    q?: string;
+  }>;
+};
 
-export default async function BlogPage() {
-  // Тянем посты и категории один раз на сервере (статически)
+// страница становится динамической, т.к. мы используем await searchParams
+export const dynamic = 'force-dynamic';
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  // разворачиваем query-параметры
+  const { q } = await searchParams;
+  const searchQuery = q?.trim() ?? '';
+
+  // Тянем посты (с учётом поиска) и категории один раз на сервере
   const [posts, categories] = await Promise.all([
-    getAllPosts(),
+    getAllPosts({ search: searchQuery }),
     getAllCategories(),
   ]);
 
@@ -22,8 +34,11 @@ export default async function BlogPage() {
         </p>
       </header>
 
-      {/* Вся логика фильтрации и чтения query-параметров — уже в клиентском компоненте */}
-      <BlogList posts={posts as Post[]} categories={categories as Category[]} />
+      {/* Вся логика категорий и чтения query-параметров — в клиентском компоненте */}
+      <BlogList
+        posts={posts as Post[]}
+        categories={categories as Category[]}
+      />
     </main>
   );
 }

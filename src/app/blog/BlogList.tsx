@@ -17,6 +17,7 @@ type BlogListProps = {
 export function BlogList({ posts, categories }: BlogListProps) {
   const searchParams = useSearchParams();
   const activeCategorySlug = searchParams.get('category') ?? 'all';
+  const searchQuery = searchParams.get('q') ?? '';
 
   // Словарь категорий по id
   const categoriesById = new Map(categories.map((cat) => [cat.id, cat]));
@@ -28,6 +29,9 @@ export function BlogList({ posts, categories }: BlogListProps) {
     slug: 'all',
   };
   const categoriesWithAll: Category[] = [allCategory, ...categories];
+
+  // Форма обычная GET /blog, чтобы сервер перезапросил посты с нужным q
+  const hasCategoryFilter = activeCategorySlug !== 'all';
 
   // Фильтрация постов по активной категории
   const filteredPosts =
@@ -47,6 +51,30 @@ export function BlogList({ posts, categories }: BlogListProps) {
 
   return (
     <>
+      {/* Поиск */}
+      <form
+        action="/blog"
+        method="GET"
+        className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:gap-3"
+      >
+        <input
+          type="text"
+          name="q"
+          defaultValue={searchQuery}
+          placeholder="Поиск по заголовку и описанию…"
+          className="w-full rounded-full border border-neutral-300 px-4 py-2 text-sm outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500"
+        />
+        {hasCategoryFilter && (
+          <input type="hidden" name="category" value={activeCategorySlug} />
+        )}
+        <button
+          type="submit"
+          className="inline-flex items-center justify-center rounded-full border border-neutral-800 px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-900 hover:text-white"
+        >
+          Найти
+        </button>
+      </form>
+
       {/* Панель категорий сверху */}
       {categoriesWithAll.length > 0 && (
         <div className="flex gap-3 overflow-x-auto pb-2 pt-2">
@@ -54,10 +82,17 @@ export function BlogList({ posts, categories }: BlogListProps) {
             const slug = cat.slug ?? '';
             const isActive = activeCategorySlug === slug;
 
-            const href =
-              slug === 'all'
-                ? '/blog'
-                : `/blog?category=${encodeURIComponent(slug)}`;
+            // Сохраняем текущий поисковый запрос при переключении категорий
+            const params = new URLSearchParams(searchParams.toString());
+
+            if (slug === 'all') {
+              params.delete('category');
+            } else {
+              params.set('category', slug);
+            }
+
+            const hrefParams = params.toString();
+            const href = hrefParams ? `/blog?${hrefParams}` : '/blog';
 
             return (
               <Link

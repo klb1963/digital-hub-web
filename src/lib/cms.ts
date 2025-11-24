@@ -74,15 +74,28 @@ export async function getAllCategories(): Promise<Category[]> {
   return data.docs;
 }
 
-// список постов
-export async function getAllPosts(): Promise<Post[]> {
+// список постов (опционально с поиском по title / excerpt)
+export async function getAllPosts(
+  options?: { search?: string | null },
+): Promise<Post[]> {
+  const params = new URLSearchParams();
+
+  // только опубликованные, сортировка по дате
+  params.set('where[_status][equals]', 'published');
+  params.set('sort', '-publishDate');
+  // категории всё равно подтягиваем отдельным запросом
+  params.set('depth', '0');
+
+  const q = options?.search?.trim();
+  if (q) {
+    // title LIKE q OR excerpt LIKE q
+    // (Payload интерпретирует это как: status=published AND (title LIKE q OR excerpt LIKE q))
+    params.set('where[or][0][title][like]', q);
+    params.set('where[or][1][excerpt][like]', q);
+  }
+
   const data = await fetchFromCMS<PayloadListResponse<Post>>(
-    '/api/posts?' +
-      'where[_status][equals]=published&' +
-      'sort=-publishDate&' +
-      // пока не полагаемся на depth для категорий —
-      // всё равно подтягиваем их отдельно
-      'depth=1'
+    '/api/posts?' + params.toString(),
   );
 
   return data.docs;
