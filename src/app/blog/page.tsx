@@ -3,22 +3,54 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllPosts, getAllCategories } from '@/lib/cms';
+import type { Category, Post } from '@/lib/cms';
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
-export const dynamic = 'force-static';
+type BlogPageProps = {
+  // В Next 16 searchParams в серверном компоненте — Promise
+  searchParams: Promise<{
+    category?: string;
+  }>;
+};
 
-export default async function BlogPage() {
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  // Разворачиваем промис c query-параметрами
+  const { category } = await searchParams;
+  const activeCategorySlug = category ?? 'all';
+
   // Тянем посты и категории параллельно
   const [posts, categories] = await Promise.all([
     getAllPosts(),
     getAllCategories(),
   ]);
 
-  // Словарь категорий по id, чтобы уметь расшифровывать numeric category
-  const categoriesById = new Map(
-    categories.map((cat) => [cat.id, cat]),
-  );
+  // Словарь категорий по id — нужен и для подписи, и для фильтрации
+  const categoriesById = new Map(categories.map((cat) => [cat.id, cat]));
+
+  // Добавляем "All" (виртуальную категорию)
+  const allCategory: Category = {
+    id: 0,
+    title: 'All',
+    slug: 'all',
+  };
+  const categoriesWithAll: Category[] = [allCategory, ...categories];
+
+  // Фильтрация постов по activeCategorySlug
+  const filteredPosts: Post[] =
+    activeCategorySlug === 'all'
+      ? posts
+      : posts.filter((post) => {
+          let slug: string | undefined;
+
+          if (typeof post.category === 'object' && post.category) {
+            slug = post.category.slug;
+          } else if (typeof post.category === 'number') {
+            slug = categoriesById.get(post.category)?.slug;
+          }
+
+          return slug === activeCategorySlug;
+        });
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 space-y-8">
@@ -29,31 +61,44 @@ export default async function BlogPage() {
         </p>
       </header>
 
-      {/* Панель категорий сверху (пока без фильтрации) */}
-      {categories.length > 0 && (
+      {/* Панель категорий сверху */}
+      {categoriesWithAll.length > 0 && (
         <div className="flex gap-3 overflow-x-auto pb-2 pt-2">
-          {categories.map((cat) => (
-            <span
-              key={cat.id}
-              className="inline-flex items-center rounded-full 
-                         border border-neutral-300
-                         bg-neutral-50 px-3 py-1 
-                         text-xs font-medium text-neutral-700
-                         whitespace-nowrap"
-            >
-              {cat.title ?? 'Без названия'}
-            </span>
-          ))}
+          {categoriesWithAll.map((cat) => {
+            const slug = cat.slug ?? '';
+            const isActive = activeCategorySlug === slug;
+
+            const href = isActive
+              ? '/blog'
+              : `/blog?category=${encodeURIComponent(cat.slug ?? '')}`;
+
+            return (
+              <Link
+                key={cat.id}
+
+                href={href}
+                scroll={false}
+                className={[
+                  'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors',
+                  isActive
+                    ? 'border-neutral-900 bg-neutral-900 text-white'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-700 hover:border-neutral-500',
+                ].join(' ')}
+              >
+                {cat.title ?? 'Без названия'}
+              </Link>
+            );
+          })}
         </div>
       )}
 
       <section className="space-y-6">
-        {posts.length === 0 && (
+        {filteredPosts.length === 0 && (
           <p className="text-neutral-500">Постов пока нет.</p>
         )}
 
-        {posts.map((post) => {
-          // Расшифровываем категорию для карточки
+        {filteredPosts.map((post) => {
+          // Подпись категории для карточки
           let categoryTitle: string | undefined;
 
           if (typeof post.category === 'object' && post.category) {
