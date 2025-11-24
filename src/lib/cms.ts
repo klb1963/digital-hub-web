@@ -68,7 +68,7 @@ export async function getAllCategories(): Promise<Category[]> {
   const data = await fetchFromCMS<PayloadListResponse<Category>>(
     '/api/categories?' +
       'limit=1000&' +
-      'depth=0',
+      'depth=1',
   );
 
   return data.docs;
