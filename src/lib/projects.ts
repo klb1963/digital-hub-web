@@ -23,9 +23,9 @@ export const projects: Project[] = [
     id: 'yachtpricer',
     title: 'YachtPricer',
     label: 'Pricing engine for charter fleets',
-    tagline: 'Сервис для ценообразования в чартерных компаниях.',
+    tagline: 'Сервис для ценообразования в чартерных компаниях',
     description:
-      'Платформа помогает флот-менеджерам анализировать цены конкурентов, управлять ставками и принимать решения по скидкам. В основе — NestJS, React, Prisma, PostgreSQL и глубокая предметная экспертиза чартерного рынка.',
+      'Платформа помогает менеджерам яхт анализировать цены конкурентов, управлять базовыми ценами и скидкам.',
     image: '/images/ptojects/yachtpricer-01.png',
     href: '/projects/yachtpricer',
     tags: ['SaaS', 'NestJS', 'React', 'Prisma', 'PostgreSQL', 'NauSYS API'],
@@ -35,7 +35,7 @@ export const projects: Project[] = [
     id: 'seatmap-abc360',
     title: 'SeatMap ABC360',
     label: 'Interactive seatmap for Sabre Red360',
-    tagline: 'Интерактивная карта мест внутри Sabre Red360.',
+    tagline: 'Интерактивная карта мест салона самолета внутри Sabre Red360.',
     description:
       'Red App для Sabre Red360, добавляющий улучшенную карту мест, подсветку зон, ручное и авто-назначение пассажиров, обработку ошибок Sabre и расширенную визуализацию. Проект сочетает React, TypeScript и Sabre SDK.',
     image: '/images/projects/seatmap-abc360.png',

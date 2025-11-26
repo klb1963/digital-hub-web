@@ -33,7 +33,7 @@ export function ProjectsSection() {
         {/* Общий flex-контейнер для двух колонок */}
         <div className="mt-10 flex flex-col gap-10 md:mt-16 md:flex-row md:items-start">
           {/* Левая панель — заголовок + табы */}
-          <div className="w-full md:w-[38%] space-y-8">
+          <div className="w-full md:w-[25%] space-y-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
                 Projects & Cases
@@ -42,7 +42,7 @@ export function ProjectsSection() {
                 От идеи и эксперимента до работающих цифровых продуктов.
               </h2>
               <p className="mt-4 text-sm text-neutral-400 md:text-base">
-                Несколько опорных проектов, через которые хорошо видно мой подход
+                Несколько знаковых проектов, через которые виден мой подход
                 к архитектуре, MVP и работе с бизнесом.
               </p>
             </div>
@@ -89,8 +89,8 @@ export function ProjectsSection() {
             </motion.div>
           </div>
 
-          {/* Правая панель — одна колонка, картинка под текстом */}
-          <div className="w-full md:w-[62%]">
+        {/* Правая панель — одна колонка, картинка под текстом */}
+        <div className="w-full md:w-[75%] overflow-visible">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeProject.id}
@@ -98,8 +98,11 @@ export function ProjectsSection() {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="group rounded-3xl bg-neutral-900/90 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.65)] ring-1 ring-neutral-800/80"
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="group relative rounded-3xl bg-neutral-900/90 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.65)] ring-1 ring-neutral-800/80
+                         md:ml-6 lg:ml-16 xl:ml-24 2xl:ml-32
+                         md:w-[115%] lg:w-[135%] xl:w-[150%]
+                         transition-transform duration-500 group-hover:scale-[1.01]"
               >
                 {/* Текстовая часть */}
                 <div className="space-y-4">
@@ -137,7 +140,7 @@ export function ProjectsSection() {
                       src={activeProject.image}
                       alt={activeProject.title}
                       fill
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover object-top object-left"
                       sizes="(min-width: 1024px) 700px, 100vw"
                     />
                   </div>
