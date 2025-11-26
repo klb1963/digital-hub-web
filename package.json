@@ -10,7 +10,6 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
-    "@payloadcms/richtext-lexical": "^3.64.0",
     "framer-motion": "^12.23.24",
     "next": "16.0.3",
     "react": "19.2.0",
