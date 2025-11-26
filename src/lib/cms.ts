@@ -1,7 +1,5 @@
 // src/lib/cms.ts
 
-import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
-
 const CMS_URL =
   process.env.NEXT_PUBLIC_CMS_URL ?? process.env.CMS_URL ?? '';
 
@@ -25,7 +23,7 @@ type CmsImage = {
 export type TextBlockLayout = {
   id?: string;
   blockType: 'textBlock';
-  content: SerializedEditorState;
+  content: unknown;
 };
 
 export type QuoteBlockLayout = {
