@@ -8,6 +8,7 @@ import {
 import type { Post } from '@/lib/cms';
 import Image from 'next/image';
 import Link from 'next/link';
+import { BlogContentRenderer } from '../BlogContentRenderer';
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 
@@ -19,6 +20,9 @@ type PageProps = {
   // ⬅ ВАЖНО: в Next 15 params — Promise
   params: Promise<PageParams>;
 };
+
+// 🔹 Вот эта строка — ключевая для output: 'export'
+export const dynamicParams = false;
 
 // Нужен для output: 'export'
 export async function generateStaticParams() {
@@ -184,7 +188,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       {/* Основной текст */}
       <section className="mt-6">
-        {post.content ? (
+        {Array.isArray(post.layout) && post.layout.length > 0 ? (
+          <BlogContentRenderer layout={post.layout} />
+        ) : post.content ? (
           renderLexicalContent(post.content)
         ) : (
           <p className="text-gray-500 text-sm">Нет содержимого</p>

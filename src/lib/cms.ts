@@ -1,4 +1,7 @@
 // src/lib/cms.ts
+
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+
 const CMS_URL =
   process.env.NEXT_PUBLIC_CMS_URL ?? process.env.CMS_URL ?? '';
 
@@ -8,6 +11,70 @@ if (!CMS_URL) {
 
 // 👇 добавляем флаг окружения
 const isDev = process.env.NODE_ENV !== 'production';
+
+// ─────────────────────────────────────────────
+// Типы для layout-блоков
+// ─────────────────────────────────────────────
+
+type CmsImage = {
+  id?: number | string;
+  url?: string | null;
+  alt?: string | null;
+} | null;
+
+export type TextBlockLayout = {
+  id?: string;
+  blockType: 'textBlock';
+  content: SerializedEditorState;
+};
+
+export type QuoteBlockLayout = {
+  id?: string;
+  blockType: 'quoteBlock';
+  quote: string;
+  author?: string | null;
+};
+
+export type ImageBlockLayout = {
+  id?: string;
+  blockType: 'imageBlock';
+  image: {
+    id: number;
+    url?: string | null;
+  };
+  caption?: string | null;
+};
+
+export type GalleryBlock = {
+  blockType: 'galleryBlock';
+  id: string;
+  layout: 'grid' | 'carousel';
+  items: {
+    id: string;
+    image: CmsImage;
+    caption?: string | null;
+  }[];
+};
+
+export type VideoBlock = {
+  blockType: 'videoBlock';
+  id: string;
+  provider: 'youtube' | 'vimeo' | 'other';
+  url: string;
+  title?: string | null;
+  caption?: string | null;
+};
+
+export type LayoutBlock = 
+  | TextBlockLayout 
+  | QuoteBlockLayout 
+  | ImageBlockLayout
+  | GalleryBlock
+  | VideoBlock; // позже сюда добавим другие блоки
+
+// ─────────────────────────────────────────────
+// Базовые типы для работы с Payload
+// ─────────────────────────────────────────────
 
 type PayloadListResponse<T> = {
   docs: T[];
@@ -45,7 +112,12 @@ export type Post = {
       }
     | null;
   content?: unknown;
+  layout?: LayoutBlock[] | null; // ← добавили layout для блочного контента
 };
+
+// ─────────────────────────────────────────────
+// Общая функция fetch’а из Payload CMS
+// ─────────────────────────────────────────────
 
 async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
   const url = `${CMS_URL}${path}`;
@@ -63,18 +135,22 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
   return (await res.json()) as T;
 }
 
+// ─────────────────────────────────────────────
 // список категорий
+// ─────────────────────────────────────────────
+
 export async function getAllCategories(): Promise<Category[]> {
   const data = await fetchFromCMS<PayloadListResponse<Category>>(
-    '/api/categories?' +
-      'limit=1000&' +
-      'depth=1',
+    '/api/categories?' + 'limit=1000&' + 'depth=1',
   );
 
   return data.docs;
 }
 
+// ─────────────────────────────────────────────
 // список постов (опционально с поиском по title / excerpt)
+// ─────────────────────────────────────────────
+
 export async function getAllPosts(
   options?: { search?: string | null },
 ): Promise<Post[]> {
@@ -101,15 +177,17 @@ export async function getAllPosts(
   return data.docs;
 }
 
+// ─────────────────────────────────────────────
 // один пост по slug
+// ─────────────────────────────────────────────
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
     `/api/posts?` +
       `where[slug][equals]=${encodeURIComponent(slug)}` +
       `&limit=1` +
-      `&depth=2`
+      `&depth=2`,
   );
- 
 
   if (bySlug.docs[0]) return bySlug.docs[0];
 
@@ -119,16 +197,17 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   return all.docs.find((p) => p.slug === slug) ?? null;
 }
 
+// ─────────────────────────────────────────────
 // slug’и для generateStaticParams
+// ─────────────────────────────────────────────
+
 export async function getAllPostSlugs(): Promise<string[]> {
   try {
-    const data = await fetchFromCMS<
-      PayloadListResponse<Pick<Post, 'slug'>>
-    >(
+    const data = await fetchFromCMS<PayloadListResponse<Pick<Post, 'slug'>>>(
       '/api/posts?' +
         'where[_status][equals]=published&' +
         'limit=1000&' +
-        'depth=1'
+        'depth=1',
     );
 
     return data.docs
@@ -139,3 +218,4 @@ export async function getAllPostSlugs(): Promise<string[]> {
     return [];
   }
 }
+

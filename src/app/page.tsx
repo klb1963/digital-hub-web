@@ -16,10 +16,6 @@ export default function HomePage() {
       <HeroSection />
       <IntroSection />
       <FocusSection />
-      {/* <AudienceSection />
-      <ServicesSection /> 
-       <WorkFormatsSection />
-      */}
       <ProjectsSection />
       <AIApproachSection />
       <ProcessSection />
