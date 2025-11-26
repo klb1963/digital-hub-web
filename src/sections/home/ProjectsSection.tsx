@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { projects, type Project, type ProjectId } from '@/lib/projects';
@@ -24,12 +24,38 @@ export function ProjectsSection() {
   const activeProject =
     projects.find((p) => p.id === activeId) ?? projects[0];
 
+  // Список скриншотов для активного проекта
+  const screenshots =
+    activeProject.screenshots && activeProject.screenshots.length > 0
+      ? activeProject.screenshots
+      : [activeProject.image];
+
+  const [screenIndex, setScreenIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // При смене проекта всегда возвращаемся к первому скриншоту
+  useEffect(() => {
+    // Сброс индекса — но не синхронно
+    queueMicrotask(() => setScreenIndex(0));
+  }, [activeProject.id]);
+
+  // Автоперелистывание, когда не ховерим и есть больше одного скриншота
+  useEffect(() => {
+    if (isHovered || screenshots.length <= 1) return;
+
+    const id = setInterval(() => {
+      setScreenIndex((prev) => (prev + 1) % screenshots.length);
+    }, 5000);
+
+    return () => clearInterval(id);
+  }, [isHovered, screenshots.length]);
+
   return (
     <section
       id="projects"
       className="bg-neutral-950/95 py-28 text-neutral-50"
     >
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
         {/* Общий flex-контейнер для двух колонок */}
         <div className="mt-10 flex flex-col gap-10 md:mt-16 md:flex-row md:items-start">
           {/* Левая панель — заголовок + табы */}
@@ -42,7 +68,7 @@ export function ProjectsSection() {
                 От идеи и эксперимента до работающих цифровых продуктов.
               </h2>
               <p className="mt-4 text-sm text-neutral-400 md:text-base">
-                Несколько знаковых проектов, через которые виден мой подход
+                Несколько проектов, в которых виден мой подход
                 к архитектуре, MVP и работе с бизнесом.
               </p>
             </div>
@@ -131,20 +157,40 @@ export function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Картинка во всю ширину карточки, под текстом */}
-                <div className="mt-6">
-                  <div
-                    className="relative w-full aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-700/80 bg-neutral-950/90 shadow-2xl"
-                  >
-                    <Image
-                      src={activeProject.image}
-                      alt={activeProject.title}
-                      fill
-                      className="h-full w-full object-cover object-top object-left"
-                      sizes="(min-width: 1024px) 700px, 100vw"
-                    />
-                  </div>
+              {/* Картинка во всю ширину карточки, под текстом (слайдер) */}
+              <div
+                className="mt-6"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <div className="relative w-full aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-700/80 bg-neutral-950/90 shadow-2xl">
+                  <Image
+                    src={screenshots[screenIndex]}
+                    alt={activeProject.title}
+                    fill
+                    className="h-full w-full object-cover object-top"
+                    sizes="(min-width: 1024px) 900px, 100vw"
+                  />
                 </div>
+
+                {screenshots.length > 1 && (
+                  <div className="mt-3 flex justify-center gap-2">
+                    {screenshots.map((src, idx) => (
+                      <button
+                        key={src + idx}
+                        type="button"
+                        onClick={() => setScreenIndex(idx)}
+                        className={`h-2.5 w-2.5 rounded-full transition ${
+                          idx === screenIndex
+                            ? 'scale-110 bg-emerald-400'
+                            : 'bg-neutral-700 hover:bg-neutral-500'
+                        }`}
+                        aria-label={`Показать скриншот ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
 
                 {/* CTA под картинкой */}
                 {activeProject.href && (

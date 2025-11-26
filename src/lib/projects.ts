@@ -7,16 +7,21 @@ export type ProjectId =
   | 'lms-leonidk'
   | 'meet-leonidk';
 
-export type Project = {
-  id: ProjectId;
-  title: string;
-  label: string;      // короткая подпись в табе
-  tagline: string;    // короткий жирный подзаголовок справа
-  description: string;
-  image: string;      // путь к изображению в /public/images/projects/...
-  href?: string;
-  tags: string[];
-};
+ export type Project = {
+   id: ProjectId;
+   title: string;
+   label: string;
+   tagline: string;
+   description: string;
+   tags: string[];
+   image: string;
+   /**
+    * Дополнительные скриншоты проекта.
+    * Если не заданы, в слайдере используется image.
+    */
+   screenshots?: string[];
+   href?: string;
+ };
 
 export const projects: Project[] = [
   {
@@ -27,6 +32,11 @@ export const projects: Project[] = [
     description:
       'Платформа помогает менеджерам яхт анализировать цены конкурентов, управлять базовыми ценами и скидкам.',
     image: '/images/ptojects/yachtpricer-01.png',
+    screenshots: [
+      '/images/ptojects/yachtpricer-01.png',
+      '/images/ptojects/yachtpricer-02.png',
+      '/images/ptojects/yachtpricer-03.png',
+    ],
     href: '/projects/yachtpricer',
     tags: ['SaaS', 'NestJS', 'React', 'Prisma', 'PostgreSQL', 'NauSYS API'],
   },
@@ -39,7 +49,12 @@ export const projects: Project[] = [
     description:
       'Red App для Sabre Red360, добавляющий улучшенную карту мест, подсветку зон, ручное и авто-назначение пассажиров, обработку ошибок Sabre и расширенную визуализацию. Проект сочетает React, TypeScript и Sabre SDK.',
     image: '/images/projects/seatmap-abc360.png',
-    href: '/projects/seatmap-abc360',
+    href: '/projects/seatmap-01.png',
+    screenshots: [
+      '/images/ptojects/seatmap-01.png',
+      '/images/ptojects/seatmap-02.png',
+      '/images/ptojects/seatmap-03.png',
+    ],
     tags: ['Sabre Red App', 'TypeScript', 'React', 'SDK Integration'],
   },
 
@@ -47,25 +62,30 @@ export const projects: Project[] = [
     id: 'open-digital-hub',
     title: 'Open Digital Hub',
     label: 'Digital ecosystem for experts',
-    tagline: 'Цифровая платформа для проектов, блога и автоматизаций.',
+    tagline: 'Цифровая платформа для проектов, блога и автоматических публикаций.',
     description:
-      'Open Digital Hub — твой личный цифровой дом и экосистема: лендинги, блог, Payload CMS, Jitsi, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов.',
-    image: '/images/projects/open-digital-hub.png',
+      'Open Digital Hub — личный цифровой дом и экосистема: лендинги, блог, Payload CMS, Jitsi, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов.',
+    image: '/images/projects/digital-hub-01.png',
+    screenshots: [
+      '/images/ptojects/digital-hub-01.png',
+      '/images/ptojects/digital-hub-02.png',
+      '/images/ptojects/digital-hub-03.png',
+    ],
     href: '/projects/open-digital-hub',
     tags: ['Next.js', 'Payload CMS', 'n8n', 'AI', 'Marketing Site'],
   },
 
-  {
-    id: 'lms-leonidk',
-    title: 'LMS.LeonidK',
-    label: 'Learning platform (LMS)',
-    tagline: 'Система дистанционного обучения и AI-сценариев.',
-    description:
-      'Собственная LMS-платформа для курсов, тренировок и симуляторов. Интеграции с AI-тренером, автопроверкой задач, комментариями, прогресс-трекингом и персональными маршрутами обучения.',
-    image: '/images/projects/lms-leonidk.png',
-    href: '/projects/lms-leonidk',
-    tags: ['EdTech', 'LMS', 'AI Tutors', 'Learning Paths'],
-  },
+//   {
+//     id: 'lms-leonidk',
+//     title: 'LMS.LeonidK',
+//     label: 'Learning platform (LMS)',
+//     tagline: 'Система дистанционного обучения и AI-сценариев.',
+//     description:
+//       'Собственная LMS-платформа для курсов, тренировок и симуляторов. Интеграции с AI-тренером, автопроверкой задач, комментариями, прогресс-трекингом и персональными маршрутами обучения.',
+//     image: '/images/projects/lms-leonidk.png',
+//     href: '/projects/lms-leonidk',
+//     tags: ['EdTech', 'LMS', 'AI Tutors', 'Learning Paths'],
+//   },
 
   {
     id: 'meet-leonidk',
@@ -74,7 +94,12 @@ export const projects: Project[] = [
     tagline: 'Видеоконференции на базе Jitsi для созвонов и встреч.',
     description:
       'Собственный видеосервис для консультаций, собеседований, групповых встреч и мастер-классов. Частный сервер, рекордеры, защита, комнаты-приглашения и интеграция с личным кабинетом.',
-    image: '/images/projects/meet-leonidk.png',
+    image: '/images/projects/meet-leonidk-01.png',
+    screenshots: [
+      '/images/ptojects/meet-leonidk-01.png',
+      '/images/ptojects/meet-leonidk-02.png',
+      // '/images/ptojects/digital-hub-03.png',
+    ],
     href: '/projects/meet-leonidk',
     tags: ['Jitsi', 'Videoconferencing', 'Self-Hosted', 'Consulting'],
   },

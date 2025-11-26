@@ -16,6 +16,12 @@ const isDev = process.env.NODE_ENV !== 'production';
 // Типы для layout-блоков
 // ─────────────────────────────────────────────
 
+type CmsImage = {
+  id?: number | string;
+  url?: string | null;
+  alt?: string | null;
+} | null;
+
 export type TextBlockLayout = {
   id?: string;
   blockType: 'textBlock';
@@ -39,7 +45,32 @@ export type ImageBlockLayout = {
   caption?: string | null;
 };
 
-export type LayoutBlock = TextBlockLayout | QuoteBlockLayout | ImageBlockLayout; // позже сюда добавим другие блоки
+export type GalleryBlock = {
+  blockType: 'galleryBlock';
+  id: string;
+  layout: 'grid' | 'carousel';
+  items: {
+    id: string;
+    image: CmsImage;
+    caption?: string | null;
+  }[];
+};
+
+export type VideoBlock = {
+  blockType: 'videoBlock';
+  id: string;
+  provider: 'youtube' | 'vimeo' | 'other';
+  url: string;
+  title?: string | null;
+  caption?: string | null;
+};
+
+export type LayoutBlock = 
+  | TextBlockLayout 
+  | QuoteBlockLayout 
+  | ImageBlockLayout
+  | GalleryBlock
+  | VideoBlock; // позже сюда добавим другие блоки
 
 // ─────────────────────────────────────────────
 // Базовые типы для работы с Payload

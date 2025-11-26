@@ -6,6 +6,8 @@ import type { LayoutBlock } from '@/lib/cms';
 import { TextBlockRenderer } from './TextBlockRenderer';
 import { QuoteBlockRenderer } from './QuoteBlockRenderer';
 import { ImageBlockRenderer } from './ImageBlockRenderer';
+import { GalleryBlockRenderer } from './GalleryBlockRenderer';
+import { VideoBlockRenderer } from './VideoBlockRenderer';
 
 type Props = {
   layout?: LayoutBlock[] | null;
@@ -41,6 +43,18 @@ export function BlogContentRenderer({ layout }: Props) {
                 block={block}
               />
             );
+
+          case 'galleryBlock':
+            return <GalleryBlockRenderer
+              key={block.id}
+              block={block}
+            />;
+
+          case 'videoBlock':
+            return <VideoBlockRenderer
+              key={block.id}
+              block={block}
+            />;
 
           default:
             return null;
