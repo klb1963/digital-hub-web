@@ -5,9 +5,11 @@
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { TextBlockLayout } from '@/lib/cms';
 
-export type TextBlock = TextBlockLayout;
+type Props = {
+  block: TextBlockLayout;
+};
 
-export function TextBlockRenderer({ block }: { block: TextBlock }) {
+export function TextBlockRenderer({ block }: Props) {
   if (!block?.content) return null;
 
   return (

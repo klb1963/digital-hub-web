@@ -22,7 +22,24 @@ export type TextBlockLayout = {
   content: SerializedEditorState;
 };
 
-export type LayoutBlock = TextBlockLayout; // позже сюда добавим другие блоки
+export type QuoteBlockLayout = {
+  id?: string;
+  blockType: 'quoteBlock';
+  quote: string;
+  author?: string | null;
+};
+
+export type ImageBlockLayout = {
+  id?: string;
+  blockType: 'imageBlock';
+  image: {
+    id: number;
+    url?: string | null;
+  };
+  caption?: string | null;
+};
+
+export type LayoutBlock = TextBlockLayout | QuoteBlockLayout | ImageBlockLayout; // позже сюда добавим другие блоки
 
 // ─────────────────────────────────────────────
 // Базовые типы для работы с Payload

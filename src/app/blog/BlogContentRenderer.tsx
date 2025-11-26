@@ -1,15 +1,14 @@
 // src/app/blog/BlogContentRenderer.tsx
+
 'use client';
 
-import type { TextBlock } from './TextBlockRenderer';
+import type { LayoutBlock } from '@/lib/cms';
 import { TextBlockRenderer } from './TextBlockRenderer';
-
-// Пока у нас единственный вид блока — текстовый.
-// Потом можно сделать union: type Block = TextBlock | QuoteBlock | ImageBlock ...
-type Block = TextBlock;
+import { QuoteBlockRenderer } from './QuoteBlockRenderer';
+import { ImageBlockRenderer } from './ImageBlockRenderer';
 
 type Props = {
-  layout?: Block[] | null;
+  layout?: LayoutBlock[] | null;
 };
 
 export function BlogContentRenderer({ layout }: Props) {
@@ -23,6 +22,22 @@ export function BlogContentRenderer({ layout }: Props) {
             return (
               <TextBlockRenderer
                 key={block.id ?? `text-${index}`}
+                block={block}
+              />
+            );
+
+          case 'quoteBlock':
+            return (
+              <QuoteBlockRenderer
+                key={block.id ?? `quote-${index}`}
+                block={block}
+              />
+            );
+
+          case 'imageBlock':
+            return (
+              <ImageBlockRenderer
+                key={block.id ?? `image-${index}`}
                 block={block}
               />
             );
