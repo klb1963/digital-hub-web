@@ -77,14 +77,14 @@ export function DiscussIdeaDialog() {
             btn-shine
             inline-flex items-center justify-center
             rounded-full
-            border border-transparent
-            bg-[#2DE2C5]
+            border border-emerald-400/70
+            bg-emerald-500/10
             px-9 py-4
-            text-lg font-semibold text-[#03231C]
-            shadow-[0_6px_20px_rgba(45,226,197,0.25)]
+            text-lg font-semibold text-emerald-300
+            shadow-[0_0_20px_rgba(16,185,129,0.15)]
             transition
-            hover:bg-[#3af0d2]
-            hover:shadow-[0_10px_28px_rgba(45,226,197,0.35)]
+            hover:bg-emerald-500/20
+            hover:shadow-[0_0_26px_rgba(16,185,129,0.25)]
         "
         >
         Обсудить идею

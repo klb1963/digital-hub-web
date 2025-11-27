@@ -2,6 +2,7 @@
 'use client';
 
 import { motion, type Variants } from 'framer-motion';
+import { DiscussIdeaDialog } from '@/components/contact/DiscussIdeaDialog';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -37,11 +38,7 @@ export function CtaSection() {
           </p>
 
           <div className="mt-8 flex justify-center">
-            <button
-              className="inline-flex items-center justify-center rounded-full border border-slate-500/70 px-7 py-2.5 text-sm font-medium text-slate-50 shadow-sm shadow-black/30 transition hover:border-slate-200 hover:bg-slate-50/5"
-            >
-              Обсудить идею
-            </button>
+            <DiscussIdeaDialog />
           </div>
 
           <p className="mt-4 text-xs text-slate-500">
