@@ -27,7 +27,7 @@ export const projects: Project[] = [
   {
     id: 'yachtpricer',
     title: 'YachtPricer',
-    label: 'Pricing engine for charter fleets',
+    label: 'Сервис анализа цен для чартерных флотов',
     tagline: 'Сервис для ценообразования в чартерных компаниях',
     description:
       'Платформа помогает менеджерам яхт анализировать цены конкурентов, управлять базовыми ценами и скидкам.',
@@ -44,7 +44,7 @@ export const projects: Project[] = [
   {
     id: 'seatmap-abc360',
     title: 'SeatMap ABC360',
-    label: 'Interactive seatmap for Sabre Red360',
+    label: 'Интерактивная карта салона самолета lkz Sabre Red360',
     tagline: 'Интерактивная карта мест салона самолета внутри Sabre Red360.',
     description:
       'Red App для Sabre Red360, добавляющий улучшенную карту мест, подсветку зон, ручное и авто-назначение пассажиров, обработку ошибок Sabre и расширенную визуализацию. Проект сочетает React, TypeScript и Sabre SDK.',
@@ -61,7 +61,7 @@ export const projects: Project[] = [
   {
     id: 'open-digital-hub',
     title: 'Open Digital Hub',
-    label: 'Digital ecosystem for experts',
+    label: 'Цифровая экосистема для экспертов и консультантов',
     tagline: 'Цифровая платформа для проектов, блога и автоматических публикаций.',
     description:
       'Open Digital Hub — личный цифровой дом и экосистема: лендинги, блог, Payload CMS, Jitsi, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов.',
@@ -90,7 +90,7 @@ export const projects: Project[] = [
   {
     id: 'meet-leonidk',
     title: 'Meet.LeonidK',
-    label: 'Secure Video Communication',
+    label: 'Персональная система видеоконференций',
     tagline: 'Видеоконференции на базе Jitsi для созвонов и встреч.',
     description:
       'Собственный видеосервис для консультаций, собеседований, групповых встреч и мастер-классов. Частный сервер, рекордеры, защита, комнаты-приглашения и интеграция с личным кабинетом.',

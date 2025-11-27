@@ -1,7 +1,10 @@
 // src/sections/home/HeroSection.tsx
+
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { DiscussIdeaDialog } from "@/components/contact/DiscussIdeaDialog";
+
 
 const containerVariants: Variants = {
   hidden: {},
@@ -98,18 +101,8 @@ export function HeroSection() {
 
           {/* CTA */}
           <motion.div variants={itemVariants} className="mt-8">
-            <button
-              className="
-                inline-flex items-center justify-center
-                rounded-full border border-slate-500/60
-                px-6 py-2.5
-                text-xl font-medium text-slate-50
-                hover:border-slate-300 hover:bg-slate-50/5
-                transition
-              "
-            >
-              Обсудить идею
-            </button>
+            {/* Главная CTA-кнопка, открывающая модалку */}
+            <DiscussIdeaDialog />
           </motion.div>
 
           {/* Сноска CTO */}

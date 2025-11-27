@@ -66,3 +66,39 @@ body {
 .ai-glow-card {
   animation: ai-glow-pulse 7s ease-in-out infinite;
 }
+
+/* CTA shine effect — auto loop */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 40%,
+    transparent 80%
+  );
+  transform: skewX(-20deg);
+  animation: btn-shine-loop 3s ease-in-out infinite;
+  opacity: 0.65;
+}
+
+@keyframes btn-shine-loop {
+  0% {
+    left: -150%;
+  }
+  40% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}

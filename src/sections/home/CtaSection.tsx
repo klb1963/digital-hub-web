@@ -27,7 +27,7 @@ export function CtaSection() {
           className="rounded-3xl border border-slate-800 bg-slate-900/30 px-6 py-10 text-center shadow-[0_0_40px_rgba(0,0,0,0.45)] md:px-10 md:py-14"
         >
           <h2 className="text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl">
-            Есть идея или проект, который нужно перевести в цифровую реальность?
+            Есть идея или проект, который нужно воплотить в цифровую реальность?
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 md:text-base">
