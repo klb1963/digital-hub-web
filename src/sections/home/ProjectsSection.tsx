@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { projects, type Project, type ProjectId } from '@/lib/projects';
+import { projects, type ProjectId } from '@/lib/projects';
 import Link from 'next/link';
 
 const tabsVariants = {

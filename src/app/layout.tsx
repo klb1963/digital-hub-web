@@ -19,6 +19,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Open Digital Hub",
   description: "Digital infrastructure for MVPs and SaaS projects",
+    icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon-32.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 // ⬇️ Основной layout приложения
