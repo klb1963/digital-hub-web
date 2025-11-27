@@ -61,7 +61,7 @@ export function ProjectsSection() {
           {/* Левая панель — заголовок + табы */}
           <div className="w-full md:w-[25%] space-y-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
+              <p className="text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-neutral-300">
                 Projects & Cases
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-50 md:text-4xl">
@@ -125,10 +125,10 @@ export function ProjectsSection() {
                 animate="animate"
                 exit="exit"
               transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="group relative rounded-3xl bg-neutral-900/90 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.65)] ring-1 ring-neutral-800/80
-                         md:ml-6 lg:ml-16 xl:ml-24 2xl:ml-32
-                         md:w-[115%] lg:w-[135%] xl:w-[150%]
-                         transition-transform duration-500 group-hover:scale-[1.01]"
+          className="group relative rounded-3xl bg-neutral-900/90 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.65)] ring-1 ring-neutral-800/80
+           md:ml-6 lg:ml-10 xl:ml-12 2xl:ml-16
+           w-full max-w-[1040px]
+           transition-transform duration-500 group-hover:scale-[1.01]"
               >
                 {/* Текстовая часть */}
                 <div className="space-y-4">
@@ -163,7 +163,9 @@ export function ProjectsSection() {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
-                <div className="relative w-full aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-700/80 bg-neutral-950/90 shadow-2xl">
+
+              <div className="mt-6 flex justify-center">
+                <div className="relative max-w-[900px] w-full aspect-[16/9] overflow-hidden rounded-3xl border border-neutral-700/80 bg-neutral-950/90 shadow-2xl">
                   <Image
                     src={screenshots[screenIndex]}
                     alt={activeProject.title}
@@ -172,6 +174,7 @@ export function ProjectsSection() {
                     sizes="(min-width: 1024px) 900px, 100vw"
                   />
                 </div>
+              </div>
 
                 {screenshots.length > 1 && (
                   <div className="mt-3 flex justify-center gap-2">

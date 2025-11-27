@@ -66,13 +66,13 @@ export function AboutMeSection() {
 
               <div className="mt-5 space-y-1">
                 <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400">
-                  LEONID KLEIMANN
+                  Леонид Кляйман
                 </p>
                 <p className="text-sm font-semibold text-slate-50 md:text-base">
-                  Technology Architect &amp; Product Engineer
+                  Software Architect &amp; AI-Product Engineer
                 </p>
                 <p className="text-xs text-slate-400 md:text-sm">
-                  Помогающий практик для фаундеров и ИТ-команд.
+                  Помогающий практик для фаундеров, фпилансеров и ИТ-команд.
                 </p>
               </div>
             </div>

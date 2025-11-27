@@ -26,14 +26,9 @@ const itemVariants: Variants = {
 
 export function HeroSection() {
   return (
-    <section
-      className="
-        relative
-        min-h-[80vh]
-        overflow-hidden
-        bg-[#05070B]
-        text-slate-100
-      "
+    <section 
+    className="relative min-h-[70vh] 
+    overflow-hidden bg-[#05070B] text-slate-100"
     >
       {/* 🔹 Фоновое изображение с анимацией */}
       <div
@@ -74,7 +69,7 @@ export function HeroSection() {
           {/* Роль */}
           <motion.p
             variants={itemVariants}
-            className="mt-3 text-xl text-slate-200 md:text-2xl"
+            className="mt-6 text-xl text-slate-200 md:text-2xl"
           >
             Software Architect &amp; AI-Product Engineer
           </motion.p>
@@ -82,9 +77,9 @@ export function HeroSection() {
           {/* CTO-строка */}
           <motion.p
             variants={itemVariants}
-            className="mt-1 text-sm italic text-slate-400"
+            className="mt-2 text-l italic text-slate-400"
           >
-            CTO (Chief Technology Officer)*
+            Ваш персональный CTO *
           </motion.p>
 
           {/* Steps */}
@@ -108,7 +103,7 @@ export function HeroSection() {
                 inline-flex items-center justify-center
                 rounded-full border border-slate-500/60
                 px-6 py-2.5
-                text-sm font-medium text-slate-50
+                text-xl font-medium text-slate-50
                 hover:border-slate-300 hover:bg-slate-50/5
                 transition
               "
@@ -120,7 +115,7 @@ export function HeroSection() {
           {/* Сноска CTO */}
           <motion.p
             variants={itemVariants}
-            className="mt-10 max-w-xl text-xs leading-relaxed text-slate-500"
+            className="mt-10 max-w-xl text-s leading-relaxed text-slate-500"
           >
             * CTO — роль, отвечающая за архитектуру, стек, процессы и
             технологическое развитие продукта.

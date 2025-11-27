@@ -185,7 +185,7 @@ export function AIApproachSection() {
               className="flex flex-col justify-center space-y-6"
             >
               <div className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300/80">
+                <p className="text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-neutral-300">
                   AI в инженерном процессе
                 </p>
                 <h2 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
