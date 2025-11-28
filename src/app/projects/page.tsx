@@ -72,7 +72,7 @@ export default function ProjectsPage() {
       <div className="mx-auto max-w-5xl px-6 pt-16 pb-24">
         {/* Заголовок страницы */}
         <header className="mb-10">
-          <p className="text-2xl mb-8 font-medium uppercase tracking-[0.2em] text-emerald-400/80">
+          <p className="text-l mb-8 font-medium uppercase tracking-[0.2em] text-emerald-400/80">
             Projects & Cases
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
