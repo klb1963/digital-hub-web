@@ -195,18 +195,17 @@ export function ProjectsSection() {
                 )}
               </div>
 
-                {/* CTA под картинкой */}
-                {activeProject.href && (
-                  <div className="mt-5">
-                    <Link
-                      href={activeProject.href}
-                      className="inline-flex items-center rounded-full border border-emerald-400/70 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-300 transition hover:bg-emerald-500/20"
-                    >
-                      Подробнее о проекте
-                      <span className="ml-1 text-lg leading-none">↗</span>
-                    </Link>
-                  </div>
-                )}
+               {/* CTA под картинкой — ведёт на /projects/[id] */}
+                <div className="mt-5">
+                  <Link
+                    href={`/projects/${activeProject.id}`}
+                    className="inline-flex items-center rounded-full border border-emerald-400/70 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-300 transition hover:bg-emerald-500/20"
+                  >
+                    Подробнее о проекте
+                    <span className="ml-1 text-lg leading-none">↗</span>
+                  </Link>
+                </div>
+    
               </motion.div>
             </AnimatePresence>
           </div>

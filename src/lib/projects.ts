@@ -10,6 +10,7 @@ export type ProjectId =
  export type Project = {
    id: ProjectId;
    title: string;
+   subtitle?: string; 
    label: string;
    tagline: string;
    description: string;
@@ -44,7 +45,7 @@ export const projects: Project[] = [
   {
     id: 'seatmap-abc360',
     title: 'SeatMap ABC360',
-    label: 'Интерактивная карта салона самолета lkz Sabre Red360',
+    label: 'Интерактивная карта салона самолета для Sabre Red360',
     tagline: 'Интерактивная карта мест салона самолета внутри Sabre Red360.',
     description:
       'Red App для Sabre Red360, добавляющий улучшенную карту мест, подсветку зон, ручное и авто-назначение пассажиров, обработку ошибок Sabre и расширенную визуализацию. Проект сочетает React, TypeScript и Sabre SDK.',
