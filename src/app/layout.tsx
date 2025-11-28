@@ -19,10 +19,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Open Digital Hub",
   description: "Digital infrastructure for MVPs and SaaS projects",
-    icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-    shortcut: "/favicon-32.png",
+  icons: {
+    icon: [
+      // главный фавикон — НОВЫЙ путь
+      { url: "/favicon-v2.ico", type: "image/x-icon" },
+      // дополнительный PNG (на всякий случай)
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: ["/favicon-v2.ico"],
   },
   manifest: "/site.webmanifest",
 };
