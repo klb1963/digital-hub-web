@@ -8,6 +8,8 @@ type QuestionFormData = {
   name: string;
   email: string;
   message: string;
+  // honeypot-поле для ботов
+  company?: string;
 };
 
 export function AskQuestionDialog() {
@@ -31,6 +33,7 @@ export function AskQuestionDialog() {
         name: "",
         email: "",
         message: "",
+        company: "",
       });
     }, 200);
   };
@@ -134,6 +137,23 @@ export function AskQuestionDialog() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+
+                {/* Honeypot-поле для ботов — скрыто от реальных пользователей */}
+                <div className="hidden" aria-hidden="true">
+                  <label>
+                    Company
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      tabIndex={-1}
+                      value={form.company}
+                      onChange={(e) =>
+                        setForm({ ...form, company: e.target.value })
+                      }
+                    />
+                  </label>
+                </div>
+
                 {/* Name */}
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-medium text-neutral-600">

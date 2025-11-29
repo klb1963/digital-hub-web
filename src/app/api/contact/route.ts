@@ -7,6 +7,16 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    // 🔒 Honeypot: скрытое поле для ботов
+    const rawCompany = body.company;
+    const company =
+      typeof rawCompany === "string" ? rawCompany.trim() : "";
+
+    // Если поле заполнено — считаем, что это бот и тихо выходим
+    if (company.length > 0) {
+      return NextResponse.json({ ok: true });
+    }
+
     const name = String(body.name || "").trim();
     const email = String(body.email || "").trim();
     const phone = body.phone ? String(body.phone).trim() : "";

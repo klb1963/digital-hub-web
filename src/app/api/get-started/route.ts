@@ -7,6 +7,12 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
 
+    // 🛡️ Honeypot: если бот заполнил скрытое поле — считаем запрос успешным,
+    // но НЕ отправляем email
+    if (data?.company && String(data.company).trim() !== "") {
+      return NextResponse.json({ ok: true }, { status: 200 });
+    }
+
     // Простая проверка обязательных полей
     if (
       !data?.name?.trim() ||

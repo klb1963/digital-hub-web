@@ -79,6 +79,7 @@ export type GetStartedEmailPayload = {
   collaborationFormat: string;
   aboutLinks: string;
   extra?: string;
+  company?: string; // 🛡️ honeypot — боты заполняют, человек нет
 };
 
 // Функция для обработки заявок "Get Started"

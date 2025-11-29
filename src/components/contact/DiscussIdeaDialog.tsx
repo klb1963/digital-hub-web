@@ -9,6 +9,8 @@ type ContactFormData = {
   email: string;
   phone?: string;
   message: string;
+  // honeypot-поле для ботов
+  company?: string;
 };
 
 export function DiscussIdeaDialog() {
@@ -35,6 +37,7 @@ export function DiscussIdeaDialog() {
         email: "",
         phone: "",
         message: "",
+        company: "",
       });
     }, 200);
   };
@@ -137,6 +140,23 @@ export function DiscussIdeaDialog() {
               </div>
             ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Honeypot-поле для ботов — скрытое от людей */}
+            <div className="hidden" aria-hidden="true">
+              <label>
+                Company
+                <input
+                  type="text"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  value={form.company}
+                  onChange={(e) =>
+                    setForm({ ...form, company: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+
             {/* Имя + Email в два столбца */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {/* Name */}

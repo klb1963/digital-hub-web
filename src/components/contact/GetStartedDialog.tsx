@@ -13,6 +13,7 @@ type GetStartedFormData = {
   collaborationFormat: string; // Формат взаимодействия
   aboutLinks: string;         // Ссылки: сайт, профиль, примеры
   extra?: string;             // Дополнительные комментарии
+  company?: string;           // honeypot (скрытое поле)
 };
 
 const INTEREST_OPTIONS = [
@@ -35,6 +36,7 @@ export function GetStartedDialog() {
     collaborationFormat: "",
     aboutLinks: "",
     extra: "",
+    company: "", // honeypot
   });
   const [otherInterest, setOtherInterest] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,6 +70,7 @@ export function GetStartedDialog() {
         collaborationFormat: "",
         aboutLinks: "",
         extra: "",
+        company: "", // honeypot
       });
       setOtherInterest("");
     }, 200);
@@ -100,6 +103,7 @@ export function GetStartedDialog() {
         body: JSON.stringify({
           ...form,
           interests: interestsCombined,
+          // company отправляем тоже — API отфильтрует ботов
         }),
       });
 
@@ -197,6 +201,23 @@ export function GetStartedDialog() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
+
+                {/* Honeypot поле для ботов – скрыто */}
+                <div className="hidden" aria-hidden="true">
+                  <label>
+                    Company
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      tabIndex={-1}
+                      value={form.company}
+                      onChange={(e) =>
+                        setForm({ ...form, company: e.target.value })
+                      }
+                    />
+                  </label>
+                </div>
+
                 {/* Контакты */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-1">
