@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// ⬇️ Добавляем импорт Navbar
 import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer"; 
 
 // Шрифты, как у тебя
 const geistSans = Geist({
@@ -63,6 +63,7 @@ export default function RootLayout({
         <main className="pt-4 sm:pt-6">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
