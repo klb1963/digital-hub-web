@@ -1,8 +1,12 @@
+// src/components/Navbar.tsx
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { GetStartedDialog } from "@/components/contact/GetStartedDialog";
+
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -71,12 +75,10 @@ export function Navbar() {
             >
               Login
             </Link>
-            <Link
-              href="/register"
-              className="rounded-full bg-white px-4 py-1.5 text-[15px] sm:text-base font-medium text-black shadow-sm hover:bg-neutral-200 transition-colors"
-            >
-              Get Started
-            </Link>
+
+            {/* Анкета-заявка Get Started */}
+            <GetStartedDialog />
+
           </div>
         </div>
 
@@ -129,14 +131,13 @@ export function Navbar() {
                 Login
               </Link>
 
-              <Link
-                href="/register"
-                onClick={() => setOpen(false)}
-                className="rounded-md bg-white px-2 py-1.5 text-center font-medium text-black hover:bg-neutral-200"
-              >
-                Get Started
-              </Link>
+              {/* В мобильном меню используем ту же анкету */}
+              <div className="px-0.5">
+                <GetStartedDialog />
+              </div>
+              
             </div>
+
           </div>
         </div>
       )}

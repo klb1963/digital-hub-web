@@ -150,7 +150,7 @@ export default function FaqPage() {
 
         {/* Hero FAQ */}
         <header className="mt-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400">
+          <p className="text-xl mb-4 font-semibold uppercase tracking-[0.18em] text-emerald-400">
             FAQ
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-50 md:text-4xl">
