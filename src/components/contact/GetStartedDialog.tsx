@@ -16,6 +16,8 @@ type GetStartedFormData = {
   company?: string;           // honeypot (скрытое поле)
 };
 
+const API_BASE = process.env.NEXT_PUBLIC_PAYLOAD_URL || "";
+
 const INTEREST_OPTIONS = [
   "Консультация",
   "MVP",
@@ -97,7 +99,7 @@ export function GetStartedDialog() {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/get-started", {
+      const res = await fetch(`${API_BASE}/api/get-started`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -160,13 +162,17 @@ export function GetStartedDialog() {
           >
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold text-neutral-900 md:text-xl">
-                  Давайте познакомимся и структурируем ваш запрос
-                </h2>
-                <p className="mt-2 text-xs text-neutral-500 md:text-sm">
-                  Мы с вами сильно сэкономим время, если вы заполните эту короткую форму
-                  и расскажете, что именно у вас сейчас происходит с проектом.
-                </p>
+                {!success && (
+                  <>
+                    <h2 className="text-lg font-semibold text-neutral-900 md:text-xl">
+                      Давайте познакомимся и структурируем ваш запрос
+                    </h2>
+                    <p className="mt-2 text-xs text-neutral-500 md:text-sm">
+                      Мы с вами сильно сэкономим время, если вы заполните эту короткую форму
+                      и расскажете, что именно у вас сейчас происходит с проектом.
+                    </p>
+                  </>
+                )}
               </div>
 
               <button

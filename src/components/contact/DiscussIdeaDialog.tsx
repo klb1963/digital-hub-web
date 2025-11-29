@@ -13,6 +13,8 @@ type ContactFormData = {
   company?: string;
 };
 
+const API_BASE = process.env.NEXT_PUBLIC_PAYLOAD_URL || "";
+
 export function DiscussIdeaDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState<ContactFormData>({
@@ -53,7 +55,7 @@ export function DiscussIdeaDialog() {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
