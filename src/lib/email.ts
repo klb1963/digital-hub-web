@@ -2,12 +2,16 @@
 
 import nodemailer from "nodemailer";
 
+// ---------------- Типы ----------------
+
 type ContactData = {
   name: string;
   email: string;
   phone?: string;
   message: string;
 };
+
+// ---------------- ENV ----------------
 
 const smtpHost = process.env.SMTP_HOST;
 const smtpPort = Number(process.env.SMTP_PORT || "587");
@@ -21,6 +25,8 @@ if (!smtpHost || !smtpUser || !smtpPass || !receiverEmail) {
   console.warn("[contact-email] Missing SMTP env vars.");
 }
 
+// ---------------- Транспорт ----------------
+
 const transporter = nodemailer.createTransport({
   host: smtpHost,
   port: smtpPort,
@@ -29,6 +35,22 @@ const transporter = nodemailer.createTransport({
     user: smtpUser,
     pass: smtpPass,
   },
+});
+
+// 🟩 Диагностика SMTP-конфига
+console.log("SMTP CONFIG:", {
+  host: smtpHost,
+  port: smtpPort,
+  user: smtpUser,
+  // пароль не логируем
+});
+
+transporter.verify((error: Error | null, success: boolean) => {
+  if (error) {
+    console.error("SMTP VERIFY ERROR:", error);
+  } else {
+    console.log("SMTP VERIFY: server is ready to send mail.");
+  }
 });
 
 export async function sendContactEmails(data: ContactData) {
@@ -69,7 +91,8 @@ Open Digital Hub
   await transporter.sendMail(clientMail);
 }
 
-// Добавляем рядом с другими типами (если есть) или внизу
+// ---------------- Get Started ----------------
+
 export type GetStartedEmailPayload = {
   name: string;
   email: string;
