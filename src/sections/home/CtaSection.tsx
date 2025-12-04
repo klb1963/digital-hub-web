@@ -31,17 +31,17 @@ export function CtaSection() {
             Есть идея или проект, который нужно воплотить в цифровую реальность?
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 md:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 md:text-lg">
             Давайте обсудим ваши задачи, ограничения и возможный путь: от
             первых решений по архитектуре до MVP и устойчивой цифровой
             экосистемы вокруг продукта.
           </p>
 
-          <div className="mt-8 flex justify-center">
+          <div className="mt-10 flex justify-center">
             <DiscussIdeaDialog />
           </div>
 
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-8 text-lg text-slate-500">
             Формат — короткий созвон или онлайн-сессия. Без обязательств, с
             фокусом на ясность и следующие шаги.
           </p>
