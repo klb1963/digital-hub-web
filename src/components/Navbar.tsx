@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { GetStartedDialog } from "@/components/contact/GetStartedDialog";
-
+import Image from "next/image";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -27,14 +27,14 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-black/80 backdrop-blur">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
 
-        {/* Лого */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-700 bg-neutral-900 text-xs font-semibold text-white">
-            ODH
-          </div>
-          <span className="text-sm font-medium text-neutral-200">
-            Open Digital Hub
-          </span>
+          <Image
+            src="/logo-odh-512x256.png"
+            alt="Open Digital Hub logo"
+            width={100}
+            height={50}
+            className="object-contain"
+          />
         </Link>
 
         {/* Десктопная навигация */}
