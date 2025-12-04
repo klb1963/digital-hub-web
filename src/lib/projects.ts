@@ -48,7 +48,7 @@ export const projects: Project[] = [
     label: 'Интерактивная карта салона самолета для Sabre Red360',
     tagline: 'Интерактивная карта мест салона самолета внутри Sabre Red360.',
     description:
-      'Red App для Sabre Red360, добавляющий улучшенную карту мест, подсветку зон, ручное и авто-назначение пассажиров, обработку ошибок Sabre и расширенную визуализацию. Проект сочетает React, TypeScript и Sabre SDK.',
+      'Red App для Sabre Red360, добавляющий улучшенную карту мест, цветовое выделение зон, ручное и авто-назначение мест для пассажиров, а также расширенную визуализацию салона самолета. Проект сочетает React, TypeScript и Sabre SDK.',
     image: '/images/projects/seatmap-abc360.png',
     href: '/projects/seatmap-01.png',
     screenshots: [
@@ -65,7 +65,7 @@ export const projects: Project[] = [
     label: 'Цифровая экосистема для экспертов и консультантов',
     tagline: 'Цифровая платформа для проектов, блога и автоматических публикаций.',
     description:
-      'Open Digital Hub — личный цифровой дом и экосистема: лендинги, блог, Payload CMS, Jitsi, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов.',
+      'Open Digital Hub — личный цифровой дом и экосистема: лендинги, блог, CMS, VCS, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов, на базе которой можно построить их продвижение на рынок.',
     image: '/images/projects/digital-hub-01.png',
     screenshots: [
       '/images/ptojects/digital-hub-01.png',
@@ -90,16 +90,16 @@ export const projects: Project[] = [
 
   {
     id: 'meet-leonidk',
-    title: 'Meet.LeonidK',
-    label: 'Персональная система видеоконференций',
+    title: 'meet.leonidk.de',
+    label: 'Персональная система видеоконференцсвязи',
     tagline: 'Видеоконференции на базе Jitsi для созвонов и встреч.',
     description:
-      'Собственный видеосервис для консультаций, собеседований, групповых встреч и мастер-классов. Частный сервер, рекордеры, защита, комнаты-приглашения и интеграция с личным кабинетом.',
+      'Собственный видеосервис для консультаций, собеседований, групповых встреч и мастер-классов. Приватный, защищенный сервер, комнаты-приглашения и интеграция с личным кабинетом.',
     image: '/images/projects/meet-leonidk-01.png',
     screenshots: [
       '/images/ptojects/meet-leonidk-01.png',
       '/images/ptojects/meet-leonidk-02.png',
-      // '/images/ptojects/digital-hub-03.png',
+      '/images/ptojects/meet-leonidk-03.png',
     ],
     href: '/projects/meet-leonidk',
     tags: ['Jitsi', 'Videoconferencing', 'Self-Hosted', 'Consulting'],

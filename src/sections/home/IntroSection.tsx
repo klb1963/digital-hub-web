@@ -54,22 +54,22 @@ export function IntroSection() {
 
               <div className="space-y-4">
                 <p>
-                  <span className="text-slate-100 font-bold md:text-xl">Архитектура и проектирование</span><br />
+                  <span className="text-slate-100 font-bold md:text-xl">⦿ Архитектура и проектирование</span><br />
                   Формирую структуру продукта, логику, данные, технологические решения и безопасный путь развития системы.
                 </p>
 
                 <p>
-                  <span className="text-slate-100 font-bold md:text-xl">MVP и прототипы</span><br />
+                  <span className="text-slate-100 font-bold md:text-xl">⦿ MVP и прототипы</span><br />
                   Быстро создаю рабочие версии продукта, которые можно тестировать на реальных пользователях.
                 </p>
 
                 <p>
-                  <span className="text-slate-100 font-bold md:text-xl">Собираю ваш Digital Hub</span><br />
+                  <span className="text-slate-100 font-bold md:text-xl">⦿ Собираю ваш Digital Hub</span><br />
                   Создаю под ключ цифровую платформу под ваш бренд — сайт, блог, CRM, LMS, VCS, комьюнити, личные кабинеты и оплаты.
                 </p>
 
                 <p>
-                  <span className="text-slate-100 font-bold md:text-xl">CTO-as-a-service</span><br />
+                  <span className="text-slate-100 font-bold md:text-xl">⦿ CTO-as-a-service</span><br />
                   Веду проект как технический руководитель: архитектура, процессы, качество разработки — без найма в штат.
                 </p>
               </div>

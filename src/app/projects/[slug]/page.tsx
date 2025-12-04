@@ -80,10 +80,10 @@ export default async function ProjectPage({
 
         {/* CTA внизу intro-блока */}
         <section className="mt-4 border-t border-slate-800 pt-6">
-          <p className="text-sm text-slate-300">
-            Узнаёте себя в этой истории или хотите обсудить похожий проект?
+          <p className="text-m text-slate-300">
+            Хотите обсудить похожий проект?
           </p>
-          <p className="mt-1 text-sm text-slate-300">
+          <p className="mt-1 text-m text-slate-300">
             Напишите пару слов об идее — мы вместе посмотрим, какой путь
             реалистичен по срокам, бюджету и архитектуре.
           </p>
