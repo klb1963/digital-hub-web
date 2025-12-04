@@ -46,24 +46,36 @@ export function IntroSection() {
             />
 
             {/* Основной контент интро */}
-            <div className="relative space-y-5 text-base leading-relaxed text-slate-200 md:text-lg">
-              <p>
-                <span className="font-medium text-slate-50">
-                  Я помогаю фаундерам, экспертам и малому бизнесу в Европе
-                </span>{" "}
-                превращать идеи в работающие цифровые продукты и устойчивую
-                цифровую инфраструктуру.
+            <div className="relative space-y-6 text-base leading-relaxed text-slate-200 md:text-lg">
+
+              <p className="font-bold text-slate-50 text-2xl">
+                Что я делаю:
               </p>
 
-              <p>
-                Вместе мы выбираем технологический путь, проектируем
-                архитектуру, создаём MVP и выстраиваем вокруг него экосистему:
-                от авторизации и платежей до интеграций и автоматизаций.
-              </p>
+              <div className="space-y-4">
+                <p>
+                  <span className="text-slate-100 font-bold md:text-xl">Архитектура и проектирование</span><br />
+                  Формирую структуру продукта, логику, данные, технологические решения и безопасный путь развития системы.
+                </p>
 
-              <p className="pt-3 text-sm text-slate-400">
-                Рабочие языки: русский, английский, немецкий. Базируюсь в
-                регионе Аугсбурга (Германия), работаю полностью онлайн.
+                <p>
+                  <span className="text-slate-100 font-bold md:text-xl">MVP и прототипы</span><br />
+                  Быстро создаю рабочие версии продукта, которые можно тестировать на реальных пользователях.
+                </p>
+
+                <p>
+                  <span className="text-slate-100 font-bold md:text-xl">Собираю ваш Digital Hub</span><br />
+                  Создаю под ключ цифровую платформу под ваш бренд — сайт, блог, CRM, LMS, VCS, комьюнити, личные кабинеты и оплаты.
+                </p>
+
+                <p>
+                  <span className="text-slate-100 font-bold md:text-xl">CTO-as-a-service</span><br />
+                  Веду проект как технический руководитель: архитектура, процессы, качество разработки — без найма в штат.
+                </p>
+              </div>
+
+              <p className="pt-2 text-xl text-slate-400">
+                Рабочие языки: русский, английский, немецкий. Базируюсь в регионе Аугсбурга (Германия), работаю полностью онлайн.
               </p>
             </div>
           </div>

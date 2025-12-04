@@ -77,38 +77,53 @@ export function HeroSection() {
             Software Architect &amp; AI-Product Engineer
           </motion.p>
 
-          {/* CTO-строка */}
+          {/* Новые смысловые строки */}
           <motion.p
             variants={itemVariants}
-            className="mt-2 text-l italic text-slate-400"
+            className="mt-4 text-lg text-slate-300 md:text-2xl leading-relaxed"
           >
-            Ваш персональный CTO *
+            Помогаю предпринимателям запускать цифровые продукты легко, быстро, но без суеты
+          </motion.p>
+
+          <motion.p
+            variants={itemVariants}
+            className="mt-4 text-base text-slate-400 md:text-2xl"
+          >
+            MVP · Architecture · Digital Platforms · CTO-as-a-service
           </motion.p>
 
           {/* Steps */}
           <motion.div
             variants={itemVariants}
-            className="mt-8 space-y-2 text-base md:text-lg"
+            className="mt-8 mb-4 space-y-2 text-lg md:text-xl"
           >
-            <p className="text-slate-300 font-medium">Веду:</p>
-            <p className="text-slate-200">→ от идеи и первых вопросов</p>
-            <p className="text-slate-200">→ к понятной архитектуре</p>
-            <p className="text-slate-200">→ к работающему MVP</p>
-            <p className="text-slate-200">
+            <p className="text-slate-300 font-medium text-base md:text-2xl">Веду:</p>
+            <p className="text-slate-200 md:text-2xl">→ от идеи и первых вопросов</p>
+            <p className="text-slate-200 md:text-2xl">→ к понятной архитектуре</p>
+            <p className="text-slate-200 md:text-2xl">→ к работающему MVP</p>
+            <p className="text-slate-200 md:text-2xl">
               → к вашей устойчивой цифровой экосистеме!
             </p>
           </motion.div>
 
           {/* CTA */}
-          <motion.div variants={itemVariants} className="mt-8">
+          <motion.div variants={itemVariants} className="mt-10 mb-6">
             {/* Главная CTA-кнопка, открывающая модалку */}
             <DiscussIdeaDialog />
           </motion.div>
 
+          {/* CTO-строка */}
+          <motion.p
+            variants={itemVariants}
+            className="mt-4 text-xl italic text-slate-400"
+          >
+            с Вашим персональным CTO *
+          </motion.p>
+
           {/* Сноска CTO */}
           <motion.p
             variants={itemVariants}
-            className="mt-10 max-w-xl text-s leading-relaxed text-slate-500"
+            className="mt-4 max-w-xl text-lg leading-relaxed text-slate-500"
           >
             * CTO — роль, отвечающая за архитектуру, стек, процессы и
             технологическое развитие продукта.

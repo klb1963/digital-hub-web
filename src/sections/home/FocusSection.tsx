@@ -1,19 +1,10 @@
-// src/sections/home/FocusSection.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { motion, type Variants } from 'framer-motion';
+import { useState } from "react";
+import { motion, type Variants } from "framer-motion";
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
@@ -24,180 +15,233 @@ const itemVariants: Variants = {
   },
 };
 
-type FocusItemId = 'audience' | 'services' | 'formats';
-
-const focusItems: {
-  id: FocusItemId;
-  label: string;
-  category: string;
-  summary: string;
-  title: string;
-  imageSrc: string;
-  imageAlt: string;
-  bullets: string[];
-}[] = [
-  {
-    id: 'audience',
-    label: 'Кому подойдёт',
-    category: 'Для кого я работаю',
-    summary: 'Фаундерам, экспертам и малому бизнесу в Европе',
-    title: 'Фаундерам, экспертам и малому бизнесу в Европе',
-    imageSrc: '/images/focus/focus-audience-02.png',
-    imageAlt: 'Цифровой блокнот с контактами и идеями продукта',
-    bullets: [
-      'Фаундерам с идеей, но без технического партнёра.',
-      'Малый и средний бизнес, который вырос из Excel и формочек.',
-      'Экспертам и консультантам, которым нужна своя платформа.',
-    ],
-  },
-  {
-    id: 'services',
-    label: 'Чем могу помочь',
-    category: 'Задачи',
-    summary: 'От MVP и архитектуры до цифрового хаба вокруг продукта',
-    title: 'От первых скетчей до архитектуры и MVP',
-    imageSrc: '/images/focus/focus-services-02.png',
-    imageAlt: 'Схема архитектуры и интерфейсы продукта',
-    bullets: [
-      'Помогаю сформулировать MVP так, чтобы его можно было реально собрать.',
-      'Проектирую архитектуру, выбираю стек, помогаю команде стартовать без хаоса.',
-      'Строю вокруг продукта цифровой хаб: аутентификация, оплата, коммуникация, автоматизация.',
-    ],
-  },
-  {
-    id: 'formats',
-    label: 'Форматы работы',
-    category: 'Как мы можем сотрудничать',
-    summary: 'Гибкие форматы: от проекта под ключ до CTO-наставника',
-    title: 'Гибкие форматы — от проекта под ключ до CTO-наставника',
-    imageSrc: '/images/focus/focus-formats-02.png',
-    imageAlt: 'Рабочее место с ноутбуком и заметками по проекту',
-    bullets: [
-      'Проектная работа под ключ с понятными этапами и результатами.',
-      'Архитектурный менторинг для существующей команды разработки.',
-      'Долгосрочное сопровождение: эволюция продукта и цифровой инфраструктуры.',
-    ],
-  },
-];
+type PanelId = "who" | "pain" | "outcome | null";
 
 export function FocusSection() {
-  const [activeId, setActiveId] = useState<FocusItemId>('audience');
+  const [openPanel, setOpenPanel] = useState<PanelId>(null);
 
-  // Всегда пытаемся найти текущий item по id;
-  // если что-то пошло не так — подстраховка: берём первый.
-  const current =
-    focusItems.find((item) => item.id === activeId) ?? focusItems[0];
+    const togglePanel = (id: PanelId) => {
+        setOpenPanel((current) => (current === id ? null : id));
+    };
 
   return (
-    <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-28 pb-24 md:flex-row md:items-start md:gap-12">
-        {/* Левая колонка: заголовок + "аккордеон" табов */}
+    <section className="bg-[#05070B] text-slate-100 py-24">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="w-full md:w-[40%]"
-          variants={containerVariants}
+          variants={cardVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.4 }}
+          className="
+            relative overflow-hidden
+            rounded-3xl border border-slate-800/80
+            bg-slate-950/70 px-6 py-10 sm:px-10 sm:py-12
+            shadow-[0_18px_45px_rgba(0,0,0,0.75)]
+            space-y-4
+          "
         >
-          <motion.h2
-            variants={itemVariants}
-            className="text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl"
-          >
-            С кем и как я работаю
-          </motion.h2>
+          {/* лёгкий общий градиент */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/10 via-slate-900/40 to-sky-500/10" />
 
-          <motion.p
-            variants={itemVariants}
-            className="mt-3 max-w-md text-sm text-slate-400 md:text-base"
-          >
-            {/* Кому я подхожу, какие задачи закрываю и 
-            в каких форматах мы можем сотрудничать. */}
-          </motion.p>
+          <div className="relative mb-4">
+            <h2 className="text-3xl font-semibold text-slate-50">
+              Фокус работы
+            </h2>
+            <p className="mt-2 text-xl text-slate-400">
+              Кому я помогаю, какие боли закрываю и что в итоге получают мои клиенты.
+            </p>
+          </div>
 
-          <motion.div
-            variants={itemVariants}
-            className="mt-8 space-y-3"
-          >
-            {focusItems.map((item) => {
-              const isActive = item.id === activeId;
+          {/* Аккордеон */}
+          <div className="relative divide-y divide-slate-800/80">
+            {/* Панель 1: Для кого я */}
+            <AccordionItem
+              id="who"
+              title="Кто мои клиенты"
+              icon="🎯"
+              openPanel={openPanel}
+              onToggle={togglePanel}
+            >
+              <div className="space-y-4 text-base leading-relaxed md:text-lg">
+                <p>
+                  <span className="font-medium text-xl text-slate-100">
+                    → Индивидуальные и начинающие предприниматели
+                  </span>
+                  <br />
+                  которые хотят запустить продукт быстро и правильно.
+                </p>
 
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setActiveId(item.id)}
-                  className={[
-                    'group relative flex w-full flex-col items-start rounded-2xl border px-4 py-4 text-left transition',
-                    'border-slate-800/80 bg-slate-900/40 hover:border-indigo-500/70 hover:bg-slate-900/70',
-                    isActive
-                      ? 'border-indigo-500/80 bg-slate-900/80 shadow-[0_0_35px_rgba(79,70,229,0.45)]'
-                      : '',
-                  ].join(' ')}
-                >
-                  <div className="text-[11px] font-medium uppercase tracking-[0.15em] text-slate-400">
-                    {item.category}
-                  </div>
-                  <div className="mt-1 text-sm font-semibold text-slate-50 md:text-base">
-                    {item.label}
-                  </div>
-                  <div className="mt-1 text-xs text-slate-400 md:text-sm">
-                    {item.summary}
-                  </div>
-                </button>
-              );
-            })}
-          </motion.div>
-        </motion.div>
+                <p>
+                  <span className="font-medium text-xl text-slate-100">
+                    → Фрилансеры и консультанты
+                  </span>
+                  <br />
+                  которым нужна собственная цифровая платформа под своим брендом.
+                </p>
 
-        {/* Правая колонка: картинка + раскрытый контент */}
-        <motion.div
-          className="w-full md:w-[60%]"
-          key={current.id}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <motion.div
-            variants={itemVariants}
-            className="overflow-hidden rounded-3xl border border-slate-800/80 bg-gradient-to-b from-slate-950/90 to-slate-950/60 shadow-[0_0_60px_rgba(15,23,42,0.9)]"
-          >
-            {/* Картинка */}
-            <div className="relative h-48 w-full overflow-hidden border-b border-slate-800/70 bg-slate-950/80 md:h-56">
-              <Image
-                src={current.imageSrc}
-                alt={current.imageAlt}
-                fill
-                className="object-cover opacity-90"
-                priority
-              />
-            </div>
+                <p>
+                  <span className="font-medium text-xl text-slate-100">
+                    → Малый бизнес (1–20 сотрудников)
+                  </span>
+                  <br />
+                  которому нужна ясная архитектура, интеграции и цифровые процессы.
+                </p>
 
-            {/* Текстовый блок */}
-            <div className="px-6 py-5 md:px-7 md:py-6">
-              <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-indigo-300/80">
-                {current.category}
+                <p>
+                  <span className="font-medium text-xl text-slate-100">
+                    → Создатели цифрового контента, онлайн-школы, комьюнити
+                  </span>
+                  <br />
+                  у которых Tilda/Wix/WordPress перестали тянуть.
+                </p>
               </div>
+            </AccordionItem>
 
-              <h3 className="mt-2 text-base font-semibold text-slate-50 md:text-lg">
-                {current.title}
-              </h3>
+            {/* Панель 2: Боли */}
+            <AccordionItem
+              id="pain"
+              title="Какие боли и проблемы"
+              icon="🔥"
+              openPanel={openPanel}
+              onToggle={togglePanel}
+            >
+              <div className="space-y-4 text-base leading-relaxed md:text-lg">
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Слишком много неопределённости
+                  </span>
+                  <br />
+                  «Я не знаю, с чего начать и как всё правильно построить».
+                </p>
 
-            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-200 md:text-base">
-            {current.bullets.map((bullet, index) => (
-                <li
-                key={index}
-                className="flex items-center gap-2"
-                >
-                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-400" />
-                <span>{bullet}</span>
-                </li>
-            ))}
-            </ul>
-            </div>
-          </motion.div>
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Проблема выбора
+                  </span>
+                  <br />
+                  «Я боюсь ошибиться в архитектуре и потом платить за это годами».
+                </p>
+
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Ненадёжные подрядчики
+                  </span>
+                  <br />
+                  «Я не могу найти тех, кому можно доверить техническую часть проекта».
+                </p>
+
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Время не ждёт
+                  </span>
+                  <br />
+                  «Всё идёт медленно. Я буксую. Я встал».
+                </p>
+
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Миллион фрагментов, нет системы
+                  </span>
+                  <br />
+                  «Сайт здесь, CRM там, интеграций нет. Я тону».
+                </p>
+
+                <p>
+                  <span className="text-red-400 text-xl font-bold">
+                    → Я не инженер
+                  </span>
+                  <br />
+                  «Мне нужна уверенность, что мой проект построен правильно».
+                </p>
+              </div>
+            </AccordionItem>
+
+            {/* Панель 3: Результаты */}
+            <AccordionItem
+              id="outcome"
+              title="Что получают мои клиенты"
+              icon="✅"
+              openPanel={openPanel}
+              onToggle={togglePanel}
+            >
+              <ul className="space-y-3 leading-relaxed md:text-lg text-slate-200">
+                <li>→ Быстрый запуск прототипа</li>
+                <li>→ Снижение рисков на 70–90%</li>
+                <li>→ Экономия десятков тысяч евро на ошибках</li>
+                <li>→ Уверенность, что всё построено правильно</li>
+                <li>→ Понятная, масштабируемая архитектура</li>
+                <li>→ Четкий план действий</li>
+                <li>→ Платформа, которая работает и растёт</li>
+                <li>→ Высокая скорость и отсутствие стресса</li>
+                <li>→ Надёжный технический партнёр</li>
+              </ul>
+            </AccordionItem>
+          </div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+type AccordionProps = {
+  id: PanelId;
+  title: string;
+  icon: string;
+  openPanel: PanelId;
+  onToggle: (id: PanelId) => void;
+  children: React.ReactNode;
+};
+
+function AccordionItem({
+  id,
+  title,
+  icon,
+  openPanel,
+  onToggle,
+  children,
+}: AccordionProps) {
+  const isOpen = openPanel === id;
+
+    return (
+        <div className="py-3">
+
+            <button
+                type="button"
+                onClick={() => onToggle(id)}
+                className="
+        flex w-full items-center justify-between
+        gap-4 py-4
+        text-left
+    "
+            >
+                <div className="flex items-center gap-4">
+                    <span className="text-3xl">{icon}</span>
+                    <span className="text-xl md:text-2xl font-semibold text-slate-50">
+                        {title}
+                    </span>
+                </div>
+
+                <span
+                    className={`
+        inline-flex h-10 w-10 items-center justify-center
+        rounded-full bg-white text-[#05070B] font-bold text-2xl
+        shadow-md transition-all duration-200
+    `}
+                >
+                    {isOpen ? "–" : "+"}
+                </span>
+            </button>
+
+      <div
+        className={`
+          overflow-hidden transition-all duration-300 ease-out
+          ${isOpen ? "mt-3 max-h-[2000px] opacity-100" : "max-h-0 opacity-0"}
+        `}
+      >
+        <div className="rounded-2xl bg-slate-900/70 px-4 py-5 border border-slate-800/60">
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }
