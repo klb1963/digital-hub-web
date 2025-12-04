@@ -83,6 +83,9 @@ export default function ProjectsPage() {
             архитектуру, разработку, техническое развитие и путь от идеи до устойчивой
             системы.
           </p>
+          <p className="mt-4 max-w-3xl font-bold text-xl text-slate-300 md:text-xl">
+            Без соисполнителей и субподрядчиков, но с помощью ИИ.
+          </p>
         </header>
 
         {/* Список проектов */}
