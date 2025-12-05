@@ -189,7 +189,7 @@ export function AIApproachSection() {
                   AI в инженерном процессе
                 </p>
                 <h2 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-                  Искусственный интеллект – мой инженерный партнёр
+                  Искусственный Интеллект – мой инженерный партнёр
                 </h2>
                 <p className="max-w-xl text-sm text-slate-400 sm:text-base">
                   Я не перекладываю работу на ИИ, а строю с ним совместный

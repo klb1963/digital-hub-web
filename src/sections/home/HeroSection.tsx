@@ -82,7 +82,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-lg text-slate-300 md:text-2xl leading-relaxed"
           >
-            Помогаю предпринимателям запускать цифровые продукты легко, быстро, но без суеты
+            Помогаю предпринимателям запускать цифровые продукты легко, быстро и без суеты.
           </motion.p>
 
           <motion.p
