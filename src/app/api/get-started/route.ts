@@ -36,7 +36,36 @@ export async function POST(req: Request) {
       extra: data.extra ?? "",
     });
 
+    // ----------------------------------------
+    //  📝 Сохраняем заявку "Get Started" в Payload CMS
+    // ----------------------------------------
+    try {
+      const cmsUrl = process.env.CMS_INTERNAL_URL;
+
+      if (cmsUrl) {
+        await fetch(`${cmsUrl}/api/form-submissions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "get-started",
+            name: data.name,
+            email: data.email,
+            phone: data.phone ? String(data.phone) : "",
+            payload: data, // сырые данные анкеты
+          }),
+        });
+      } else {
+        console.warn("[get-started] CMS_INTERNAL_URL not set — skipping logging");
+      }
+    } catch (logErr) {
+      console.error("Failed to save get-started submission in Payload:", logErr);
+      // важный момент: ошибка логирования НЕ ломает ответ пользователю
+    }
+
     return NextResponse.json({ ok: true }, { status: 200 });
+    
   } catch (err) {
     console.error("Error in /api/get-started:", err);
     return NextResponse.json(

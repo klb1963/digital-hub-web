@@ -40,7 +40,36 @@ export async function POST(req: Request) {
 
     await sendContactEmails({ name, email, phone, message });
 
+    // ----------------------------------------
+    //  📝 Сохраняем заявку в Payload CMS
+    // ----------------------------------------
+    try {
+      const cmsUrl = process.env.CMS_INTERNAL_URL;
+
+      if (cmsUrl) {
+        await fetch(`${cmsUrl}/api/form-submissions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "contact",
+            name,
+            email,
+            phone,
+            payload: body,  // сохраняем сырые данные формы
+          }),
+        });
+      } else {
+        console.warn("[contact] CMS_INTERNAL_URL not set — skipping logging");
+      }
+    } catch (err) {
+      console.error("Failed to save form-submission in Payload:", err);
+      // Ошибка сохранения не влияет на ответ пользователю
+    }
+
     return NextResponse.json({ ok: true });
+  
   } catch (error) {
     console.error("Error in /api/contact:", error);
     return NextResponse.json(
