@@ -39,10 +39,16 @@ export async function POST(req: Request) {
     // ----------------------------------------
     //  📝 Сохраняем заявку "Get Started" в Payload CMS
     // ----------------------------------------
-    try {
-      const cmsUrl = process.env.CMS_INTERNAL_URL;
+    const cmsUrl =
+      process.env.CMS_INTERNAL_URL ??
+      process.env.CMS_URL ??
+      process.env.NEXT_PUBLIC_CMS_URL ??
+      "";
 
-      if (cmsUrl) {
+    if (!cmsUrl) {
+      console.warn("[get-started] No CMS URL configured — skipping logging");
+    } else {
+      try {
         await fetch(`${cmsUrl}/api/form-submissions`, {
           method: "POST",
           headers: {
@@ -56,16 +62,17 @@ export async function POST(req: Request) {
             payload: data, // сырые данные анкеты
           }),
         });
-      } else {
-        console.warn("[get-started] CMS_INTERNAL_URL not set — skipping logging");
+      } catch (logErr) {
+        console.error(
+          "[get-started] Failed to save FormSubmission in Payload:",
+          logErr,
+        );
+        // Ошибка логирования не ломает ответ пользователю
       }
-    } catch (logErr) {
-      console.error("Failed to save get-started submission in Payload:", logErr);
-      // важный момент: ошибка логирования НЕ ломает ответ пользователю
     }
 
     return NextResponse.json({ ok: true }, { status: 200 });
-    
+
   } catch (err) {
     console.error("Error in /api/get-started:", err);
     return NextResponse.json(
