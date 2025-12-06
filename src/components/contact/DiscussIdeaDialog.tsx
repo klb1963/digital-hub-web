@@ -20,6 +20,7 @@ export function DiscussIdeaDialog() {
     email: "",
     phone: "",
     message: "",
+    company: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -97,15 +98,19 @@ export function DiscussIdeaDialog() {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="mx-4 w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold text-neutral-900">
-                  Давайте обсудим вашу идею или проект!
-                </h2>
-                <p className="mt-1 text-sm text-neutral-500">
-                  Заполните короткую форму — я отвечу лично и предложу
-                  следующий шаг.
-                </p>
+                {!success && (
+                  <>
+                    <h2 className="text-lg font-semibold text-neutral-900">
+                      Давайте обсудим вашу идею или проект!
+                    </h2>
+                    <p className="mt-1 text-sm text-neutral-500">
+                      Заполните короткую форму — я отвечу лично и предложу следующий шаг.
+                    </p>
+                  </>
+                )}
               </div>
 
               <button
