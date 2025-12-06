@@ -21,8 +21,19 @@ const smtpPass = process.env.SMTP_PASS;
 const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL;
 const fromEmail = process.env.CONTACT_FROM_EMAIL || smtpUser || "";
 
-if (!smtpHost || !smtpUser || !smtpPass || !receiverEmail) {
-  console.warn("[contact-email] Missing SMTP env vars.");
+// Более точная диагностика env-переменных
+const missingEnv: string[] = [];
+if (!smtpHost) missingEnv.push("SMTP_HOST");
+if (!smtpUser) missingEnv.push("SMTP_USER");
+if (!smtpPass) missingEnv.push("SMTP_PASS");
+if (!receiverEmail) missingEnv.push("CONTACT_RECEIVER_EMAIL");
+if (!fromEmail) missingEnv.push("CONTACT_FROM_EMAIL (или SMTP_USER)");
+
+if (missingEnv.length > 0) {
+  console.warn(
+    "[contact-email] Missing email env vars:",
+    missingEnv.join(", ")
+  );
 }
 
 // ---------------- Транспорт ----------------
@@ -37,12 +48,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 🟩 Диагностика SMTP-конфига
+// 🟩 Диагностика SMTP-конфига (без пароля)
 console.log("SMTP CONFIG:", {
   host: smtpHost,
   port: smtpPort,
   user: smtpUser,
-  // пароль не логируем
 });
 
 transporter.verify((error: Error | null, success: boolean) => {
@@ -53,12 +63,22 @@ transporter.verify((error: Error | null, success: boolean) => {
   }
 });
 
+// ---------------- Contact form ----------------
+
 export async function sendContactEmails(data: ContactData) {
   const { name, email, phone, message } = data;
+
+  if (!receiverEmail || !fromEmail) {
+    console.error(
+      "[sendContactEmails] receiverEmail/fromEmail not configured, email not sent."
+    );
+    return;
+  }
 
   const ownerMail = {
     from: fromEmail,
     to: receiverEmail,
+    replyTo: email,
     subject: `Новая заявка: ${name}`,
     text: `
 Имя: ${name}
@@ -66,7 +86,7 @@ Email: ${email}
 Телефон: ${phone || "-"}
 Сообщение:
 ${message}
-    `,
+    `.trim(),
   };
 
   const clientMail = {
@@ -84,7 +104,7 @@ ${message}
 С уважением,
 Leonid
 Open Digital Hub
-    `,
+    `.trim(),
   };
 
   await transporter.sendMail(ownerMail);
@@ -105,7 +125,7 @@ export type GetStartedEmailPayload = {
   company?: string; // 🛡️ honeypot — боты заполняют, человек нет
 };
 
-// Функция для обработки заявок "Get Started"
+// Заявки "Get Started"
 export async function sendGetStartedEmails(payload: GetStartedEmailPayload) {
   const {
     name,
@@ -118,18 +138,18 @@ export async function sendGetStartedEmails(payload: GetStartedEmailPayload) {
     extra,
   } = payload;
 
-  const receiver = process.env.CONTACT_RECEIVER_EMAIL;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL ?? "no-reply@localhost";
-
-  if (!receiver) {
-    console.error("CONTACT_RECEIVER_EMAIL is not set");
+  if (!receiverEmail || !fromEmail) {
+    console.error(
+      "[sendGetStartedEmails] receiverEmail/fromEmail not configured, email not sent."
+    );
     return;
   }
 
   const interestsText =
     interests && interests.length > 0 ? interests.join(", ") : "— не указано —";
 
-  const ownerSubject = "Новая заявка Get Started с сайта Open Digital Hub";
+  const ownerSubject =
+    "Новая заявка Get Started с сайта Open Digital Hub";
   const ownerText = `
 Новая заявка "Get Started" с сайта.
 
@@ -153,7 +173,7 @@ ${aboutLinks || "— не указано —"}
 
 Дополнительные комментарии:
 ${extra || "— нет —"}
-`.trim();
+  `.trim();
 
   const clientSubject = "Спасибо за вашу заявку (Open Digital Hub)";
   const clientText = `
@@ -168,12 +188,12 @@ ${extra || "— нет —"}
 С уважением,
 Leonid Kleimann
 Software Architect & AI-Product Engineer
-`.trim();
+  `.trim();
 
   // Письмо мне
   await transporter.sendMail({
     from: fromEmail,
-    to: receiver,
+    to: receiverEmail,
     replyTo: email,
     subject: ownerSubject,
     text: ownerText,
