@@ -16,8 +16,6 @@ type GetStartedFormData = {
   company?: string;           // honeypot (скрытое поле)
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_PAYLOAD_URL || "";
-
 const INTEREST_OPTIONS = [
   "Консультация",
   "MVP",
@@ -99,7 +97,7 @@ export function GetStartedDialog() {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch(`${API_BASE}/api/get-started`, {
+      const res = await fetch("/api/get-started", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
