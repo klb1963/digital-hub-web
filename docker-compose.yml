@@ -28,6 +28,7 @@ services:
 
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
 
       # HTTP
       - "traefik.http.routers.hub.rule=Host(`hub.leonidk.de`)"
