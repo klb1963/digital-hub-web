@@ -42,3 +42,4 @@ next-env.d.ts
 
 public/odh*
 *.zip
+.pnpm-store/

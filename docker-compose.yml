@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  digital-hub-web:
+    image: node:20-alpine
+    container_name: digital-hub-web
+    restart: always
+
+    working_dir: /app
+    env_file:
+      - .env
+
+    command: >
+      sh -c "
+      corepack enable &&
+      corepack prepare pnpm@latest --activate &&
+      pnpm install &&
+      pnpm build &&
+      pnpm start
+      "
+
+    volumes:
+      - ./:/app
+
+    networks:
+      - internal
+      - web
+
+    labels:
+      - "traefik.enable=true"
+
+      # HTTP
+      - "traefik.http.routers.hub.rule=Host(`hub.leonidk.de`)"
+      - "traefik.http.routers.hub.entrypoints=web"
+      - "traefik.http.routers.hub.service=hub"
+
+      # HTTPS
+      - "traefik.http.routers.hub-secure.rule=Host(`hub.leonidk.de`)"
+      - "traefik.http.routers.hub-secure.entrypoints=websecure"
+      - "traefik.http.routers.hub-secure.tls.certresolver=le"
+      - "traefik.http.routers.hub-secure.service=hub"
+
+      # service hub → порт 3000
+      - "traefik.http.services.hub.loadbalancer.server.port=3000"
+
+networks:
+  web:
+    external: true
+  internal:
+    internal: true
