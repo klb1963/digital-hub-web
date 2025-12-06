@@ -1,0 +1,33 @@
+name: Deploy digital-hub-web
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo (for completeness)
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            cd /home/digital-hub/apps/digital-hub-web
+
+            echo ">>> Fetch & reset to origin/main"
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo ">>> Docker compose: pull images (if any) and restart stack"
+            docker compose down
+            docker compose up -d
