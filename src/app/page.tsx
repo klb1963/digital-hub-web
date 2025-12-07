@@ -22,7 +22,6 @@ export default function HomePage() {
       <AboutMeSection />
       <CtaSection />
       <FooterSection />
-      {/* Здесь позже появятся остальные секции: Audience, Services и т.д. */}
     </main>
   );
 }

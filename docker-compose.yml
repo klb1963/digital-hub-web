@@ -1,26 +1,14 @@
-version: "3.8"
-
 services:
   digital-hub-web:
-    image: node:20-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digital-hub-web:latest
     container_name: digital-hub-web
     restart: always
 
-    working_dir: /app
     env_file:
       - .env
-
-    command: >
-      sh -c "
-      corepack enable &&
-      corepack prepare pnpm@latest --activate &&
-      pnpm install &&
-      pnpm build &&
-      pnpm start
-      "
-
-    volumes:
-      - ./:/app
 
     networks:
       - internal

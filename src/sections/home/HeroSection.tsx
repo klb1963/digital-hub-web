@@ -74,7 +74,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-6 text-xl text-slate-200 md:text-2xl"
           >
-            Software Architect &amp; AI-Product Engineer
+            WEB-застройщик &amp; AI-инженер
           </motion.p>
 
           {/* Новые смысловые строки */}
@@ -82,14 +82,14 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-lg text-slate-300 md:text-2xl leading-relaxed"
           >
-            Помогаю предпринимателям запускать цифровые продукты легко, быстро и без суеты.
+            Помогаю предпринимателям запускать цифровые продукты для бизнеса легко, быстро и без суеты.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="mt-4 text-base text-slate-400 md:text-2xl"
           >
-            MVP · Architecture · Digital Platforms · CTO-as-a-service
+            MVP · Digital Platforms · CTO-as-a-service  · AI Integration
           </motion.p>
 
           {/* Steps */}
@@ -97,9 +97,9 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-8 mb-4 space-y-2 text-lg md:text-xl"
           >
-            <p className="text-slate-300 font-medium text-base md:text-2xl">Веду:</p>
-            <p className="text-slate-200 md:text-2xl">→ от идеи и первых вопросов</p>
-            <p className="text-slate-200 md:text-2xl">→ к понятной архитектуре</p>
+            <p className="text-slate-300 font-medium text-base md:text-2xl">Веду владельцев бизнесов:</p>
+            <p className="text-slate-200 md:text-2xl">→ от идеи и массы вопросов</p>
+            <p className="text-slate-200 md:text-2xl">→ к понятной ИТ-архитектуре</p>
             <p className="text-slate-200 md:text-2xl">→ к работающему MVP</p>
             <p className="text-slate-200 md:text-2xl">
               → к вашей устойчивой цифровой экосистеме!
@@ -125,7 +125,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 max-w-xl text-lg leading-relaxed text-slate-500"
           >
-            * CTO — роль, отвечающая за архитектуру, стек, процессы и
+            * CTO — роль, отвечающая за архитектуру, стек используемых технологий, ИТ-процессы и
             технологическое развитие продукта.
           </motion.p>
         </motion.div>

@@ -29,7 +29,7 @@ export function Navbar() {
 
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo-odh-512x256.png"
+            src="/logo-odh-512x256.png" // logo-odh-512x256.png logo-odh-512x256-inverted.png
             alt="Open Digital Hub logo"
             width={100}
             height={50}
