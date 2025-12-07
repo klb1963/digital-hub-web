@@ -22,12 +22,17 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
+            set -e
+
             cd /home/digital-hub/apps/digital-hub-web
 
-            echo ">>> Fetch & reset to origin/main"
+            echo ">>> Sync git with origin/main"
             git fetch origin main
             git reset --hard origin/main
 
-            echo ">>> Docker compose: pull images (if any) and restart stack"
+            echo ">>> Rebuild Docker image"
             docker compose down
-            docker compose up -d
+            docker compose build --no-cache
+            docker compose up -d --remove-orphans
+
+            echo ">>> Deployment finished"
