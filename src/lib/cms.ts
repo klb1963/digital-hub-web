@@ -168,11 +168,17 @@ export async function getAllPosts(
     params.set('where[or][1][excerpt][like]', q);
   }
 
-  const data = await fetchFromCMS<PayloadListResponse<Post>>(
-    '/api/posts?' + params.toString(),
-  );
+  try {
+    const data = await fetchFromCMS<PayloadListResponse<Post>>(
+      '/api/posts?' + params.toString(),
+    );
 
-  return data.docs;
+    return data.docs;
+  } catch (err) {
+    console.error('Failed to load posts list from CMS', err);
+    // Важно: не роняем build, просто возвращаем пустой список
+    return [];
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -180,19 +186,25 @@ export async function getAllPosts(
 // ─────────────────────────────────────────────
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
-    `/api/posts?` +
-      `where[slug][equals]=${encodeURIComponent(slug)}` +
-      `&limit=1` +
-      `&depth=2`,
-  );
+  try {
+    const bySlug = await fetchFromCMS<PayloadListResponse<Post>>(
+      `/api/posts?` +
+        `where[slug][equals]=${encodeURIComponent(slug)}` +
+        `&limit=1` +
+        `&depth=2`,
+    );
 
-  if (bySlug.docs[0]) return bySlug.docs[0];
+    if (bySlug.docs[0]) return bySlug.docs[0];
 
-  const all = await fetchFromCMS<PayloadListResponse<Post>>(
-    '/api/posts?depth=2&limit=50',
-  );
-  return all.docs.find((p) => p.slug === slug) ?? null;
+    const all = await fetchFromCMS<PayloadListResponse<Post>>(
+      '/api/posts?depth=2&limit=50',
+    );
+    return all.docs.find((p) => p.slug === slug) ?? null;
+  } catch (err) {
+    console.error('Failed to load post by slug from CMS', err);
+    // На всякий случай: не роняем билд, просто нет поста
+    return null;
+  }
 }
 
 // ─────────────────────────────────────────────
