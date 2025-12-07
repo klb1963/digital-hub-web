@@ -138,11 +138,17 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 // ─────────────────────────────────────────────
 
 export async function getAllCategories(): Promise<Category[]> {
-  const data = await fetchFromCMS<PayloadListResponse<Category>>(
-    '/api/categories?' + 'limit=1000&' + 'depth=1',
-  );
+  try {
+    const data = await fetchFromCMS<PayloadListResponse<Category>>(
+      '/api/categories?' + 'limit=1000&' + 'depth=1',
+    );
 
-  return data.docs;
+    return data.docs;
+  } catch (err) {
+    console.error('Failed to load categories from CMS', err);
+    // Фолбэк: без категорий, но билд не падает
+    return [];
+  }
 }
 
 // ─────────────────────────────────────────────
