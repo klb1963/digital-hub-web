@@ -1,11 +1,61 @@
+# --- Git & metadata ---
 .git
 .gitignore
-Dockerfile
+.github
+.vscode
+.idea
+
+# --- Build & dependencies ---
 node_modules
 .next
 dist
+out
+coverage
+*.log
 npm-debug.log*
 pnpm-debug.log*
+
+# --- Env files (локальные, не нужны в контейнере) ---
 .env.local
 .env.development
 .env.test
+.env.production.local
+
+# --- System / macOS ---
+.DS_Store
+*.swp
+*.swo
+
+# --- Docker ---
+Dockerfile
+docker-compose.yml
+
+# --- Temporary files ---
+*.tmp
+*.bak
+
+# --- Folders that MUST NOT enter the build context ---
+prisma
+backend
+yachtpricer-mvp
+yachtpricer
+seatmap-abc360
+*/prisma
+*/backend
+*/old_seeds
+*/seed
+*/scripts
+
+# --- Anything outside the project root ---
+../*
+../../*
+
+# --- Allow-list (explicit includes) ---
+!package.json
+!pnpm-lock.yaml
+!next.config.ts
+!postcss.config.mjs
+!tailwind.config.mjs
+!tsconfig.json
+!public/**
+!src/**
