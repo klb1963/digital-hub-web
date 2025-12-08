@@ -1,5 +1,3 @@
-// src/lib/projects.ts
-
 export type ProjectId =
   | 'yachtpricer'
   | 'seatmap-abc360'
@@ -7,39 +5,71 @@ export type ProjectId =
   | 'lms-leonidk'
   | 'meet-leonidk';
 
- export type Project = {
-   id: ProjectId;
-   title: string;
-   subtitle?: string; 
-   label: string;
-   tagline: string;
-   description: string;
-   tags: string[];
-   image: string;
-   /**
-    * Дополнительные скриншоты проекта.
-    * Если не заданы, в слайдере используется image.
-    */
-   screenshots?: string[];
-   href?: string;
- };
+export type Project = {
+  id: ProjectId;
+  title: string;
+  subtitle?: string;
+  label: string;
+  tagline: string;
+  description: string;
+  tags: string[];
+  image: string;
+
+  /**
+   * Дополнительные скриншоты проекта.
+   * Если не заданы, в слайдере используется image.
+   */
+  screenshots?: string[];
+
+  href?: string;
+
+  // Новые поля для кейс-секции
+  businessGoal?: string;
+  challenge?: string;
+  solution?: string | string[];
+  results?: string | string[];
+};
 
 export const projects: Project[] = [
   {
     id: 'yachtpricer',
     title: 'YachtPricer',
     label: 'Сервис анализа цен для чартерных флотов',
-    tagline: 'Сервис для ценообразования в чартерных компаниях',
+    tagline: 'Сервис динамического ценообразования для чартерных яхт.',
     description:
-      'Платформа помогает менеджерам яхт анализировать цены конкурентов, управлять базовыми ценами и скидкам.',
-    image: '/images/ptojects/yachtpricer-01.png',
+      'Решение дает возможность менеджерам и владельцам чартерных яхт анализировать цены конкурентов и управлять базовыми ценами и скидками на свои яхты.',
+    image: '/images/projects/yachtpricer-01.png',
     screenshots: [
-      '/images/ptojects/yachtpricer-01.png',
-      '/images/ptojects/yachtpricer-02.png',
-      '/images/ptojects/yachtpricer-03.png',
+      '/images/projects/yachtpricer-01.png',
+      '/images/projects/yachtpricer-02.png',
+      '/images/projects/yachtpricer-03.png',
     ],
     href: '/projects/yachtpricer',
     tags: ['SaaS', 'NestJS', 'React', 'Prisma', 'PostgreSQL', 'NauSYS API'],
+
+    // Кейс-секция
+    businessGoal:
+      'Динамическое ценообразование для менеджеров и владельцев чартерных яхт. Принятие обоснованных ценовых решений на основе анализа реальных данных с рынка, а не интуиции. Обеспечить согласование цен между менеджером яхты, директором чартерной компании и владельцем яхты.',
+
+    challenge:
+      'Данные о ценах конкурентов приходят из разнородных источников. Существующие процессы полностью ручные — таблицы, переписки, ошибки и отсутствие прозрачности.',
+
+    solution: [
+      'Разработана модель данных для флота, цен конкурентов и историй цен.',
+      'Через NauSYS API извлекаются цены на аналогичные яхты на ту же неделю.',
+      'Реализован workflow Submit → Approve/Reject для менеджера, менеджера флота и владельца.',
+      'Реализован дашбоард с фильтрами по локациям, категориям, моделям, характеристикам яхт на выбранную неделю.',
+      'Ведется полная история изменений и комментариев.',
+      'Введены роли и строгая RBAC-политика.'
+    ],
+
+    results: [
+      'Ценообразование стало прозрачным и предсказуемым.',
+      'Ускорено согласование цен между участниками (менеджер → флот-менеджер → владелец).',
+      'Уменьшено количество ошибок и несогласованностей.',
+      'Согласованные цены экспортируются для загрузки в NauSYS.',
+      'Возможность масштабирования на любые флотилии и локации.'
+    ]
   },
 
   {
@@ -50,43 +80,76 @@ export const projects: Project[] = [
     description:
       'Red App для Sabre Red360, добавляющий улучшенную карту мест, цветовое выделение зон, ручное и авто-назначение мест для пассажиров, а также расширенную визуализацию салона самолета. Проект сочетает React, TypeScript и Sabre SDK.',
     image: '/images/projects/seatmap-abc360.png',
-    href: '/projects/seatmap-01.png',
+    href: '/projects/seatmap-abc360',
     screenshots: [
-      '/images/ptojects/seatmap-01.png',
-      '/images/ptojects/seatmap-02.png',
-      '/images/ptojects/seatmap-03.png',
+      '/images/projects/seatmap-01.png',
+      '/images/projects/seatmap-02.png',
+      '/images/projects/seatmap-03.png',
     ],
     tags: ['Sabre Red App', 'TypeScript', 'React', 'SDK Integration'],
+
+    // Кейс-секция
+    businessGoal:
+      'Продвинуть визуализацию карты салона самолета к агенту, продающему билеты, с целью роста объема выручки от предварительного бронирования мест.',
+
+    challenge:
+      'Sabre RedApp использует устаревший стек (Eclipse RCP + SWT), ограничения по CSS, рендеринг внутри WebView, жёсткие требования безопасности, SOAP-ответы EnhancedSeatMapRQ и множество edge-кейсов у авиаперевозчиков. Нужно было сделать современный UI в крайне ограниченной среде.',
+
+    solution: [
+      'Выполнена интеграция внешней библиотеки Quicket.io с рабочим местом продавца авиабилетов.',
+      'Данные о полете и пассажирах извлекаются с помощью SOAP-запросов.',
+      'Реализована логика автоматического назначения и удаления мест.',
+      'Внедрена панель пассажиров, fallback-карта, многосегментность, выбор класса обслуживания.',
+      'Разработана fallback-карта мест на случай отсутствия карты в библиотеке.'
+    ],
+
+    results: [
+      'Улучшен UX Sabre Red 360 (модальное окно, быстрый выбор, работа без ошибок).',
+      'Создан независимый рендерер, который можно переиспользовать вне Sabre.'
+    ]
   },
 
   {
     id: 'open-digital-hub',
     title: 'Open Digital Hub',
     label: 'Цифровая экосистема для экспертов и консультантов',
-    tagline: 'Цифровая платформа для проектов, блога и автоматических публикаций.',
+    tagline: 'Решение для тех, кто строит личный бренд и собственный цифровой бизнес.',
     description:
-      'Open Digital Hub — личный цифровой дом и экосистема: лендинги, блог, CMS, VCS, LMS, чаты, платежи, n8n-автоматизации. Это фундамент для консалтинга, EdTech и AI-сервисов, на базе которой можно построить их продвижение на рынок.',
+      'Open Digital Hub — это современные лендинги, блог, CMS, VCS, LMS, структурированный коммюнити-чат, платежи и n8n-автоматизации. Интегрированная платформа для консалтинга, EdTech и AI-сервисов, на базе которой выстраиваются продвижение продукта и продажи.',
     image: '/images/projects/digital-hub-01.png',
     screenshots: [
-      '/images/ptojects/digital-hub-01.png',
-      '/images/ptojects/digital-hub-02.png',
-      '/images/ptojects/digital-hub-03.png',
+      '/images/projects/digital-hub-01.png',
+      '/images/projects/digital-hub-02.png',
+      '/images/projects/digital-hub-03.png',
     ],
     href: '/projects/open-digital-hub',
     tags: ['Next.js', 'Payload CMS', 'n8n', 'AI', 'Marketing Site'],
+
+    // Кейс-секция
+    businessGoal:
+      'Автоматизировать рутинные процессы создания персонального бренда и запуска продаж с целью ускорения и снижения издержек. Для этого создать платформу, на которой можно быстро запускать современные лендинги, вести блог с постингом в различные каналы и соцсети, иметь учет клиентов в CMS, реализовать дистанционное обучение, коммьюнити-чат, систему платежей для оплаты членства и курсов, интеграции и автоматизации — всё в одном месте.',
+
+    challenge:
+      'Нужно объединить разнородные системы (Next.js, Payload CMS, Open edX, n8n, Jitsi, Zulip, PostgreSQL, Traefik) в единую информационную систему. Обеспечить стабильный CI/CD, работу на VPS, мультиязычность, единую авторизацию, структуру контента и дизайн-систему.',
+
+    solution: [
+      'Создан фронтенд на Next.js 16 + Tailwind + Framer Motion.',
+      'Настроен Payload CMS (блог, блоки контента, формы, API).',
+      'Развернуты Jitsi Meet, Zulip, n8n, PostgreSQL, Traefik.',
+      'Настроены SSL, Docker-оркестрация, CI/CD и автоматический деплой.',
+      'Разработана дизайн-система ODH: цвета, типографика, логотип, секции.',
+      'Реализована структура проектов и кейсов с возможностью дальнейшего масштабирования.'
+    ],
+
+    results: [
+      'Получена интегрированная платформа для запуска digital-продуктов “под ключ”.',
+      'Существенно сокращается время на вывод проектов на рынок.',
+      'Все сервисы работают в едином домене и единой экосистеме.',
+      'Удобная основа для клиентских проектов: блоги, лендинги, курсы, AI-инструменты.'
+    ]
   },
 
-//   {
-//     id: 'lms-leonidk',
-//     title: 'LMS.LeonidK',
-//     label: 'Learning platform (LMS)',
-//     tagline: 'Система дистанционного обучения и AI-сценариев.',
-//     description:
-//       'Собственная LMS-платформа для курсов, тренировок и симуляторов. Интеграции с AI-тренером, автопроверкой задач, комментариями, прогресс-трекингом и персональными маршрутами обучения.',
-//     image: '/images/projects/lms-leonidk.png',
-//     href: '/projects/lms-leonidk',
-//     tags: ['EdTech', 'LMS', 'AI Tutors', 'Learning Paths'],
-//   },
+  // Остальные проекты остаются как есть
 
   {
     id: 'meet-leonidk',
@@ -97,11 +160,11 @@ export const projects: Project[] = [
       'Собственный видеосервис для консультаций, собеседований, групповых встреч и мастер-классов. Приватный, защищенный сервер, комнаты-приглашения и интеграция с личным кабинетом.',
     image: '/images/projects/meet-leonidk-01.png',
     screenshots: [
-      '/images/ptojects/meet-leonidk-01.png',
-      '/images/ptojects/meet-leonidk-02.png',
-      '/images/ptojects/meet-leonidk-03.png',
+      '/images/projects/meet-leonidk-01.png',
+      '/images/projects/meet-leonidk-02.png',
+      '/images/projects/meet-leonidk-03.png',
     ],
     href: '/projects/meet-leonidk',
-    tags: ['Jitsi', 'Videoconferencing', 'Self-Hosted', 'Consulting'],
-  },
+    tags: ['Jitsi', 'Videoconferencing', 'Self-Hosted', 'Consulting']
+  }
 ];

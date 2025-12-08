@@ -21,7 +21,7 @@ export default function HomePage() {
       <ProcessSection />
       <AboutMeSection />
       <CtaSection />
-      <FooterSection />
+      {/* <FooterSection /> */}
     </main>
   );
 }

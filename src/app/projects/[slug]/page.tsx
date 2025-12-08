@@ -78,8 +78,99 @@ export default async function ProjectPage({
           )}
         </header>
 
+        {/* Кейс проекта: бизнес-задача, сложность, что сделано, результаты */}
+        {(project.businessGoal ||
+          project.challenge ||
+          project.solution ||
+          project.results) && (
+          <section className="mt-10 border-t border-slate-800 pt-8">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-50 md:text-xl">
+              Кейс проекта
+            </h2>
+
+            <div className="mt-6">
+              {project.businessGoal && (
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
+                    Бизнес-задача
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-300">
+                    {project.businessGoal}
+                  </p>
+                </div>
+              )}
+
+              {project.challenge && (
+                <>
+                  <div className="my-6 h-px bg-slate-800/60" />
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
+                      В чём сложность
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-300">
+                      {project.challenge}
+                    </p>
+                  </div>
+                </>
+              )}
+
+              {project.solution && (
+                <>
+                  <div className="my-6 h-px bg-slate-800/60" />
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
+                      Что было сделано
+                    </h3>
+
+                    {Array.isArray(project.solution) ? (
+                      <ul className="mt-2 space-y-1.5 text-sm text-slate-300">
+                        {project.solution.map((item, idx) => (
+                          <li key={idx} className="flex gap-2">
+                            <span className="mt-[7px] h-[3px] w-[10px] flex-shrink-0 rounded-full bg-emerald-400/70" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-2 text-sm text-slate-300">
+                        {project.solution}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {project.results && (
+                <>
+                  <div className="my-6 h-px bg-slate-800/60" />
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
+                      Результаты
+                    </h3>
+
+                    {Array.isArray(project.results) ? (
+                      <ul className="mt-2 space-y-1.5 text-sm text-slate-300">
+                        {project.results.map((item, idx) => (
+                          <li key={idx} className="flex gap-2">
+                            <span className="mt-[7px] h-[3px] w-[10px] flex-shrink-0 rounded-full bg-emerald-400/70" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-2 text-sm text-slate-300">
+                        {project.results}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* CTA внизу intro-блока */}
-        <section className="mt-4 border-t border-slate-800 pt-6">
+        <section className="mt-10 border-t border-slate-800 pt-6">
           <p className="text-m text-slate-300">
             Хотите обсудить похожий проект?
           </p>

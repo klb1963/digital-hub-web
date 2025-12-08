@@ -20,11 +20,11 @@ type ProjectCard = {
 const projects: ProjectCard[] = [
   {
     slug: "yachtpricer",
-    title: "YachtPricer — SaaS для управления ценами на чартер яхт",
+    title: "YachtPricer — SaaS для динамического ценообразования в чартерных компаниях",
     role: "Architect & CTO-as-a-Service",
     period: "2023 — сейчас",
     shortDescription:
-      "Платформа для флот-менеджеров: анализ цен конкурентов, принятие решений по ставкам и контроль доходности яхт.",
+      "Платформа для чартерных компаний и владелцев яхт: анализ цен конкурентов, принятие решений по недельным ценам и скидкам, план-факт и контроль доходности бизнеса.",
     stack: ["NestJS", "React", "Prisma", "PostgreSQL", "NauSYS API", "Docker"],
     status: "production",
   },
@@ -34,7 +34,7 @@ const projects: ProjectCard[] = [
     role: "Solution Architect & Lead Developer",
     period: "2019 — сейчас",
     shortDescription:
-      "Интеграция кастомной карты кресел в Sabre Red 360: работа с EnhancedSeatMap, продажа мест и управление посадкой.",
+      "Интеграция кастомной карты мест SeatMaps ABC в Sabre Red 360 (рабочее место агента по продаже авиабилетов) с возможностью ручного и автоматического назначения мест пассажирам.",
     stack: ["Java", "TypeScript", "React", "Sabre Red 360 SDK"],
     status: "production",
   },
@@ -44,7 +44,7 @@ const projects: ProjectCard[] = [
     role: "Founder & Architect",
     period: "2024 — сейчас",
     shortDescription:
-      "Экосистема сервисов: лендинги, блог, видео-встречи, LMS, аутентификация и биллинг — под одним техническим зонтиком.",
+      "Экосистема цифровых сервисов: лендинги, блог, видео-встречи, дистанционное обучение, структурированный коммьюнити-чат, аутентификация и биллинг — под одним техническим зонтиком.",
     stack: ["Next.js", "Tailwind", "Payload CMS", "Clerk", "Stripe"],
     status: "mvp",
   },
@@ -54,7 +54,7 @@ const projects: ProjectCard[] = [
     role: "Product & Architecture",
     period: "2024",
     shortDescription:
-      "Точка входа для личного контакта с клиентами: от консультаций до запуска MVP-проектов.",
+      "Точка входа для личного контакта с клиентами из любой точки мира, где есть Интернет: от консультаций до запуска MVP-проектов. Полная независимость от блокируемых сервисов и сторонних платформ.",
     stack: ["Next.js", "Tailwind", "MDX"],
     status: "mvp",
   },
@@ -103,7 +103,7 @@ export default function ProjectsPage() {
                   <p className="mt-1 text-xs font-medium text-emerald-300">
                     {project.role} • {project.period}
                   </p>
-                  <p className="mt-3 text-sm text-slate-300">
+                  <p className="mt-3 text-lg text-slate-300">
                     {project.shortDescription}
                   </p>
                 </div>
