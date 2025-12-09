@@ -82,7 +82,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-2xl md:text-3xl font-semibold text-slate-300 leading-snug"
           >
-            Помогаю предпринимателям запускать цифровые продукты для роста их бизнеса.
+            Запускаю вместе с предпринимателями цифровые продукты для роста бизнеса.
           </motion.p>
 
           <motion.p
@@ -97,10 +97,10 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-8 mb-4 space-y-2 text-lg md:text-xl"
           >
-            <p className="text-slate-300 font-medium text-base md:text-xl">Веду владельцев бизнесов:</p>
+            <p className="text-slate-300 font-medium text-base md:text-xl">Веду как сталкер:</p>
             <p className="text-slate-200 md:text-xl">→ от идеи и массы вопросов</p>
             <p className="text-slate-200 md:text-xl">→ к понятной ИТ-архитектуре и сервисам</p>
-            <p className="text-slate-200 md:text-xl">→ к работающему MVP или продукту</p>
+            <p className="text-slate-200 md:text-xl">→ к работающему прототипу (MVP) и продукту</p>
             <p className="text-slate-200 md:text-xl">
               → к вашей устойчивой цифровой экосистеме!
             </p>
