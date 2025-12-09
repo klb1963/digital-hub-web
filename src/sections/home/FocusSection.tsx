@@ -15,7 +15,7 @@ const cardVariants: Variants = {
   },
 };
 
-type PanelId = "who" | "pain" | "outcome" | null;
+type PanelId = "who" | "pain" | "outcome" | "unique" | null;
 
 export function FocusSection() {
   const [openPanel, setOpenPanel] = useState<PanelId>(null);

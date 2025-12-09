@@ -40,7 +40,7 @@ const projects: ProjectCard[] = [
   },
   {
     slug: "open-digital-hub",
-    title: "Open Digital Hub — инфраструктура для MVP и цифровых сообществ",
+    title: "Open Digital Hub — цифровая экосистема для развития персонального бренда",
     role: "Founder & Architect",
     period: "2024 — сейчас",
     shortDescription:
