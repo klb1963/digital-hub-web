@@ -142,7 +142,7 @@ export function ProcessSection() {
                 </div>
 
                 <h3 className="mt-3 text-base font-semibold text-slate-100 md:text-lg">
-                  Собираем MVP, который можно показывать и трогать
+                  Собираем MVP, который можно показывать и пробовать в деле
                 </h3>
 
                 <p className="mt-2 text-sm leading-relaxed text-slate-300 md:text-base">
@@ -171,7 +171,7 @@ export function ProcessSection() {
 
                 <span className="text-sm md:text-base text-indigo-400">Шаг 4</span>
 
-                <span className="text-slate-100">Доставка, передача и развитие</span>
+                <span className="text-slate-100">Деплоймент, передача и развитие</span>
                 </div>
 
                 <h3 className="mt-3 text-base font-semibold text-slate-100 md:text-lg">

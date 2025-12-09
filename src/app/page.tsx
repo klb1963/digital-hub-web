@@ -7,7 +7,6 @@ import { AIApproachSection } from '@/sections/home/AIApproachSection';
 import { ProcessSection } from '@/sections/home/ProcessSection';
 import { AboutMeSection } from '@/sections/home/AboutMeSection';
 import { CtaSection } from '@/sections/home/CtaSection';
-import { FooterSection } from '@/sections/home/FooterSection';
 import { FocusSection } from '@/sections/home/FocusSection';
 
 export default function HomePage() {
