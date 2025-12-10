@@ -24,7 +24,7 @@ type PageProps = {
 export const revalidate = 60;
 
 // 🔹 Вот эта строка — ключевая для output: 'export'
-export const dynamicParams = false;
+// export const dynamicParams = false;
 
 // Нужен для output: 'export'
 export async function generateStaticParams() {
