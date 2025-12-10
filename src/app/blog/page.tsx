@@ -11,7 +11,9 @@ type BlogPageProps = {
   }>;
 };
 
-export const dynamic = 'force-static';
+// Страница блога должна подхватывать новые посты без полного деплоя.
+// Делаем ISR: пересборка раз в 60 секунд.
+export const revalidate = 60;
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   // разворачиваем query-параметры
