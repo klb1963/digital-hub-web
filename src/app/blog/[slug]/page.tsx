@@ -9,8 +9,20 @@ import type { Post } from '@/lib/cms';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BlogContentRenderer } from '../BlogContentRenderer';
+import type { Metadata } from 'next';
+
+// Локальное описание SEO-поля из Payload
+type PostSEO = {
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+};
+
+type PostWithSEO = Post & {
+  seo?: PostSEO | null;
+};
 
 const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
+const SITE_URL = 'https://hub.leonidk.de';
 
 type PageParams = {
   slug: string;
@@ -115,6 +127,60 @@ function pickRelatedPosts(
 
   return [...sameCategory, ...differentCategory].slice(0, limit);
 }
+
+// generateMetadata 
+export async function generateMetadata(
+  { params }: { params: PageParams },
+): Promise<Metadata> {
+  // В generateMetadata params НЕ является Promise
+  const { slug } = params;
+
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Пост не найден — Open Digital Hub',
+      description: 'Запрошенный пост не найден.',
+    };
+  }
+
+const postWithSEO = post as PostWithSEO;
+
+const title =
+  postWithSEO.seo?.seoTitle ??
+  post.title ??
+  'Open Digital Hub — Blog';
+
+const description =
+  postWithSEO.seo?.seoDescription ??
+  post.excerpt ??
+  'Заметки, архитектура, MVP и история Open Digital Hub.';
+
+  // Берём обложку поста как OG-картинку
+  const ogImagePath = post.coverImage?.url;
+  const ogImageUrl = ogImagePath ? `${CMS_URL}${ogImagePath}` : undefined;
+
+  const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: canonicalUrl,
+      ...(ogImageUrl ? { images: [{ url: ogImageUrl }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
+    },
+  };
+}
+
 
 export default async function BlogPostPage({ params }: PageProps) {
   // ⬅ РАЗВОРАЧИВАЕМ Promise
