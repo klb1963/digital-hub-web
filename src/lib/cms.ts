@@ -8,7 +8,7 @@ if (!CMS_URL) {
 }
 
 // 👇 добавляем флаг окружения
-const isDev = process.env.NODE_ENV !== 'production';
+// const isDev = process.env.NODE_ENV !== 'production';
 
 // ─────────────────────────────────────────────
 // Типы для layout-блоков
@@ -122,8 +122,8 @@ async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
 
   const res = await fetch(url, {
     ...init,
-    // 👇 в dev всегда тянем свежие данные, в проде — замораживаем снапшот
-    cache: (isDev ? 'no-store' : 'force-cache') as RequestCache,
+    // ВСЕГДА тянем свежие данные из Payload
+    cache: 'no-store',
   });
 
   if (!res.ok) {
