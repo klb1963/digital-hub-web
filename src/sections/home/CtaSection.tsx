@@ -34,7 +34,7 @@ export function CtaSection() {
           <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 md:text-lg">
             Давайте обсудим ваши задачи, ограничения и возможный путь: от
             первых решений по архитектуре до MVP и устойчивой цифровой
-            экосистемы вокруг продукта.
+            экосистемы вокруг продукта или вашего персонального бренда.
           </p>
 
           <div className="mt-10 flex justify-center">

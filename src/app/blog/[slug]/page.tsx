@@ -128,17 +128,17 @@ function pickRelatedPosts(
   return [...sameCategory, ...differentCategory].slice(0, limit);
 }
 
-// generateMetadata
+// generateMetadata for blog post page (TG, Whatsapp, etc.)
 export async function generateMetadata(
   { params }: PageProps,
 ): Promise<Metadata> {
 
-  console.log('[generateMetadata] called with params =', params);
+  //console.log('[generateMetadata] called with params =', params);
 
   // В Next 15+ для страниц params — Promise, как и в самом компоненте страницы
   const { slug } = await params;
 
-  console.log('[generateMetadata] slug =', slug);
+  // console.log('[generateMetadata] slug =', slug);
 
   const post = await getPostBySlug(slug);
 

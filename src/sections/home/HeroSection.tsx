@@ -82,7 +82,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-2xl md:text-3xl font-semibold text-slate-300 leading-snug"
           >
-            Запускаю вместе с предпринимателями цифровые продукты для роста бизнеса.
+            Запускаю вместе с предпринимателями цифровые продукты для роста бизнеса
           </motion.p>
 
           <motion.p
