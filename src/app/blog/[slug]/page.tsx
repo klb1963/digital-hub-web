@@ -128,39 +128,59 @@ function pickRelatedPosts(
   return [...sameCategory, ...differentCategory].slice(0, limit);
 }
 
-// generateMetadata 
+// generateMetadata
 export async function generateMetadata(
-  { params }: { params: PageParams },
+  { params }: PageProps,
 ): Promise<Metadata> {
-  // В generateMetadata params НЕ является Promise
-  const { slug } = params;
+
+  console.log('[generateMetadata] called with params =', params);
+
+  // В Next 15+ для страниц params — Promise, как и в самом компоненте страницы
+  const { slug } = await params;
+
+  console.log('[generateMetadata] slug =', slug);
 
   const post = await getPostBySlug(slug);
 
+  const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+
+  // Ветка 404 — тоже отдаём нормальные OG-теги
   if (!post) {
+    const title = 'Пост не найден — Open Digital Hub';
+    const description = 'Запрошенный пост не найден.';
+
     return {
-      title: 'Пост не найден — Open Digital Hub',
-      description: 'Запрошенный пост не найден.',
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: 'article',
+        url: canonicalUrl,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+      },
     };
   }
 
-const postWithSEO = post as PostWithSEO;
+  const postWithSEO = post as PostWithSEO;
 
-const title =
-  postWithSEO.seo?.seoTitle ??
-  post.title ??
-  'Open Digital Hub — Blog';
+  const title =
+    postWithSEO.seo?.seoTitle ??
+    post.title ??
+    'Open Digital Hub — Blog';
 
-const description =
-  postWithSEO.seo?.seoDescription ??
-  post.excerpt ??
-  'Заметки, архитектура, MVP и история Open Digital Hub.';
+  const description =
+    postWithSEO.seo?.seoDescription ??
+    post.excerpt ??
+    'Заметки, архитектура, MVP и история Open Digital Hub.';
 
   // Берём обложку поста как OG-картинку
   const ogImagePath = post.coverImage?.url;
   const ogImageUrl = ogImagePath ? `${CMS_URL}${ogImagePath}` : undefined;
-
-  const canonicalUrl = `${SITE_URL}/blog/${slug}`;
 
   return {
     title,
