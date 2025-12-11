@@ -32,6 +32,35 @@ services:
       # service hub → порт 3000
       - "traefik.http.services.hub.loadbalancer.server.port=3000"
 
+  tutor-site:
+    image: nginx:alpine
+    container_name: tutor-site
+    restart: always
+
+    volumes:
+      - /home/digital-hub/tutor-site:/usr/share/nginx/html:ro
+
+    networks:
+      - web
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+
+      # HTTP
+      - "traefik.http.routers.tutor.rule=Host(`tutor.leonidk.de`)"
+      - "traefik.http.routers.tutor.entrypoints=web"
+      - "traefik.http.routers.tutor.service=tutor"
+
+      # HTTPS
+      - "traefik.http.routers.tutor-secure.rule=Host(`tutor.leonidk.de`)"
+      - "traefik.http.routers.tutor-secure.entrypoints=websecure"
+      - "traefik.http.routers.tutor-secure.tls.certresolver=le"
+      - "traefik.http.routers.tutor-secure.service=tutor"
+
+      # service tutor → порт 80 (стандартный для nginx)
+      - "traefik.http.services.tutor.loadbalancer.server.port=80"
+
 networks:
   web:
     external: true
