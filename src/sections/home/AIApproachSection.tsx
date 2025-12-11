@@ -28,15 +28,15 @@ const itemVariants: Variants = {
 
 const aiImages = [
   {
-    src: "/images/human-and-AI-01.png",
+    src: "/images/Human-and-AI-01.png",
     alt: "Инженер и AI работают с цифровым интерфейсом",
   },
   {
-    src: "/images/human-and-AI-02.png",
+    src: "/images/Human-and-AI-02.png",
     alt: "Человек и AI обсуждают архитектуру продукта",
   },
   {
-    src: "/images/human-and-AI-03.png",
+    src: "/images/Human-and-AI-03.png",
     alt: "Команда и AI в цифровом городе будущего",
   },
 ];
