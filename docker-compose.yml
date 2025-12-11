@@ -19,12 +19,12 @@ services:
       - "traefik.docker.network=web"
 
       # HTTP
-      - "traefik.http.routers.hub.rule=Host(`hub.leonidk.de`)"
+      - "traefik.http.routers.hub.rule=Host(`leonidk.de`)"
       - "traefik.http.routers.hub.entrypoints=web"
       - "traefik.http.routers.hub.service=hub"
 
       # HTTPS
-      - "traefik.http.routers.hub-secure.rule=Host(`hub.leonidk.de`)"
+      - "traefik.http.routers.hub-secure.rule=Host(`leonidk.de`)"
       - "traefik.http.routers.hub-secure.entrypoints=websecure"
       - "traefik.http.routers.hub-secure.tls.certresolver=le"
       - "traefik.http.routers.hub-secure.service=hub"
