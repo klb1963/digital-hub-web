@@ -18,6 +18,16 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
 
+      # Redirect hub.leonidk.de -> leonidk.de
+      - "traefik.http.routers.hub-redirect.rule=Host(`hub.leonidk.de`)"
+      - "traefik.http.routers.hub-redirect.entrypoints=websecure"
+      - "traefik.http.routers.hub-redirect.tls=true"
+      - "traefik.http.routers.hub-redirect.middlewares=redirect-to-root"
+
+      - "traefik.http.middlewares.redirect-to-root.redirectregex.regex=^https?://hub\\.leonidk\\.de/(.*)"
+      - "traefik.http.middlewares.redirect-to-root.redirectregex.replacement=https://leonidk.de/$1"
+      - "traefik.http.middlewares.redirect-to-root.redirectregex.permanent=true"
+
       # HTTP
       - "traefik.http.routers.hub.rule=Host(`leonidk.de`)"
       - "traefik.http.routers.hub.entrypoints=web"
