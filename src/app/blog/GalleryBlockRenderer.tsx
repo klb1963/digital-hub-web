@@ -1,11 +1,18 @@
 // src/app/blog/GalleryBlockRenderer.tsx
 
 import Image from 'next/image';
-import type { GalleryBlock } from '@/lib/cms';
+import type { GalleryBlock } from '@/lib/cms-types';
 
 type Props = {
   block: GalleryBlock;
+  cmsPublicBaseUrl: string;
 };
+
+function resolveCmsImageSrc(base: string, url: string): string {
+  if (!url) return '';
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${base}${url}`;
+}
 
 // type guard, чтобы дальше работать с image как с non-null
 function hasImage(
@@ -16,8 +23,12 @@ function hasImage(
   return Boolean(item.image && item.image.url);
 }
 
-export function GalleryBlockRenderer({ block }: Props) {
-  const items = (block.items ?? []).filter(hasImage);
+export function GalleryBlockRenderer({ block, cmsPublicBaseUrl }: Props) {
+  const items: Array<
+    GalleryBlock['items'][number] & {
+      image: NonNullable<GalleryBlock['items'][number]['image']>;
+    }
+  > = (block.items ?? []).filter(hasImage);
 
   if (items.length === 0) {
     return null;
@@ -35,7 +46,7 @@ export function GalleryBlockRenderer({ block }: Props) {
       >
         {items.map((item) => {
           const { image } = item;
-          const src = image.url as string; // безопасно: прошли type guard
+          const src = resolveCmsImageSrc(cmsPublicBaseUrl, image.url as string);
           const alt = image.alt ?? block.blockType;
 
           return (

@@ -4,6 +4,15 @@ import { getAllPosts, getAllCategories } from '@/lib/cms';
 import { BlogList } from './BlogList';
 import type { Post, Category } from '@/lib/cms';
 
+function getCmsPublicBase(): string {
+  return (
+    process.env.NEXT_PUBLIC_CMS_URL ||
+    process.env.CMS_URL ||
+    process.env.CMS_INTERNAL_URL ||
+    ''
+  ).replace(/\/$/, '');
+}
+
 type BlogPageProps = {
   // В Next 16 searchParams в серверном компоненте — Promise
   searchParams: Promise<{
@@ -19,6 +28,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   // разворачиваем query-параметры
   const { q } = await searchParams;
   const searchQuery = q?.trim() ?? '';
+
+  const cmsPublicBaseUrl = getCmsPublicBase();
 
   // Тянем посты (с учётом поиска) и категории один раз на сервере
   const [posts, categories] = await Promise.all([
@@ -39,6 +50,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <BlogList
         posts={posts as Post[]}
         categories={categories as Category[]}
+        cmsPublicBaseUrl={cmsPublicBaseUrl}
       />
     </main>
   );

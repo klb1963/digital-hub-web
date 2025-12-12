@@ -2,7 +2,7 @@
 
 'use client';
 
-import type { QuoteBlockLayout } from '@/lib/cms';
+import type { QuoteBlockLayout } from '@/lib/cms-types';
 
 type Props = {
   block: QuoteBlockLayout;

@@ -2,7 +2,7 @@
 
 'use client';
 
-import type { TextBlockLayout } from '@/lib/cms';
+import type { TextBlockLayout } from '@/lib/cms-types';
 
 type Props = {
   block: TextBlockLayout;
@@ -26,8 +26,9 @@ interface LexicalRootJSON {
 
 export function TextBlockRenderer({ block }: Props) {
   const content = block.content as unknown as LexicalRootJSON | null;
-  const root = content?.root;
-  const paragraphs = Array.isArray(root?.children) ? root!.children! : [];
+  const paragraphs = Array.isArray(content?.root?.children)
+    ? content!.root!.children!
+    : [];
 
   if (!paragraphs.length) return null;
 

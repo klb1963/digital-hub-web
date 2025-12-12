@@ -1,124 +1,35 @@
 // src/lib/cms.ts
+import 'server-only';
 
-const CMS_URL =
-  process.env.NEXT_PUBLIC_CMS_URL ?? process.env.CMS_URL ?? '';
+import type {
+  Category,
+  Post,
+  PayloadListResponse,
+} from './cms-types';
 
-if (!CMS_URL) {
-  throw new Error('CMS_URL / NEXT_PUBLIC_CMS_URL is not defined');
+function getCmsBaseServer(): string {
+  const base =
+    process.env.CMS_INTERNAL_URL ||
+    process.env.CMS_URL ||
+    process.env.NEXT_PUBLIC_CMS_URL ||
+    '';
+
+  return base.replace(/\/$/, '');
 }
 
-// 👇 добавляем флаг окружения
-// const isDev = process.env.NODE_ENV !== 'production';
-
-// ─────────────────────────────────────────────
-// Типы для layout-блоков
-// ─────────────────────────────────────────────
-
-type CmsImage = {
-  id?: number | string;
-  url?: string | null;
-  alt?: string | null;
-} | null;
-
-export type TextBlockLayout = {
-  id?: string;
-  blockType: 'textBlock';
-  content: unknown;
-};
-
-export type QuoteBlockLayout = {
-  id?: string;
-  blockType: 'quoteBlock';
-  quote: string;
-  author?: string | null;
-};
-
-export type ImageBlockLayout = {
-  id?: string;
-  blockType: 'imageBlock';
-  image: {
-    id: number;
-    url?: string | null;
-  };
-  caption?: string | null;
-};
-
-export type GalleryBlock = {
-  blockType: 'galleryBlock';
-  id: string;
-  layout: 'grid' | 'carousel';
-  items: {
-    id: string;
-    image: CmsImage;
-    caption?: string | null;
-  }[];
-};
-
-export type VideoBlock = {
-  blockType: 'videoBlock';
-  id: string;
-  provider: 'youtube' | 'vimeo' | 'other';
-  url: string;
-  title?: string | null;
-  caption?: string | null;
-};
-
-export type LayoutBlock = 
-  | TextBlockLayout 
-  | QuoteBlockLayout 
-  | ImageBlockLayout
-  | GalleryBlock
-  | VideoBlock; // позже сюда добавим другие блоки
-
-// ─────────────────────────────────────────────
-// Базовые типы для работы с Payload
-// ─────────────────────────────────────────────
-
-type PayloadListResponse<T> = {
-  docs: T[];
-  totalDocs: number;
-  limit: number;
-  page: number;
-  totalPages: number;
-};
-
-export type Category = {
-  id: number;
-  title?: string;
-  slug?: string;
-};
-
-export type Post = {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt?: string | null;
-  publishDate?: string | null;
-  // На деле Payload сейчас отдаёт либо числовой ID, либо развёрнутый объект.
-  category?:
-    | number
-    | {
-        id: number;
-        title?: string;
-        slug?: string;
-      }
-    | null;
-  coverImage?:
-    | {
-        id: number;
-        url?: string | null;
-      }
-    | null;
-  content?: unknown;
-  layout?: LayoutBlock[] | null; // ← добавили layout для блочного контента
-};
+// ✅ Re-export types for server usage (optional)
+export type { Category, Post } from './cms-types';
 
 // ─────────────────────────────────────────────
 // Общая функция fetch’а из Payload CMS
 // ─────────────────────────────────────────────
 
 async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
-  const url = `${CMS_URL}${path}`;
+  const base = getCmsBaseServer();
+  if (!base) {
+    throw new Error('CMS base URL is not defined (CMS_INTERNAL_URL / CMS_URL / NEXT_PUBLIC_CMS_URL)');
+  }
+  const url = `${base}${path}`;
 
   const res = await fetch(url, {
     ...init,
@@ -234,4 +145,3 @@ export async function getAllPostSlugs(): Promise<string[]> {
     return [];
   }
 }
-

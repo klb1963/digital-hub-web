@@ -7,14 +7,19 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import type { Post, Category } from '@/lib/cms';
 
-const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
-
 type BlogListProps = {
   posts: Post[];
   categories: Category[];
+  cmsPublicBaseUrl: string;
 };
 
-export function BlogList({ posts, categories }: BlogListProps) {
+function resolveCmsImageSrc(base: string, url: string) {
+  if (!url) return '';
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${base}${url}`;
+}
+
+export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps) {
   const searchParams = useSearchParams();
 
   const activeCategorySlug = searchParams.get('category') ?? 'all';
@@ -239,7 +244,7 @@ export function BlogList({ posts, categories }: BlogListProps) {
                 {post.coverImage?.url && (
                   <div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                     <Image
-                      src={`${CMS_URL}${post.coverImage.url}`}
+                      src={resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url)}
                       alt={post.title}
                       fill
                       sizes="128px"

@@ -3,22 +3,29 @@
 'use client';
 
 import Image from 'next/image';
-import type { ImageBlockLayout } from '@/lib/cms';
+import type { ImageBlockLayout } from '@/lib/cms-types';
 
 type Props = {
   block: ImageBlockLayout;
+  cmsPublicBaseUrl: string;
 };
 
-const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
+function resolveCmsImageSrc(base: string, url: string) {
+  if (!url) return '';
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${base}${url}`;
+}
 
-export function ImageBlockRenderer({ block }: Props) {
+export function ImageBlockRenderer({ block, cmsPublicBaseUrl }: Props) {
   const url = block.image?.url;
   if (!url) return null;
+
+  const src = resolveCmsImageSrc(cmsPublicBaseUrl, url);
 
   return (
     <figure className="my-10">
       <Image
-        src={`${CMS_URL}${url}`}
+        src={src}
         alt={block.caption ?? 'Image'}
         width={1200}
         height={800}

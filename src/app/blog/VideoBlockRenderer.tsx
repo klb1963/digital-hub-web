@@ -1,6 +1,6 @@
 // src/app/blog/VideoBlockRenderer.tsx
 
-import type { VideoBlock } from '@/lib/cms';
+import type { VideoBlock } from '@/lib/cms-types';
 
 type Props = {
   block: VideoBlock;

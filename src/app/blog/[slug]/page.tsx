@@ -21,8 +21,16 @@ type PostWithSEO = Post & {
   seo?: PostSEO | null;
 };
 
-const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL ?? '';
 const SITE_URL = 'https://hub.leonidk.de';
+
+function getCmsPublicBase(): string {
+  return (
+    process.env.NEXT_PUBLIC_CMS_URL ||
+    process.env.CMS_URL ||
+    process.env.CMS_INTERNAL_URL ||
+    ''
+  ).replace(/\/$/, '');
+}
 
 type PageParams = {
   slug: string;
@@ -132,7 +140,7 @@ function pickRelatedPosts(
 export async function generateMetadata(
   { params }: PageProps,
 ): Promise<Metadata> {
-
+  
   //console.log('[generateMetadata] called with params =', params);
 
   // В Next 15+ для страниц params — Promise, как и в самом компоненте страницы
@@ -180,7 +188,10 @@ export async function generateMetadata(
 
   // Берём обложку поста как OG-картинку
   const ogImagePath = post.coverImage?.url;
-  const ogImageUrl = ogImagePath ? `${CMS_URL}${ogImagePath}` : undefined;
+  const cmsPublicBaseUrl = getCmsPublicBase();
+  const ogImageUrl = ogImagePath
+    ? `${cmsPublicBaseUrl}${ogImagePath}`
+    : undefined;
 
   return {
     title,
@@ -205,6 +216,9 @@ export async function generateMetadata(
 export default async function BlogPostPage({ params }: PageProps) {
   // ⬅ РАЗВОРАЧИВАЕМ Promise
   const { slug } = await params;
+
+  // ✅ ВАЖНО: эта переменная нужна здесь, а не только в generateMetadata
+  const cmsPublicBaseUrl = getCmsPublicBase();
 
   const [post, allPosts] = await Promise.all([
     getPostBySlug(slug),
@@ -265,7 +279,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       {post.coverImage?.url && (
         <div className="mb-6">
           <Image
-            src={`${CMS_URL}${post.coverImage.url}`}
+            src={`${cmsPublicBaseUrl}${post.coverImage.url}`}
             alt={post.title}
             width={800}
             height={400}
@@ -277,7 +291,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Основной текст */}
       <section className="mt-6">
         {Array.isArray(post.layout) && post.layout.length > 0 ? (
-          <BlogContentRenderer layout={post.layout} />
+          <BlogContentRenderer layout={post.layout} cmsPublicBaseUrl={cmsPublicBaseUrl} />
         ) : post.content ? (
           renderLexicalContent(post.content)
         ) : (
@@ -313,7 +327,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     {relatedCoverUrl && (
                       <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                         <Image
-                          src={`${CMS_URL}${relatedCoverUrl}`}
+                          src={`${cmsPublicBaseUrl}${relatedCoverUrl}`}
                           alt={related.title}
                           fill
                           sizes="112px"
