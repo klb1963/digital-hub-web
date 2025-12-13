@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.leonidk.de',
+        hostname: 'cms.leonidk.de',
         pathname: '/api/media/**',
       },
     ],

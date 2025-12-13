@@ -279,7 +279,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       {post.coverImage?.url && (
         <div className="mb-6">
           <Image
-            src={`${cmsPublicBaseUrl}${post.coverImage.url}`}
+            src={post.coverImage.url}
             alt={post.title}
             width={800}
             height={400}
