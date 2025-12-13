@@ -7,6 +7,15 @@ import type {
   PayloadListResponse,
 } from './cms-types';
 
+type NextFetchOptions = {
+  revalidate?: number | false;
+  tags?: string[];
+};
+
+type CMSFetchInit = RequestInit & {
+  next?: NextFetchOptions;
+};
+
 function getCmsBaseServer(): string {
   const base =
     process.env.CMS_INTERNAL_URL ||
@@ -24,17 +33,19 @@ export type { Category, Post } from './cms-types';
 // Общая функция fetch’а из Payload CMS
 // ─────────────────────────────────────────────
 
-async function fetchFromCMS<T>(path: string, init?: RequestInit): Promise<T> {
+async function fetchFromCMS<T>(path: string, init?: CMSFetchInit): Promise<T> {
   const base = getCmsBaseServer();
   if (!base) {
-    throw new Error('CMS base URL is not defined (CMS_INTERNAL_URL / CMS_URL / NEXT_PUBLIC_CMS_URL)');
+    throw new Error(
+      'CMS base URL is not defined (CMS_INTERNAL_URL / CMS_URL / NEXT_PUBLIC_CMS_URL)',
+    );
   }
+
   const url = `${base}${path}`;
 
   const res = await fetch(url, {
     ...init,
-    // ВСЕГДА тянем свежие данные из Payload
-    cache: 'no-store',
+    next: { revalidate: 60, ...(init?.next ?? {}) },
   });
 
   if (!res.ok) {
