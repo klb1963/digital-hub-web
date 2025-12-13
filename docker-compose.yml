@@ -1,6 +1,6 @@
 services:
   digital-hub-web:
-    image: ghcr.io/leonidk/digital-hub-web:latest
+    image: ghcr.io/klb1963/digital-hub-web:latest
     container_name: digital-hub-web
     restart: always
 
