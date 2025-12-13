@@ -10,13 +10,13 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cms.leonidk.de',
-        pathname: '/**',
+        pathname: '/api/media/file/**',
       },
       // если где-то в данных/редиректах всплывает api.*
       {
         protocol: 'https',
         hostname: 'api.leonidk.de',
-        pathname: '/**',
+        pathname: '/api/media/file/**',
       },
     ],
   },
