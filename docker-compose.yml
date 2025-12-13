@@ -1,9 +1,6 @@
 services:
   digital-hub-web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: digital-hub-web:latest
+    image: ghcr.io/leonidk/digital-hub-web:latest
     container_name: digital-hub-web
     restart: always
 
