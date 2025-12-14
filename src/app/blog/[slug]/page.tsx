@@ -195,10 +195,49 @@ export async function generateMetadata(
     post.excerpt ??
     'Заметки, архитектура, MVP и история Open Digital Hub.';
 
-  // Берём обложку поста как OG-картинку
-  const ogImagePath = post.coverImage?.url;
   const cmsPublicBaseUrl = getCmsPublicBase();
-  const ogImageUrl = resolveMediaUrl(ogImagePath, cmsPublicBaseUrl);
+
+  type MediaWithSizes = {
+    url?: string | null;
+    sizes?: {
+      og?: { url?: string; width?: number; height?: number };
+      openGraph?: { url?: string; width?: number; height?: number };
+      large?: { url?: string; width?: number; height?: number };
+      medium?: { url?: string; width?: number; height?: number };
+    };
+  };
+
+  // Берём обложку поста как OG-картинку.
+  // Важно: Telegram часто не подтягивает слишком большие изображения,
+  // поэтому сначала пытаемся взять уменьшенный вариант из Payload sizes.
+  const cover =
+  typeof post.coverImage === 'object' && post.coverImage
+    ? (post.coverImage as MediaWithSizes)
+    : undefined;
+
+  const ogCandidate =
+    cover?.sizes?.og?.url ||
+    cover?.sizes?.openGraph?.url ||
+    cover?.sizes?.large?.url ||
+    cover?.sizes?.medium?.url ||
+    cover?.url ||
+    undefined;
+
+  const ogImageUrl = resolveMediaUrl(ogCandidate, cmsPublicBaseUrl);
+
+  const ogW =
+    cover?.sizes?.og?.width ||
+    cover?.sizes?.openGraph?.width ||
+    cover?.sizes?.large?.width ||
+    cover?.sizes?.medium?.width ||
+    undefined;
+
+  const ogH =
+    cover?.sizes?.og?.height ||
+    cover?.sizes?.openGraph?.height ||
+    cover?.sizes?.large?.height ||
+    cover?.sizes?.medium?.height ||
+    undefined;
 
   return {
     title,
@@ -208,13 +247,24 @@ export async function generateMetadata(
       description,
       type: 'article',
       url: canonicalUrl,
-      ...(ogImageUrl ? { images: [{ url: ogImageUrl }] } : {}),
+      ...(ogImageUrl
+        ? {
+            images: [
+              {
+                url: ogImageUrl,
+                alt: title,
+                ...(ogW ? { width: ogW } : {}),
+                ...(ogH ? { height: ogH } : {}),
+              },
+            ],
+          }
+        : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
+      ...(ogImageUrl ? { images: [{ url: ogImageUrl, alt: title }] } : {}),
     },
   };
 }
