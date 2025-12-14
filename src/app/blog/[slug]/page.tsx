@@ -47,7 +47,7 @@ function toOgProxyUrl(absUrl?: string | null, siteBase?: string) {
   if (!s) return absUrl
   const m = absUrl.match(/\/api\/media\/file\/(.+)$/i)
   if (!m?.[1]) return absUrl
-  return `${s}/og/media/${m[1]}`
+  return `${s}/api/og/media/${m[1]}`
 }
 
 type PageParams = {
