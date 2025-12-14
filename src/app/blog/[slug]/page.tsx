@@ -29,7 +29,6 @@ function getCmsPublicBase(): string {
   return (
     process.env.NEXT_PUBLIC_CMS_URL ||
     process.env.CMS_URL ||
-    process.env.CMS_INTERNAL_URL ||
     ''
   ).replace(/\/$/, '');
 }
@@ -199,9 +198,7 @@ export async function generateMetadata(
   // Берём обложку поста как OG-картинку
   const ogImagePath = post.coverImage?.url;
   const cmsPublicBaseUrl = getCmsPublicBase();
-  const ogImageUrl = ogImagePath
-    ? `${cmsPublicBaseUrl}${ogImagePath}`
-    : undefined;
+  const ogImageUrl = resolveMediaUrl(ogImagePath, cmsPublicBaseUrl);
 
   return {
     title,
@@ -286,10 +283,10 @@ export default async function BlogPostPage({ params }: PageProps) {
       )}
 
       {/* Обложка */}
-      {post.coverImage?.url && (
+      {resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl) && (
         <div className="mb-6">
           <Image
-            src={post.coverImage.url}
+            src={resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl)!}
             alt={post.title}
             width={800}
             height={400}
@@ -326,7 +323,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                   ? related.category.title
                   : undefined;
 
-              const relatedCoverUrl = related.coverImage?.url;
+              const relatedCoverSrc = resolveMediaUrl(
+                related.coverImage?.url,
+                cmsPublicBaseUrl,
+              );
 
               return (
                 <article
@@ -334,10 +334,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                   className="rounded-xl border border-neutral-200 p-4 transition hover:border-neutral-400"
                 >
                   <div className="flex gap-4">
-                    {relatedCoverUrl && (
+                    {relatedCoverSrc && (
                       <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                         <Image
-                          src={`${cmsPublicBaseUrl}${relatedCoverUrl}`}
+                          src={relatedCoverSrc}
                           alt={related.title}
                           fill
                           sizes="112px"
