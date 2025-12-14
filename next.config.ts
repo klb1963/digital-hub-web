@@ -11,13 +11,23 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'api.leonidk.de',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'cms.leonidk.de',
-        pathname: '/api/media/file/**',
+        pathname: '/media/**',
       },
       {
         protocol: 'https',
         hostname: 'api.leonidk.de',
         pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cms.leonidk.de',
+        pathname: '/**',
       },
     ],
   },

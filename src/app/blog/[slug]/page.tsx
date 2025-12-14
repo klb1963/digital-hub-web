@@ -21,7 +21,9 @@ type PostWithSEO = Post & {
   seo?: PostSEO | null;
 };
 
-const SITE_URL = 'https://hub.leonidk.de';
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
+  'https://leonidk.de';
 
 function getCmsPublicBase(): string {
   return (
@@ -30,6 +32,14 @@ function getCmsPublicBase(): string {
     process.env.CMS_INTERNAL_URL ||
     ''
   ).replace(/\/$/, '');
+}
+
+function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
+  if (!pathOrUrl) return undefined;
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  const b = (base ?? '').replace(/\/$/, '');
+  if (!b) return pathOrUrl; // fallback: как было
+  return `${b}${pathOrUrl.startsWith('/') ? '' : '/'}${pathOrUrl}`;
 }
 
 type PageParams = {
