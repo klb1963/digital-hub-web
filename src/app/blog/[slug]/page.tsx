@@ -41,6 +41,15 @@ function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
   return `${b}${pathOrUrl.startsWith('/') ? '' : '/'}${pathOrUrl}`;
 }
 
+function toOgProxyUrl(absUrl?: string | null, siteBase?: string) {
+  if (!absUrl) return undefined
+  const s = (siteBase ?? '').replace(/\/$/, '')
+  if (!s) return absUrl
+  const m = absUrl.match(/\/api\/media\/file\/(.+)$/i)
+  if (!m?.[1]) return absUrl
+  return `${s}/og/media/${m[1]}`
+}
+
 type PageParams = {
   slug: string;
 };
@@ -223,7 +232,9 @@ export async function generateMetadata(
     cover?.url ||
     undefined;
 
-  const ogImageUrl = resolveMediaUrl(ogCandidate, cmsPublicBaseUrl);
+  // const ogImageUrl = resolveMediaUrl(ogCandidate, cmsPublicBaseUrl);
+  const directOgUrl = resolveMediaUrl(ogCandidate, cmsPublicBaseUrl);
+  const ogImageUrl = toOgProxyUrl(directOgUrl, SITE_URL);
 
   const ogW =
     cover?.sizes?.og?.width ||
