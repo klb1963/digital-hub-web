@@ -9,6 +9,25 @@ const nextConfig: NextConfig = {
     unoptimized: true,
 
     remotePatterns: [
+      // ─────────────────────────
+      // ✅ ЛОКАЛЬНЫЙ PAYLOAD
+      // ─────────────────────────
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '3000',
+        pathname: '/**',
+      },
+
+      // ─────────────────────────
+      // ✅ BOЕВОЙ PAYLOAD / API
+      // ─────────────────────────
       {
         protocol: 'https',
         hostname: 'api.leonidk.de',
