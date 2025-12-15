@@ -74,7 +74,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-6 text-xl text-slate-200 md:text-xl"
           >
-            ИТ-коналтинг &amp; ИИ-инженерия
+            ИТ-консалтинг &amp; ИИ-инженерия
           </motion.p>
 
            {/* Позиционирование */}
@@ -82,14 +82,14 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-2xl md:text-3xl font-semibold text-slate-300 leading-snug"
           >
-            Цифровые продукты для бизнеса и личного бренда.
+            Цифровые продукты для личного бренда и бизнеса.
           </motion.p>
 
           <motion.p
             variants={itemVariants}
             className="mt-4 text-base text-slate-400 md:text-xl"
           >
-            Digital Platforms · MVP · AI Integration  · CTO-as-a-service
+            Digital Platforms · MVP · AI Integration  · CTO-as-a-service*
           </motion.p>
 
           {/* Steps */}
@@ -97,12 +97,12 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-8 mb-4 space-y-2 text-lg md:text-xl"
           >
-            <p className="text-slate-300 font-medium text-base md:text-xl">Веду как сталкер:</p>
+            <p className="text-slate-300 font-medium text-base md:text-xl">Веду вас:</p>
             <p className="text-slate-200 md:text-xl">→ от идеи и массы вопросов</p>
             <p className="text-slate-200 md:text-xl">→ к понятной ИТ-архитектуре и сервисам</p>
             <p className="text-slate-200 md:text-xl">→ к работающему прототипу (MVP) и продукту</p>
             <p className="text-slate-200 md:text-xl">
-              → к вашей устойчивой цифровой экосистеме!
+              → и, наконец, к вашей устойчивой цифровой экосистеме!
             </p>
           </motion.div>
 
@@ -117,7 +117,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-xl italic text-slate-400"
           >
-            с Вашим персональным CTO *
+            с Вашим персональным ИТ-консультантом
           </motion.p>
 
           {/* Сноска CTO */}
