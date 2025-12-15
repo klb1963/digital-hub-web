@@ -74,7 +74,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-6 text-xl text-slate-200 md:text-xl"
           >
-            Цифровые решения для бизнеса &amp; AI-инженерия
+            ИТ-коналтинг &amp; ИИ-инженерия
           </motion.p>
 
            {/* Позиционирование */}
@@ -82,7 +82,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-2xl md:text-3xl font-semibold text-slate-300 leading-snug"
           >
-            Запускаю вместе с предпринимателями цифровые продукты для роста бизнеса
+            Цифровые продукты для бизнеса и личного бренда.
           </motion.p>
 
           <motion.p
