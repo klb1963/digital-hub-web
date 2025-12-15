@@ -82,7 +82,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="mt-4 text-2xl md:text-3xl font-semibold text-slate-300 leading-snug"
           >
-            Цифровые продукты для личного бренда и бизнеса.
+            Цифровые продукты для личного бренда и бизнеса
           </motion.p>
 
           <motion.p

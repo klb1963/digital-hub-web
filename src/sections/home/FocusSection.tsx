@@ -81,7 +81,7 @@ export function FocusSection() {
 
                 <p>
                   <span className="font-medium text-xl text-slate-100">
-                    → Создатели цифрового контента, онлайн-школы, комьюнити
+                    → Создатели цифрового контента, онлайн-школы, комьюнити,
                   </span>
                   <br />
                   у которых Tilda/Wix/WordPress перестали тянуть.
