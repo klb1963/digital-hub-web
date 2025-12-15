@@ -9,11 +9,11 @@ import { GetStartedDialog } from "@/components/contact/GetStartedDialog";
 import Image from "next/image";
 
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
-  { label: "Blog", href: "/blog" },
+  { label: "Главная", href: "/" },
+  { label: "Проекты", href: "/projects" },
+  { label: "Блог", href: "/blog" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Контакты", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -73,7 +73,7 @@ export function Navbar() {
               href="/login"
               className="text-neutral-400 hover:text-neutral-200 transition-colors text-[15px] sm:text-base"
             >
-              Login
+              Вход
             </Link>
 
             {/* Анкета-заявка Get Started */}
