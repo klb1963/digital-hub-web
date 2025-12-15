@@ -72,7 +72,7 @@ export function AboutMeSection() {
                   Software Architect &amp; AI-Product Engineer
                 </p>
                 <p className="text-xs text-slate-400 md:text-sm">
-                  Помогающий практик для фаундеров, фпилансеров и ИТ-команд.
+                  Помогающий практик для фаундеров, фрилансеров и ИТ-команд.
                 </p>
               </div>
             </div>
