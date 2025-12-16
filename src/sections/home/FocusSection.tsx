@@ -26,7 +26,7 @@ export function FocusSection() {
 
   return (
     <section className="bg-[#05070B] text-slate-100 py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={cardVariants}
           initial="hidden"

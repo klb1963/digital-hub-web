@@ -42,7 +42,7 @@ const aiImages = [
 ];
 
 // ─────────────────────────────────────────────
-// Слайдер: авто-плей, fade + лёгкий zoom, swipe, пауза по hover
+// Slider: autoplay, fade + лёгкий zoom, swipe, pause on hover
 // ─────────────────────────────────────────────
 
 const slideVariants: Variants = {
@@ -79,14 +79,13 @@ function AISlider() {
   );
 
   useEffect(() => {
-    // случайный старт
+    // random старт
     setIndex(Math.floor(Math.random() * imageCount));
   }, [imageCount]);
 
   useEffect(() => {
     if (isHovered) return;
 
-    // авто-слайдер каждые 5 секунд
     const id = setInterval(() => {
       goTo(1);
     }, 5000);
@@ -97,15 +96,12 @@ function AISlider() {
   return (
     <motion.div
       className="
-        relative
-        aspect-square
-        w-80 lg:w-96
+        relative aspect-square w-96 lg:w-130
         overflow-hidden
         rounded-2xl
-        border border-slate-800/80
-        bg-slate-900/60
-        shadow-[0_18px_55px_rgba(15,23,42,0.95)]
-        ai-glow-card
+        border border-slate-800/60
+        bg-slate-900/40
+        shadow-[0_18px_45px_rgba(0,0,0,0.75)]
       "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -135,10 +131,8 @@ function AISlider() {
             }
 
             if (offsetX < 0) {
-              // свайп влево → следующая картинка
               goTo(1);
             } else {
-              // свайп вправо → предыдущая
               goTo(-1);
             }
           }}
@@ -151,7 +145,8 @@ function AISlider() {
             className="object-cover"
           />
 
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/70 via-transparent to-indigo-500/35" />
+          {/* overlay в стиле ODH (без индиго) */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/70 via-transparent to-sky-500/20" />
         </motion.div>
       </AnimatePresence>
     </motion.div>
@@ -159,7 +154,7 @@ function AISlider() {
 }
 
 // ─────────────────────────────────────────────
-// Основная секция
+// Main section
 // ─────────────────────────────────────────────
 
 export function AIApproachSection() {
@@ -174,38 +169,53 @@ export function AIApproachSection() {
           className="
             relative overflow-hidden
             rounded-3xl border border-slate-800/80
-            bg-gradient-to-br from-slate-950/90 via-slate-950/70 to-slate-950/90
-            shadow-[0_24px_70px_rgba(0,0,0,0.80)]
+            bg-slate-950/70
+            shadow-[0_18px_45px_rgba(0,0,0,0.75)]
           "
         >
-          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] lg:p-10">
-            {/* Левая колонка: текст и пункты */}
+          {/* ODH card gradient (same as Intro/Focus) */}
+          <div className="
+            pointer-events-none
+            absolute inset-0
+            bg-gradient-to-br
+            from-purple-500/10
+            via-slate-900/40
+            to-sky-500/10
+            opacity-90
+          " 
+          />
+
+          <div className="relative grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] lg:p-10">
+            {/* Left: text */}
             <motion.div
               variants={itemVariants}
               className="flex flex-col justify-center space-y-6"
             >
               <div className="space-y-3">
-                <p className="text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-neutral-300">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
                   AI в инженерном процессе
                 </p>
-                <h2 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-                  Искусственный Интеллект – мой инженерный партнёр
+
+                <h2 className="text-3xl font-semibold text-slate-50">
+                  Искусственный интеллект — мой инженерный партнёр
                 </h2>
-                <p className="max-w-xl text-sm text-slate-400 sm:text-base">
+
+                <p className="mt-2 max-w-xl text-base text-slate-400 md:text-lg">
                   Я не перекладываю работу на ИИ, а строю с ним совместный
                   инженерный процесс: человек отвечает за смысл и решения,
                   модели — за скорость, перебор вариантов и рутину.
                 </p>
               </div>
 
-              <div className="space-y-4 text-sm text-slate-200">
-                {/* Пункт 1 */}
+              {/* Points */}
+              <div className="space-y-4 text-base text-slate-200">
+                {/* Point 1 */}
                 <div className="flex gap-3">
-                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10">
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-4 w-4 text-indigo-300"
+                      className="h-6 w-6 text-emerald-300"
                     >
                       <path
                         d="M5 12.5 9 16l10-10"
@@ -221,7 +231,7 @@ export function AIApproachSection() {
                     <p className="font-semibold text-slate-50">
                       На всех этапах цикла
                     </p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                    <p className="mt-1 text-sm leading-normal text-slate-300 md:text-base">
                       Использую AI для проработки архитектуры, генерации и
                       ревью кода, анализа логов, подготовки документации и
                       технических текстов.
@@ -229,13 +239,13 @@ export function AIApproachSection() {
                   </div>
                 </div>
 
-                {/* Пункт 2 */}
+                {/* Point 2 */}
                 <div className="flex gap-3">
-                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10">
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-4 w-4 text-indigo-300"
+                      className="h-6 w-6 text-emerald-300"
                     >
                       <circle
                         cx="12"
@@ -259,7 +269,7 @@ export function AIApproachSection() {
                     <p className="font-semibold text-slate-50">
                       Фокус на качестве решений
                     </p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                    <p className="mt-1 text-sm leading-normal text-slate-300 md:text-base">
                       Модели помогают увидеть больше вариантов и быстрее прийти
                       к рабочему решению, но ответственность за архитектуру и
                       код остаётся на мне.
@@ -267,13 +277,13 @@ export function AIApproachSection() {
                   </div>
                 </div>
 
-                {/* Пункт 3 */}
+                {/* Point 3 */}
                 <div className="flex gap-3">
-                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/20">
+                  <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10">
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-4 w-4 text-indigo-300"
+                      className="h-6 w-6 text-emerald-300"
                     >
                       <path
                         d="M5 7h14v4H5zM5 13h8v4H5z"
@@ -289,7 +299,7 @@ export function AIApproachSection() {
                     <p className="font-semibold text-slate-50">
                       Практика, а не эксперименты
                     </p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                    <p className="mt-1 text-sm leading-normal text-slate-300 md:text-base">
                       AI — часть повседневного рабочего процесса, а не игрушка.
                       Он ускоряет MVP-цикл, но не подменяет инженерное мышление
                       и ответственность за результат.
@@ -299,7 +309,7 @@ export function AIApproachSection() {
               </div>
             </motion.div>
 
-            {/* Правая колонка: иллюстрация / AI-слайдер */}
+            {/* Right: slider */}
             <motion.div
               variants={itemVariants}
               className="relative mt-6 flex items-center justify-center lg:mt-0"

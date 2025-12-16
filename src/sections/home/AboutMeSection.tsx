@@ -25,8 +25,8 @@ const itemVariants: Variants = {
 
 export function AboutMeSection() {
   return (
-    <section className="bg-[#0F1115] text-slate-100">
-      <div className="mx-auto max-w-5xl pt-24 px-6 pb-24">
+    <section className="bg-[#0F1115] text-slate-100 py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -41,13 +41,13 @@ export function AboutMeSection() {
             Обо мне
           </motion.h2>
 
-          <motion.p
+          {/* <motion.p
             variants={itemVariants}
             className="mt-3 max-w-3xl text-sm text-slate-400 md:text-base"
           >
             Коротко — почему со мной можно идти в MVP, архитектуру и построение
             цифровой инфраструктуры.
-          </motion.p>
+          </motion.p> */}
 
           {/* Двухколоночный блок */}
           <motion.div
@@ -61,15 +61,15 @@ export function AboutMeSection() {
                 alt="Leonid Kleimann"
                 width={200}
                 height={200}
-                className="h-80 w-80 rounded-2xl object-cover ring-2 ring-slate-700/70"
+                className="h-90 w-90 rounded-2xl object-cover ring-2 ring-slate-700/70"
               />
 
-              <div className="mt-5 space-y-1">
+              <div className="mt-5 space-y-3">
                 <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400">
                   Леонид Кляйман
                 </p>
                 <p className="text-sm font-semibold text-slate-50 md:text-base">
-                  Software Architect &amp; AI-Product Engineer
+                  ИТ-консультант &amp; ИИ-инженер
                 </p>
                 <p className="text-xs text-slate-400 md:text-sm">
                   Помогающий практик для фаундеров, фрилансеров и ИТ-команд.
