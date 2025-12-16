@@ -38,44 +38,91 @@ export function IntroSection() {
             {/* Лёгкий цветовой градиент поверх фона */}
             <div
               className="
-                pointer-events-none
-                absolute inset-0
-                bg-gradient-to-r
-                from-sky-500/15 via-transparent to-purple-500/20
+                pointer-events-none absolute inset-0
+                bg-gradient-to-br
+                from-sky-500/10
+                via-slate-900/45
+                to-purple-500/6
               "
             />
 
             {/* Основной контент интро */}
             <div className="relative space-y-6 text-base leading-relaxed text-slate-200 md:text-lg">
 
-              <p className="font-bold text-slate-50 text-2xl">
-                Что я делаю:
-              </p>
+              <h2 className="text-3xl font-semibold text-slate-50">Что я делаю</h2>
 
-              <div className="space-y-4">
+              {/* <p className="mt-2 text-xl text-slate-400">
+                Чем могу быть полезен: от MVP до цифровой платформы и архитектуры.
+              </p> */}
 
-                <p>
-                  <span className="text-slate-100 font-bold md:text-xl">⦿ MVP и прототипы</span><br />
-                  Быстро создаю версии продукта, которые сразу приносят пользу и дают бизнес-результат: от лендингов и одностраничных приложений до сложных систем с авторизацией, оплатами и интеграциями.
-                </p>
+              <div className="mt-6 space-y-4">
+                {/* 1) MVP */}
+                <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none text-slate-100">⦿</span>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-100 md:text-xl">
+                        MVP и прототипы
+                      </p>
+                      <p className="mt-1 text-slate-200/90 leading-normal">
+                        Быстро создаю версии продукта, которые сразу приносят пользу и дают бизнес-результат: от
+                        лендингов и одностраничных приложений до сложных систем с авторизацией, оплатами и
+                        интеграциями.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-                <p>
-                  <span className="text-slate-100 font-bold md:text-xl">⦿ Собираю ваш персональный Digital Hub</span><br />
-                  Создаю под ключ <span className="font-bold">цифровую платформу для вашего персонального бренда</span> — сайт, блог, CRM, LMS, видеоконференция, структурированный чат комьюнити, личные кабинеты и оплаты.
-                </p>
-      
-                 <p>
-                  <span className="text-slate-100 font-bold md:text-xl">⦿ Архитектура и проектирование</span><br />
-                  Помогаю сформировать ясную архитектуру продукта: бизнес-логику, модель данных, интеграции, технические решения и безопасный маршрут развития системы — от MVP до масштабирования.
-                </p>
+                {/* 2) Digital Hub */}
+                <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none text-slate-100">⦿</span>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-100 md:text-xl">
+                        Собираю ваш персональный Digital Hub
+                      </p>
+                      <p className="mt-1 text-slate-200/90 leading-normal">
+                        Создаю под ключ <span className="font-semibold text-slate-100">цифровую платформу для вашего личного бренда</span> — сайт,
+                        блог, CRM, LMS, видеоконференция, структурированный чат комьюнити, личные кабинеты и оплаты.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-                <p>
-                  <span className="text-slate-100 font-bold md:text-xl">⦿ CTO-as-a-service</span><br />
-                  Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и технологическую стратегию — без необходимости нанимать CTO в штат.
-                </p>
+                {/* 3) Архитектура */}
+                <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none text-slate-100">⦿</span>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-100 md:text-xl">
+                        Архитектура и проектирование
+                      </p>
+                      <p className="mt-1 text-slate-200/90 leading-normal">
+                        Помогаю сформировать ясную архитектуру продукта: бизнес-логику, модель данных, интеграции,
+                        технические решения и безопасный маршрут развития системы — от MVP до масштабирования.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4) CTO-as-a-service */}
+                <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none text-slate-100">⦿</span>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-100 md:text-xl">
+                        CTO-as-a-service
+                      </p>
+                      <p className="mt-1 text-slate-200/90 leading-normal">
+                        Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и
+                        технологическую стратегию — без необходимости нанимать CTO в штат.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <p className="pt-2 text-l text-slate-400">
+              <p className="pt-2 text-base text-slate-400">
                 Рабочие языки: русский, английский, немецкий. Базируюсь в регионе Аугсбурга (Германия), работаю полностью онлайн.
               </p>
             </div>

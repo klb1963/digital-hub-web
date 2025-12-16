@@ -37,12 +37,19 @@ export function FocusSection() {
             rounded-3xl border border-slate-800/80
             bg-slate-950/70 px-6 py-10 sm:px-10 sm:py-12
             shadow-[0_18px_45px_rgba(0,0,0,0.75)]
-            space-y-4
           "
         >
-          {/* лёгкий общий градиент */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/10 via-slate-900/40 to-sky-500/10" />
-
+          {/* Единый ODH card gradient */}
+          <div
+            className="
+              pointer-events-none absolute inset-0
+              bg-gradient-to-br
+              from-sky-500/10
+              via-slate-900/45
+              to-purple-500/6
+            "
+          />
+          
           <div className="relative mb-4">
             <h2 className="text-3xl font-semibold text-slate-50">
               Фокус работы
@@ -53,7 +60,7 @@ export function FocusSection() {
           </div>
 
           {/* Аккордеон */}
-          <div className="relative divide-y divide-slate-800/80">
+          <div className="relative mt-4 divide-y divide-slate-800/80">
             {/* Панель 1: Для кого я */}
             <AccordionItem
               id="who"
@@ -198,6 +205,7 @@ export function FocusSection() {
       </div>
     </section>
   );
+
 }
 
 type AccordionProps = {
@@ -220,36 +228,42 @@ function AccordionItem({
   const isOpen = openPanel === id;
 
     return (
-        <div className="py-3">
+      <div className="py-3 last:pb-0">
 
-            <button
-                type="button"
-                onClick={() => onToggle(id)}
-                className="
+        <button
+          type="button"
+          onClick={() => onToggle(id)}
+          className="
         flex w-full items-center justify-between
-        gap-4 py-4
+        gap-3 py-3
         text-left
     "
-            >
-                <div className="flex items-center gap-4">
-                    <span className="text-3xl">{icon}</span>
-                    <span className="text-xl md:text-2xl font-semibold text-slate-50">
-                        {title}
-                    </span>
-                </div>
+        >
+          <div className="flex items-center gap-4">
+            <span className="text-3xl">{icon}</span>
+            <span className="text-xl md:text-2xl font-semibold text-slate-50">
+              {title}
+            </span>
+          </div>
 
-                <span
-                    className={`
-        inline-flex h-10 w-10 items-center justify-center
-        rounded-full bg-white text-[#05070B] font-bold text-2xl
-        shadow-md transition-all duration-200
-    `}
-                >
-                    {isOpen ? "–" : "+"}
-                </span>
-            </button>
+          <span
+            className={`
+            inline-flex h-9 w-9 items-center justify-center
+            rounded-full
+            border border-emerald-500/30
+            bg-emerald-500/10
+            text-emerald-300
+            font-semibold text-xl
+            shadow-sm
+            transition-all duration-200
+            ${isOpen ? "rotate-180" : ""}
+            `}
+          >
+            {isOpen ? "–" : "+"}
+          </span>
+        </button>
 
-      <div
+        <div
         className={`
           overflow-hidden transition-all duration-300 ease-out
           ${isOpen ? "mt-3 max-h-[2000px] opacity-100" : "max-h-0 opacity-0"}
