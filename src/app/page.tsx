@@ -14,9 +14,10 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#0F1115]">
       <HeroSection />
       <IntroSection />
+      <AIApproachSection />
       <FocusSection />
       <ProjectsSection />
-      <AIApproachSection />
+      
       <ProcessSection />
       <AboutMeSection />
       <CtaSection />

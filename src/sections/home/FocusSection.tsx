@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
+import { Target, Flame, CheckCircle2, Star } from 'lucide-react';
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -54,9 +55,11 @@ export function FocusSection() {
             <h2 className="text-3xl font-semibold text-slate-50">
               Фокус работы
             </h2>
+
             <p className="mt-2 text-xl text-slate-400">
-              Кому я помогаю, какие боли закрываю и что в итоге получают мои клиенты.
+              Кому я помогаю, какие боли закрываю и что в итоге получают мои клиенты
             </p>
+
           </div>
 
           {/* Аккордеон */}
@@ -65,7 +68,7 @@ export function FocusSection() {
             <AccordionItem
               id="who"
               title="Кто мои клиенты"
-              icon="🎯"
+              icon={<Target className="h-6 w-6 text-emerald-300" />}
               openPanel={openPanel}
               onToggle={togglePanel}
             >
@@ -111,7 +114,7 @@ export function FocusSection() {
             <AccordionItem
               id="pain"
               title="С какими болями ко мне приходят"
-              icon="🔥"
+              icon={<Flame className="h-6 w-6 text-rose-300" />}
               openPanel={openPanel}
               onToggle={togglePanel}
             >
@@ -170,7 +173,7 @@ export function FocusSection() {
             <AccordionItem
               id="outcome"
               title="Что получают мои клиенты"
-              icon="✅"
+              icon={<CheckCircle2 className="h-6 w-6 text-emerald-300" />}
               openPanel={openPanel}
               onToggle={togglePanel}
             >
@@ -187,7 +190,7 @@ export function FocusSection() {
             <AccordionItem
             id="unique"
             title="Что меня отличает от других"
-            icon="⭐"
+            icon={<Star className="h-6 w-6 text-amber-300" />}
             openPanel={openPanel}
             onToggle={togglePanel}
             >
@@ -211,7 +214,7 @@ export function FocusSection() {
 type AccordionProps = {
   id: PanelId;
   title: string;
-  icon: string;
+  icon: React.ReactNode;
   openPanel: PanelId;
   onToggle: (id: PanelId) => void;
   children: React.ReactNode;
@@ -240,7 +243,17 @@ function AccordionItem({
     "
         >
           <div className="flex items-center gap-4">
-            <span className="text-3xl">{icon}</span>
+            <span
+              className="
+              inline-flex h-10 w-10 items-center justify-center
+              rounded-full
+              border border-emerald-500/25
+              bg-emerald-500/10
+              shadow-[0_0_0_1px_rgba(16,185,129,0.08),0_10px_30px_rgba(0,0,0,0.35)]
+            "
+            >
+              {icon}
+            </span>
             <span className="text-xl md:text-2xl font-semibold text-slate-50">
               {title}
             </span>
