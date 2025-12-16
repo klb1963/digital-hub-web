@@ -75,7 +75,7 @@ export function FocusSection() {
               <div className="space-y-4 text-base leading-relaxed md:text-lg">
                 <p>
                   <span className="font-medium text-xl text-slate-100">
-                    → Индивидуальные и начинающие предприниматели
+                    → Индивидуальные и начинающие предприниматели,
                   </span>
                   <br />
                   которые хотят запустить цифровой продукт быстро и правильно.
@@ -83,7 +83,7 @@ export function FocusSection() {
 
                 <p>
                   <span className="font-medium text-xl text-slate-100">
-                    → Фрилансеры и консультанты
+                    → Фрилансеры и консультанты,
                   </span>
                   <br />
                   которым нужна собственная цифровая платформа под своим <span className="text-slate-100 font-bold md:text-xl">персональным брендом</span>.
@@ -99,7 +99,7 @@ export function FocusSection() {
 
                 <p>
                   <span className="font-medium text-xl text-slate-100">
-                    → Малый бизнес (1–20 сотрудников)
+                    → Малый бизнес (1–20 сотрудников),
                   </span>
                   <br />
                   которому нужна ясная ИТ-архитектура, интеграции и цифровые процессы.
