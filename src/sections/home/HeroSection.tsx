@@ -55,16 +55,16 @@ export function HeroSection() {
       />
 
       {/* Контент поверх подложки */}
-      <div className="relative mx-auto flex max-w-3xl flex-col justify-center px-6 pt-32 pb-24">
+      <div className="relative mx-auto flex max-w-3xl flex-col justify-center px-6 pt-8 pb-16 md:pt-32 md:pb-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Имя */}
+          {/* Имя Фамилия*/}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl font-semibold tracking-tight md:text-5xl"
+            className="text-4xl font-semibold tracking-tight md:mt-0 md:text-5xl"
           >
             Леонид Кляйман
           </motion.h1>
@@ -72,7 +72,7 @@ export function HeroSection() {
           {/* Роль */}
           <motion.p
             variants={itemVariants}
-            className="mt-6 text-xl text-slate-200 md:text-xl"
+            className="mt-4 text-xl text-slate-200 md:text-xl"
           >
             ИТ-консалтинг &amp; ИИ-инженерия
           </motion.p>
@@ -95,7 +95,7 @@ export function HeroSection() {
           {/* Steps */}
           <motion.div
             variants={itemVariants}
-            className="mt-8 mb-4 space-y-2 text-lg md:text-xl"
+            className="mt-4 mb-4 space-y-2 text-lg md:text-xl"
           >
             <p className="text-slate-300 font-medium text-base md:text-xl">Веду вас:</p>
             <p className="text-slate-200 md:text-xl">→ от идеи и массы вопросов</p>
@@ -107,7 +107,7 @@ export function HeroSection() {
           </motion.div>
 
           {/* CTA */}
-          <motion.div variants={itemVariants} className="mt-10 mb-6">
+          <motion.div variants={itemVariants} className="mt-4 mb-4">
             {/* Главная CTA-кнопка, открывающая модалку */}
             <DiscussIdeaDialog />
           </motion.div>
@@ -123,7 +123,7 @@ export function HeroSection() {
           {/* Сноска CTO */}
           <motion.p
             variants={itemVariants}
-            className="mt-4 max-w-xl text-lg leading-relaxed text-slate-500"
+            className="mt-4 max-w-xl text-sm leading-snug text-slate-500 md:text-base md:leading-normal"
           >
             * CTO — роль, отвечающая за архитектуру, стек используемых технологий, ИТ-процессы и
             технологическое развитие продукта.
