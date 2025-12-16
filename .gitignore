@@ -44,3 +44,6 @@ public/odh*
 *.zip
 .pnpm-store/
 .env
+
+# WIP: OG media route (not ready yet)
+src/app/api/og/media/file/
