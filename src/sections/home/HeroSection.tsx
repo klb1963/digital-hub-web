@@ -95,7 +95,7 @@ export function HeroSection() {
           {/* Steps */}
           <motion.div
             variants={itemVariants}
-            className="mt-4 mb-4 space-y-2 text-lg md:text-xl"
+            className="mt-4 mb-4 space-y-1 text-lg md:text-xl"
           >
             <p className="text-slate-300 font-medium text-base md:text-xl">Веду вас:</p>
             <p className="text-slate-200 md:text-xl">→ от идеи и массы вопросов</p>

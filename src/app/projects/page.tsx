@@ -1,5 +1,6 @@
 // src/app/projects/page.tsx
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Projects — Open Digital Hub",
@@ -15,18 +16,21 @@ type ProjectCard = {
   shortDescription: string;
   stack: string[];
   status: "production" | "mvp" | "concept";
+  previewImage?: string;
 };
 
 const projects: ProjectCard[] = [
   {
     slug: "yachtpricer",
-    title: "YachtPricer — SaaS для динамического ценообразования в чартерных компаниях",
+    title:
+      "YachtPricer — SaaS для динамического ценообразования в чартерных компаниях",
     role: "Architect & CTO-as-a-Service",
     period: "2023 — сейчас",
     shortDescription:
       "Платформа для чартерных компаний и владелцев яхт: анализ цен конкурентов, принятие решений по недельным ценам и скидкам, план-факт и контроль доходности бизнеса.",
     stack: ["NestJS", "React", "Prisma", "PostgreSQL", "NauSYS API", "Docker"],
     status: "production",
+    previewImage: "/images/projects/yachtpricer-02.png",
   },
   {
     slug: "seatmap-abc360",
@@ -36,17 +40,20 @@ const projects: ProjectCard[] = [
     shortDescription:
       "Интеграция кастомной карты мест SeatMaps ABC в Sabre Red 360 (рабочее место агента по продаже авиабилетов) с возможностью ручного и автоматического назначения мест пассажирам.",
     stack: ["Java", "TypeScript", "React", "Sabre Red 360 SDK"],
-    status: "production",
+    status: "mvp",
+    previewImage: "/images/projects/seatmap-01.png",
   },
   {
     slug: "open-digital-hub",
-    title: "Open Digital Hub — цифровая экосистема для развития персонального бренда",
+    title:
+      "Open Digital Hub — цифровая экосистема для развития персонального бренда",
     role: "Founder & Architect",
     period: "2024 — сейчас",
     shortDescription:
       "Экосистема цифровых сервисов: лендинги, блог, видео-встречи, дистанционное обучение, структурированный коммьюнити-чат, аутентификация и биллинг — под одним техническим зонтиком.",
     stack: ["Next.js", "Tailwind", "Payload CMS", "Clerk", "Stripe"],
     status: "mvp",
+    previewImage: "/images/projects/digital-hub-01.png",
   },
   {
     slug: "meet-leonidk",
@@ -56,85 +63,158 @@ const projects: ProjectCard[] = [
     shortDescription:
       "Точка входа для личного контакта с клиентами из любой точки мира, где есть Интернет: от консультаций до запуска MVP-проектов. Полная независимость от блокируемых сервисов и сторонних платформ.",
     stack: ["Next.js", "Tailwind", "MDX"],
-    status: "mvp",
+    status: "production",
+    previewImage: "/images/projects/meet-leonidk-01.png",
   },
 ];
 
 const statusLabel: Record<ProjectCard["status"], string> = {
-  production: "В продакшене",
-  mvp: "MVP / активная разработка",
-  concept: "Концепт",
+  production: "PROD",
+  mvp: "MVP",
+  concept: "CONCEPT",
 };
+
+function statusClass(status: ProjectCard["status"]) {
+  if (status === "production") {
+    return "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40";
+  }
+  if (status === "mvp") {
+    return "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/40";
+  }
+  return "bg-slate-500/20 text-slate-300 ring-1 ring-slate-400/40";
+}
 
 export default function ProjectsPage() {
   return (
     <main className="bg-[#05070B] text-slate-100">
-      <div className="mx-auto max-w-5xl px-6 pt-16 pb-24">
-        {/* Заголовок страницы */}
+      <div className="mx-auto max-w-5xl px-6 pb-24 pt-16">
         <header className="mb-10">
           <p className="text-l mb-8 font-medium uppercase tracking-[0.2em] text-emerald-400/80">
             Projects & Cases
           </p>
+
           <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
             Проекты, над которыми я работаю как архитектор и CTO-практик
           </h1>
+
           <p className="mt-4 max-w-3xl text-sm text-slate-300 md:text-base">
             Здесь собраны живые продукты и MVP, в которых я отвечаю за
-            архитектуру, разработку, техническое развитие и путь от идеи до устойчивой
-            системы.
+            архитектуру, разработку, техническое развитие и путь от идеи до
+            устойчивой системы.
           </p>
-          <p className="mt-4 max-w-3xl font-bold text-xl text-slate-300 md:text-xl">
+
+          <p className="mt-4 max-w-3xl text-xl font-bold text-slate-300 md:text-xl">
             Без соисполнителей и субподрядчиков, но с помощью ИИ.
           </p>
         </header>
 
-        {/* Список проектов */}
         <div className="space-y-6">
           {projects.map((project) => (
             <article
               key={project.slug}
-              className="group rounded-2xl border border-slate-800 bg-slate-900/30 p-5 shadow-[0_0_35px_rgba(0,0,0,0.55)] transition hover:border-emerald-400/60 hover:bg-slate-900/60 md:p-6"
+              className="
+                group relative overflow-hidden rounded-2xl
+                border border-slate-800 bg-slate-900/30
+                shadow-[0_0_35px_rgba(0,0,0,0.55)]
+                transition hover:border-emerald-400/60 hover:bg-slate-900/55
+              "
             >
-              <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold text-slate-50 md:text-xl">
-                    {project.title}
-                  </h2>
-                  <p className="mt-1 text-xs font-medium text-emerald-300">
-                    {project.role} • {project.period}
-                  </p>
-                  <p className="mt-3 text-lg text-slate-300">
-                    {project.shortDescription}
-                  </p>
+              {/* Status: mobile inline */}
+              <div className="px-5 pt-5 md:hidden">
+                <span
+                  className={[
+                    "inline-flex items-center rounded-full px-3 py-1",
+                    "text-[11px] font-semibold uppercase tracking-wide",
+                    "backdrop-blur-md",
+                    statusClass(project.status),
+                  ].join(" ")}
+                >
+                  {statusLabel[project.status]}
+                </span>
+              </div>
+
+              {/* Desktop layout: image left + content right */}
+              <div className="grid gap-0 md:grid-cols-[260px_minmax(0,1fr)]">
+                {/* Left preview (desktop only) */}
+                <div className="relative hidden md:block">
+                  <div className="absolute inset-0">
+                    {project.previewImage ? (
+                      <Image
+                        src={project.previewImage}
+                        alt=""
+                        fill
+                        className="object-cover object-center"
+                        sizes="260px"
+                        priority={project.slug === "yachtpricer"}
+                      />
+                    ) : null}
+
+                    {/* readability + style */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#05070B]/20 via-[#05070B]/55 to-[#05070B]/95" />
+                    <div className="absolute inset-0 backdrop-blur-[0.5px]" />
+                  </div>
+
+                  {/* subtle inner border */}
+                  <div className="absolute inset-y-4 right-0 w-px bg-slate-700/40" />
                 </div>
 
-                <div className="mt-2 flex flex-col items-start gap-3 md:items-end">
-                  {/* Статус */}
-                  <span className="inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300">
+                {/* Right content */}
+                <div className="relative p-5 md:p-6">
+                  {/* Status: desktop corner (inside content area) */}
+                  <span
+                    className={[
+                      "hidden md:inline-flex",
+                      "absolute right-6 top-6 z-10",
+                      "items-center rounded-full px-3 py-1",
+                      "text-[11px] font-semibold uppercase tracking-wide",
+                      "backdrop-blur-md",
+                      statusClass(project.status),
+                    ].join(" ")}
+                  >
                     {statusLabel[project.status]}
                   </span>
 
-                  {/* CTA (пока без отдельной страницы, но с будущим slug) */}
-                  <a
-                    href={`/projects/${project.slug}`}
-                    className="inline-flex items-center justify-center rounded-full border border-emerald-400/70 bg-emerald-500/10 px-4 py-1.5 text-xs font-medium text-emerald-300 transition group-hover:bg-emerald-500/20"
-                  >
-                    Смотреть кейс
-                    <span className="ml-1 text-base leading-none">↗</span>
-                  </a>
-                </div>
-              </div>
+                  <div className="md:pr-36">
+                    <h2 className="text-lg font-semibold text-slate-50 md:text-xl">
+                      {project.title}
+                    </h2>
 
-              {/* Стек */}
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {project.stack.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-0.5 text-[11px] text-slate-300"
-                  >
-                    {item}
-                  </span>
-                ))}
+                    <p className="mt-1 text-xs font-medium text-emerald-300">
+                      {project.role} • {project.period}
+                    </p>
+
+                    <p className="mt-3 text-lg text-slate-300">
+                      {project.shortDescription}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {project.stack.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-slate-700 bg-slate-900/60 px-2.5 py-0.5 text-[11px] text-slate-300"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex justify-end">
+                    <a
+                      href={`/projects/${project.slug}`}
+                      className="
+                        inline-flex items-center justify-center rounded-full
+                        border border-emerald-400/70 bg-emerald-500/10
+                        px-4 py-1.5 text-xs font-medium text-emerald-300
+                        transition hover:bg-emerald-500/20
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60
+                      "
+                    >
+                      Смотреть кейс
+                      <span className="ml-1 text-base leading-none">↗</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </article>
           ))}
