@@ -138,7 +138,7 @@ export function GetStartedDialog() {
           hover:shadow-[0_0_26px_rgba(16,185,129,0.25)]
         "
       >
-        Get Started
+        Первый шаг
       </button>
 
       {/* Modal */}
