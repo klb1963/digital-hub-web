@@ -215,7 +215,7 @@ export function AIApproachSection() {
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-6 w-6 text-emerald-300"
+                      className="h-9 w-9 text-emerald-300"
                     >
                       <path
                         d="M5 12.5 9 16l10-10"
@@ -245,7 +245,7 @@ export function AIApproachSection() {
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-6 w-6 text-emerald-300"
+                      className="h-9 w-9 text-emerald-300"
                     >
                       <circle
                         cx="12"
@@ -283,7 +283,7 @@ export function AIApproachSection() {
                     <svg
                       viewBox="0 0 24 24"
                       aria-hidden="true"
-                      className="h-6 w-6 text-emerald-300"
+                      className="h-9 w-9 text-emerald-300"
                     >
                       <path
                         d="M5 7h14v4H5zM5 13h8v4H5z"

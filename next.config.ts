@@ -6,9 +6,16 @@ const nextConfig: NextConfig = {
 
   images: {
     // 🔴 КЛЮЧЕВОЙ ФИКС
-    unoptimized: true,
+    // unoptimized: true,
 
     remotePatterns: [
+      
+      {
+        protocol: 'https',
+        hostname: 'www.google.com',
+        pathname: '/images/**',
+      },
+
       // ─────────────────────────
       // ✅ ЛОКАЛЬНЫЙ PAYLOAD
       // ─────────────────────────
