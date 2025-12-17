@@ -41,6 +41,20 @@ function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
   return `${b}${pathOrUrl.startsWith('/') ? '' : '/'}${pathOrUrl}`;
 }
 
+function normalizeMediaAbsUrl(url?: string) {
+  if (!url) return undefined;
+
+  // Детектор двойного энкодинга: %25D0%25... вместо %D0%...
+  if (!url.includes('%25')) return url;
+
+  try {
+    // Снимаем один слой энкодинга: %25D0 -> %D0
+    return decodeURIComponent(url);
+  } catch {
+    return url;
+  }
+}
+
 type PageParams = {
   slug: string;
 };
@@ -223,7 +237,9 @@ export async function generateMetadata(
     cover?.url ||
     undefined;
 
-  const ogImageUrl = resolveMediaUrl(ogCandidate, cmsPublicBaseUrl);
+  const ogImageUrl = normalizeMediaAbsUrl(
+    resolveMediaUrl(ogCandidate, cmsPublicBaseUrl),
+  );
 
   const ogW =
     cover?.sizes?.og?.width ||
@@ -297,6 +313,10 @@ export default async function BlogPostPage({ params }: PageProps) {
     ? new Date(post.publishDate).toLocaleDateString('ru-RU')
     : '';
 
+  const coverSrc = normalizeMediaAbsUrl(
+    resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl)
+  );
+
   // связанные посты для блока «Читать еще»
   const relatedPosts = pickRelatedPosts(allPosts, post, 3);  
 
@@ -333,10 +353,10 @@ export default async function BlogPostPage({ params }: PageProps) {
       )}
 
       {/* Обложка */}
-      {resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl) && (
+      {coverSrc && (
         <div className="mb-6">
           <Image
-            src={resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl)!}
+            src={coverSrc}
             alt={post.title}
             width={800}
             height={400}
@@ -373,9 +393,8 @@ export default async function BlogPostPage({ params }: PageProps) {
                   ? related.category.title
                   : undefined;
 
-              const relatedCoverSrc = resolveMediaUrl(
-                related.coverImage?.url,
-                cmsPublicBaseUrl,
+              const relatedCoverSrc = normalizeMediaAbsUrl(
+                resolveMediaUrl(related.coverImage?.url, cmsPublicBaseUrl)
               );
 
               return (

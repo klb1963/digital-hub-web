@@ -13,6 +13,17 @@ type BlogListProps = {
   cmsPublicBaseUrl: string;
 };
 
+function normalizeMediaAbsUrl(url?: string) {
+  if (!url) return '';
+  // Payload иногда отдаёт double-encoded UTF-8 (%25D0%25...)
+  if (!url.includes('%25')) return url;
+  try {
+    return decodeURIComponent(url);
+  } catch {
+    return url;
+  }
+}
+
 function resolveCmsImageSrc(base: string, url: string) {
   if (!url) return '';
   if (/^https?:\/\//i.test(url)) return url;
@@ -244,7 +255,9 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
                 {post.coverImage?.url && (
                   <div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                     <Image
-                      src={resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url)}
+                      src={normalizeMediaAbsUrl(
+                        resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url)
+                      )}
                       alt={post.title}
                       fill
                       sizes="128px"
