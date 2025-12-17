@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
       },
 
       // ─────────────────────────
-      // ✅ BOЕВОЙ PAYLOAD / API
+      // ✅ БOЕВОЙ PAYLOAD / API
       // ─────────────────────────
       {
         protocol: 'https',

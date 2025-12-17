@@ -96,7 +96,7 @@ function AISlider() {
   return (
     <motion.div
       className="
-        relative aspect-square w-96 lg:w-130
+        relative aspect-square w-full max-w-[22rem] sm:max-w-[24rem] lg:max-w-[32rem]
         overflow-hidden
         rounded-2xl
         border border-slate-800/60
@@ -185,11 +185,11 @@ export function AIApproachSection() {
           " 
           />
 
-          <div className="relative grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] lg:p-10">
+          <div className="relative grid min-w-0 gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] lg:p-10">
             {/* Left: text */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col justify-center space-y-6"
+              className="min-w-0 flex flex-col justify-center space-y-6"
             >
               <div className="space-y-3">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
