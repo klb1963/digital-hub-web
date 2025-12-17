@@ -44,12 +44,22 @@ function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
 function normalizeMediaAbsUrl(url?: string) {
   if (!url) return undefined;
 
-  // Детектор двойного энкодинга: %25D0%25... вместо %D0%...
-  if (!url.includes('%25')) return url;
-
   try {
-    // Снимаем один слой энкодинга: %25D0 -> %D0
-    return decodeURIComponent(url);
+    const u = new URL(url);
+    const parts = u.pathname.split('/');
+    const last = parts.pop() ?? '';
+
+    // Декодируем filename несколько раз (на случай %2520 -> %20 -> ' ')
+    let decoded = last;
+    for (let i = 0; i < 3; i++) {
+      const next = decodeURIComponent(decoded);
+      if (next === decoded) break;
+      decoded = next;
+    }
+
+    parts.push(decoded);
+    u.pathname = parts.join('/');
+    return u.toString();
   } catch {
     return url;
   }

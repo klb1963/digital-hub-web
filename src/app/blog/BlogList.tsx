@@ -13,21 +13,34 @@ type BlogListProps = {
   cmsPublicBaseUrl: string;
 };
 
-function normalizeMediaAbsUrl(url?: string) {
-  if (!url) return '';
-  // Payload иногда отдаёт double-encoded UTF-8 (%25D0%25...)
-  if (!url.includes('%25')) return url;
-  try {
-    return decodeURIComponent(url);
-  } catch {
-    return url;
-  }
-}
-
 function resolveCmsImageSrc(base: string, url: string) {
   if (!url) return '';
   if (/^https?:\/\//i.test(url)) return url;
   return `${base}${url}`;
+}
+
+function normalizeMediaAbsUrl(input?: string) {
+  if (!input) return undefined;
+  try {
+    const u = new URL(input);
+    const parts = u.pathname.split('/');
+    const last = parts.pop() ?? '';
+
+    // Декодируем filename несколько раз (на случай %2520 -> %20 -> ' ')
+    let decoded = last;
+    for (let i = 0; i < 3; i++) {
+      const next = decodeURIComponent(decoded);
+      if (next === decoded) break;
+      decoded = next;
+    }
+
+    parts.push(decoded);
+    u.pathname = parts.join('/');
+    return u.toString();
+  } catch {
+    // если вдруг прилетело не-URL, просто возвращаем как есть
+    return input;
+  }
 }
 
 export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps) {
@@ -255,9 +268,11 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
                 {post.coverImage?.url && (
                   <div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                     <Image
-                      src={normalizeMediaAbsUrl(
-                        resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url)
-                      )}
+                      src={
+                        normalizeMediaAbsUrl(
+                          resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url),
+                        ) ?? ''
+                      }
                       alt={post.title}
                       fill
                       sizes="128px"
