@@ -8,7 +8,6 @@ function getCmsPublicBase(): string {
   return (
     process.env.NEXT_PUBLIC_CMS_URL ||
     process.env.CMS_URL ||
-    process.env.CMS_INTERNAL_URL ||
     ''
   ).replace(/\/$/, '');
 }

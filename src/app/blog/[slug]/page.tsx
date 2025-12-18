@@ -41,24 +41,41 @@ function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
   return `${b}${pathOrUrl.startsWith('/') ? '' : '/'}${pathOrUrl}`;
 }
 
-function normalizeMediaAbsUrl(url?: string) {
+function normalizePayloadMediaUrl(url?: string, publicBase?: string) {
   if (!url) return undefined;
 
-  try {
-    const u = new URL(url);
-    const parts = u.pathname.split('/');
-    const last = parts.pop() ?? '';
+  // снять двойной энкодинг (%25...)
+  let candidate = url;
+  for (let i = 0; i < 2; i++) {
+    if (candidate.includes('%25')) {
+      try { candidate = decodeURIComponent(candidate); } catch { break; }
+    }
+  }
 
-    // Декодируем filename несколько раз (на случай %2520 -> %20 -> ' ')
-    let decoded = last;
-    for (let i = 0; i < 3; i++) {
-      const next = decodeURIComponent(decoded);
-      if (next === decoded) break;
-      decoded = next;
+  try {
+    const u = new URL(candidate);
+
+    // заменить cms.leonidk.de на publicBase (обычно api.leonidk.de)
+    if (publicBase) {
+      const pb = new URL(publicBase);
+      if (u.hostname === 'cms.leonidk.de') {
+        u.protocol = pb.protocol;
+        u.host = pb.host;
+      }
     }
 
-    parts.push(decoded);
-    u.pathname = parts.join('/');
+    // NFC-нормализация имени файла
+    const prefix = '/api/media/file/';
+    const idx = u.pathname.indexOf(prefix);
+    if (idx >= 0) {
+      const before = u.pathname.slice(0, idx + prefix.length);
+      const filePart = u.pathname.slice(idx + prefix.length);
+      const decodedName = decodeURIComponent(filePart);
+      const nfcName = decodedName.normalize('NFC');
+      const encodedName = encodeURIComponent(nfcName);
+      u.pathname = before + encodedName;
+    }
+
     return u.toString();
   } catch {
     return url;
@@ -247,9 +264,11 @@ export async function generateMetadata(
     cover?.url ||
     undefined;
 
-  const ogImageUrl = normalizeMediaAbsUrl(
+  const ogImageUrl = normalizePayloadMediaUrl(
     resolveMediaUrl(ogCandidate, cmsPublicBaseUrl),
-  );
+    cmsPublicBaseUrl,
+  );  
+
 
   const ogW =
     cover?.sizes?.og?.width ||
@@ -323,8 +342,9 @@ export default async function BlogPostPage({ params }: PageProps) {
     ? new Date(post.publishDate).toLocaleDateString('ru-RU')
     : '';
 
-  const coverSrc = normalizeMediaAbsUrl(
-    resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl)
+  const coverSrc = normalizePayloadMediaUrl(
+    resolveMediaUrl(post.coverImage?.url, cmsPublicBaseUrl),
+    cmsPublicBaseUrl,
   );
 
   // связанные посты для блока «Читать еще»
@@ -403,8 +423,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                   ? related.category.title
                   : undefined;
 
-              const relatedCoverSrc = normalizeMediaAbsUrl(
-                resolveMediaUrl(related.coverImage?.url, cmsPublicBaseUrl)
+              const relatedCoverSrc = normalizePayloadMediaUrl(
+                resolveMediaUrl(related.coverImage?.url, cmsPublicBaseUrl),
+                cmsPublicBaseUrl,
               );
 
               return (

@@ -19,27 +19,43 @@ function resolveCmsImageSrc(base: string, url: string) {
   return `${base}${url}`;
 }
 
-function normalizeMediaAbsUrl(input?: string) {
-  if (!input) return undefined;
-  try {
-    const u = new URL(input);
-    const parts = u.pathname.split('/');
-    const last = parts.pop() ?? '';
+function normalizePayloadMediaUrl(absUrl: string, publicBase: string) {
+  if (!absUrl) return '';
 
-    // Декодируем filename несколько раз (на случай %2520 -> %20 -> ' ')
-    let decoded = last;
-    for (let i = 0; i < 3; i++) {
-      const next = decodeURIComponent(decoded);
-      if (next === decoded) break;
-      decoded = next;
+  // снимем двойной энкодинг, если он есть (%25...)
+  let candidate = absUrl;
+  for (let i = 0; i < 2; i++) {
+    if (candidate.includes('%25')) {
+      try { candidate = decodeURIComponent(candidate); } catch { break; }
+    }
+  }
+
+  try {
+    const u = new URL(candidate);
+    // если пришло с cms.leonidk.de — заменяем origin на publicBase (обычно api.leonidk.de)
+    if (publicBase) {
+      const pb = new URL(publicBase);
+      if (u.hostname === 'cms.leonidk.de') {
+        u.protocol = pb.protocol;
+        u.host = pb.host;
+      }
     }
 
-    parts.push(decoded);
-    u.pathname = parts.join('/');
+    // NFC-нормализация имени файла после /api/media/file/
+    const prefix = '/api/media/file/';
+    const idx = u.pathname.indexOf(prefix);
+    if (idx >= 0) {
+      const before = u.pathname.slice(0, idx + prefix.length);
+      const filePart = u.pathname.slice(idx + prefix.length); // encoded
+      const decodedName = decodeURIComponent(filePart);
+      const nfcName = decodedName.normalize('NFC');
+      const encodedName = encodeURIComponent(nfcName);
+      u.pathname = before + encodedName;
+    }
+
     return u.toString();
   } catch {
-    // если вдруг прилетело не-URL, просто возвращаем как есть
-    return input;
+    return absUrl;
   }
 }
 
@@ -268,11 +284,10 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
                 {post.coverImage?.url && (
                   <div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
                     <Image
-                      src={
-                        normalizeMediaAbsUrl(
-                          resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url),
-                        ) ?? ''
-                      }
+                      src={normalizePayloadMediaUrl(
+                        resolveCmsImageSrc(cmsPublicBaseUrl, post.coverImage.url),
+                        cmsPublicBaseUrl
+                      )}
                       alt={post.title}
                       fill
                       sizes="128px"
