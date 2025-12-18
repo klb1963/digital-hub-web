@@ -30,7 +30,7 @@ const projects: ProjectCard[] = [
       "Платформа для чартерных компаний и владелцев яхт: анализ цен конкурентов, принятие решений по недельным ценам и скидкам, план-факт и контроль доходности бизнеса.",
     stack: ["NestJS", "React", "Prisma", "PostgreSQL", "NauSYS API", "Docker"],
     status: "production",
-    previewImage: "/images/projects/yachtpricer-02.png",
+    previewImage: "/images/projects/yachtpricer-01.png",
   },
   {
     slug: "seatmap-abc360",
@@ -41,7 +41,7 @@ const projects: ProjectCard[] = [
       "Интеграция кастомной карты мест SeatMaps ABC в Sabre Red 360 (рабочее место агента по продаже авиабилетов) с возможностью ручного и автоматического назначения мест пассажирам.",
     stack: ["Java", "TypeScript", "React", "Sabre Red 360 SDK"],
     status: "mvp",
-    previewImage: "/images/projects/seatmap-01.png",
+    previewImage: "/images/projects/seatmap-02.png",
   },
   {
     slug: "open-digital-hub",
@@ -53,7 +53,7 @@ const projects: ProjectCard[] = [
       "Экосистема цифровых сервисов: лендинги, блог, видео-встречи, дистанционное обучение, структурированный коммьюнити-чат, аутентификация и биллинг — под одним техническим зонтиком.",
     stack: ["Next.js", "Tailwind", "Payload CMS", "Clerk", "Stripe"],
     status: "mvp",
-    previewImage: "/images/projects/digital-hub-01.png",
+    previewImage: "/images/projects/digital-hub-02.png",
   },
   {
     slug: "meet-leonidk",
@@ -64,7 +64,7 @@ const projects: ProjectCard[] = [
       "Точка входа для личного контакта с клиентами из любой точки мира, где есть Интернет: от консультаций до запуска MVP-проектов. Полная независимость от блокируемых сервисов и сторонних платформ.",
     stack: ["Next.js", "Tailwind", "MDX"],
     status: "production",
-    previewImage: "/images/projects/meet-leonidk-01.png",
+    previewImage: "/images/projects/meet-leonidk-03.png",
   },
 ];
 
@@ -143,15 +143,15 @@ export default function ProjectsPage() {
                         src={project.previewImage}
                         alt=""
                         fill
-                        className="object-cover object-center"
+                        className="object-cover object-left-top"
                         sizes="260px"
+                        unoptimized
                         priority={project.slug === "yachtpricer"}
                       />
                     ) : null}
 
-                    {/* readability + style */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#05070B]/20 via-[#05070B]/55 to-[#05070B]/95" />
-                    <div className="absolute inset-0 backdrop-blur-[0.5px]" />
+                    {/* readability + style (только затемнение, без blur) */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#05070B]/10 via-[#05070B]/45 to-[#05070B]/95" />
                   </div>
 
                   {/* subtle inner border */}
