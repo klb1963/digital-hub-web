@@ -55,7 +55,7 @@ console.log("SMTP CONFIG:", {
   user: smtpUser,
 });
 
-transporter.verify((error: Error | null, success: boolean) => {
+transporter.verify((error: Error | null) => {
   if (error) {
     console.error("SMTP VERIFY ERROR:", error);
   } else {

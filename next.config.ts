@@ -1,15 +1,11 @@
 // next.config.ts
 import type { NextConfig } from 'next';
 
-const isDev = process.env.NODE_ENV !== 'production';
-
 const nextConfig: NextConfig = {
-  reactCompiler: true,
 
   images: {
     // 🔴 КЛЮЧЕВОЙ ФИКС
     // unoptimized: true,
-    dangerouslyAllowLocalIP: isDev,
 
     remotePatterns: [
       

@@ -4,6 +4,9 @@ import { getAllPosts, getAllCategories } from '@/lib/cms';
 import { BlogList } from './BlogList';
 import type { Post, Category } from '@/lib/cms';
 
+/**
+ * Получаем публичный base URL CMS
+ */
 function getCmsPublicBase(): string {
   return (
     process.env.NEXT_PUBLIC_CMS_URL ||
@@ -12,38 +15,28 @@ function getCmsPublicBase(): string {
   ).replace(/\/$/, '');
 }
 
-export function normalizeMediaAbsUrl(url?: string) {
-  if (!url) return undefined;
-
-  // Payload иногда отдаёт double-encoded UTF-8 (%25D0%25...)
-  if (!url.includes('%25')) return url;
-
-  try {
-    return decodeURIComponent(url);
-  } catch {
-    return url;
-  }
-}
-
+/**
+ * В Next.js 15 App Router searchParams
+ * типизирован как Promise — используем именно так
+ */
 type BlogPageProps = {
-  // В Next 16 searchParams в серверном компоненте — Promise
-  searchParams: Promise<{
+  searchParams?: Promise<{
     q?: string;
   }>;
 };
 
-// Страница блога должна подхватывать новые посты без полного деплоя.
-// Делаем ISR: пересборка раз в 60 секунд.
+/**
+ * ISR — пересборка страницы раз в 60 секунд
+ */
 export const revalidate = 60;
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  // разворачиваем query-параметры
-  const { q } = await searchParams;
-  const searchQuery = q?.trim() ?? '';
+  const resolvedSearchParams = await searchParams;
+  const searchQuery = resolvedSearchParams?.q?.trim() ?? '';
 
   const cmsPublicBaseUrl = getCmsPublicBase();
 
-  // Тянем посты (с учётом поиска) и категории один раз на сервере
+  // Загружаем посты и категории на сервере
   const [posts, categories] = await Promise.all([
     getAllPosts({ search: searchQuery }),
     getAllCategories(),
@@ -58,7 +51,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </p>
       </header>
 
-      {/* Вся логика категорий и чтения query-параметров — в клиентском компоненте */}
+      {/* Клиентский компонент со всей логикой фильтрации и UI */}
       <BlogList
         posts={posts as Post[]}
         categories={categories as Category[]}
@@ -67,3 +60,4 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     </main>
   );
 }
+

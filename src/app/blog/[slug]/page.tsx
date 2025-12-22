@@ -9,6 +9,8 @@ import type { Post } from '@/lib/cms';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BlogContentRenderer } from '../BlogContentRenderer';
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+import { RichTextRenderer } from '@/components/RichText';
 import type { Metadata } from 'next';
 
 // Локальное описание SEO-поля из Payload
@@ -103,46 +105,6 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({
     slug,
   }));
-}
-
-// Типы для упрощённого Lexical-JSON
-interface LexicalTextNode {
-  text?: string;
-}
-
-interface LexicalParagraphNode {
-  type?: string;
-  children?: LexicalTextNode[];
-}
-
-interface LexicalRootJSON {
-  root?: {
-    children?: LexicalParagraphNode[];
-  };
-}
-
-// Простой рендер Lexical-контента в параграфы
-function renderLexicalContent(content: unknown) {
-  const root = (content as LexicalRootJSON).root;
-  const children = Array.isArray(root?.children) ? root.children : [];
-
-  return (
-    <div className="prose max-w-none">
-      {children.map((node, idx) => {
-        if (node?.type !== 'paragraph') return null;
-
-        const text = Array.isArray(node.children)
-          ? node.children
-              .map((ch) => (typeof ch.text === 'string' ? ch.text : ''))
-              .join('')
-          : '';
-
-        if (!text) return null;
-
-        return <p key={idx}>{text}</p>;
-      })}
-    </div>
-  );
 }
 
 // ────────────────────────────────────────────────────────────
@@ -398,9 +360,25 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Основной текст */}
       <section className="mt-6">
         {Array.isArray(post.layout) && post.layout.length > 0 ? (
-          <BlogContentRenderer layout={post.layout} cmsPublicBaseUrl={cmsPublicBaseUrl} />
+          <BlogContentRenderer
+            layout={post.layout}
+            cmsPublicBaseUrl={cmsPublicBaseUrl}
+          />
         ) : post.content ? (
-          renderLexicalContent(post.content)
+          <RichTextRenderer
+            content={post.content as SerializedEditorState | null}
+            className="
+              prose max-w-none
+              prose-p:my-4
+              prose-headings:font-semibold
+              prose-h1:text-3xl
+              prose-h2:text-2xl
+              prose-h3:text-xl
+              prose-u:underline
+              prose-ol:pl-6 prose-ul:pl-6
+              prose-li:my-1
+            "
+          />
         ) : (
           <p className="text-gray-500 text-sm">Нет содержимого</p>
         )}
