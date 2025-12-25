@@ -8,12 +8,14 @@ import { ProcessSection } from '@/sections/home/ProcessSection';
 import { AboutMeSection } from '@/sections/home/AboutMeSection';
 import { CtaSection } from '@/sections/home/CtaSection';
 import { FocusSection } from '@/sections/home/FocusSection';
+import { WhatToDoSection } from '@/sections/home/WhatToDo';
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#0F1115]">
       <HeroSection />
       <IntroSection />
+      <WhatToDoSection />
       <AIApproachSection />
       <FocusSection />
       <ProjectsSection />
