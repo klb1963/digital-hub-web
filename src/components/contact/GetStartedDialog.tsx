@@ -125,17 +125,33 @@ export function GetStartedDialog() {
         type="button"
         onClick={() => setIsOpen(true)}
         className="
-          btn-shine
-          inline-flex items-center justify-center
-          rounded-full
-          border border-emerald-400/70
-          bg-emerald-500/10
-          px-7 py-3
-          text-sm font-semibold text-emerald-300
-          shadow-[0_0_20px_rgba(16,185,129,0.15)]
-          transition
-          hover:bg-emerald-500/20
-          hover:shadow-[0_0_26px_rgba(16,185,129,0.25)]
+        btn-shine
+        inline-flex items-center justify-center
+        rounded-full
+
+        bg-[#06BE81]
+        px-7 py-3
+        text-sm font-semibold text-white
+
+        ring-1 ring-[#06BE81]/30
+        shadow-[0_8px_24px_rgba(6,190,129,0.30)]
+
+        transition
+        duration-200
+        will-change-transform
+
+        hover:-translate-y-1
+        hover:bg-[#05A974]
+        hover:ring-[#06BE81]/45
+        hover:shadow-[0_18px_45px_rgba(6,190,129,0.42),0_6px_16px_rgba(6,190,129,0.28)]
+
+        active:translate-y-[1px]
+        active:bg-[#049965]
+        active:shadow-[0_6px_16px_rgba(6,190,129,0.30)]
+
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-[#06BE81]/50
         "
       >
         Первый шаг

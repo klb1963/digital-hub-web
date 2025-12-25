@@ -27,13 +27,27 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-black/80 backdrop-blur">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
 
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" 
+        className="
+        group
+        flex items-center gap-2
+        transition
+        duration-200
+        will-change-transform
+        hover:-translate-y-0.5
+        ">
           <Image
             src="/logo-odh-512x256.png" // logo-odh-512x256.png logo-odh-512x256-inverted.png
             alt="Open Digital Hub logo"
             width={100}
             height={50}
-            className="object-contain"
+            className="
+            object-contain
+            transition
+            duration-200
+            drop-shadow-sm
+            group-hover:drop-shadow-md
+            "
           />
         </Link>
 

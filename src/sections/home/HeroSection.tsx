@@ -29,44 +29,42 @@ const itemVariants: Variants = {
 
 export function HeroSection() {
   return (
-    <section
-      className="relative min-h-[70vh] overflow-hidden bg-[#05070B] text-slate-100"
-    >
-      {/* 🔹 Фоновое изображение с анимацией */}
+    <section className="relative min-h-[70vh] overflow-hidden bg-slate-50 text-slate-900">
+      {/* Фоновое изображение (очень легкое) */}
       <div
         className="
           pointer-events-none
           absolute inset-0
-          opacity-25
+          opacity-[0.02] md:opacity-[0.03]
           hero-binary-bg
           hero-binary-animated
         "
       />
 
-      {/* 🔹 Тёмная вуаль + градиент для читаемости текста */}
+      {/* Светлая вуаль для читаемости */}
       <div
         className="
           pointer-events-none
           absolute inset-0
           bg-gradient-to-b
-          from-black/70 via-black/50 to-black/80
+          from-white/95 via-white/85 to-white/95
         "
       />
 
       {/* Контент поверх подложки */}
       <div className="relative mx-auto max-w-6xl px-6 pt-8 pb-16 md:pt-32 md:pb-24">
         <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_360px]">
-          {/* LEFT: текст (всё твое — без изменений) */}
+          {/* LEFT */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             className="max-w-3xl"
           >
-            {/* Имя Фамилия*/}
+            {/* Имя Фамилия */}
             <motion.h1
               variants={itemVariants}
-              className="text-4xl font-semibold tracking-tight md:mt-0 md:text-5xl"
+              className="text-4xl font-semibold tracking-tight text-slate-900 md:mt-0 md:text-5xl"
             >
               Леонид Кляйман
             </motion.h1>
@@ -74,7 +72,7 @@ export function HeroSection() {
             {/* Роль */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 text-xl text-slate-200 md:text-xl"
+              className="mt-3 text-sm text-slate-600 md:text-base"
             >
               ИТ-консалтинг &amp; ИИ-инженерия
             </motion.p>
@@ -82,36 +80,64 @@ export function HeroSection() {
             {/* Позиционирование */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 text-2xl font-semibold leading-snug text-slate-300 md:text-3xl"
+              className="mt-4 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
             >
-              Цифровые продукты для личного бренда и бизнеса
+              Ваш персональный IT-консультант
             </motion.p>
 
+            {/* Миссия / позиционирование */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 text-base text-slate-400 md:text-xl"
+              className="mt-4 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
             >
-              Digital Platforms · MVP · AI Integration · CTO-as-a-service*
+              Я на стороне бизнеса — не подрядчиков и не технологий.
+              <br />
+              Помогаю разобраться в IT и довести задачу до работающего решения.
             </motion.p>
 
-            {/* Steps */}
+            {/* Why here and now */}
             <motion.div
               variants={itemVariants}
-              className="mt-4 mb-4 space-y-1 text-lg md:text-xl"
+              className="
+                mt-4 mb-4
+                rounded-2xl
+                border border-slate-200
+                bg-white/70
+                px-6 py-5
+                shadow-sm
+                backdrop-blur
+                transition
+                duration-200
+                hover:-translate-y-1
+                hover:bg-white/90
+                hover:shadow-[0_18px_45px_rgba(15,23,42,0.12),0_6px_16px_rgba(15,23,42,0.08)]
+              "
             >
-              <p className="text-slate-300 font-medium text-base md:text-xl">
-                Веду вас:
-              </p>
-              <p className="text-slate-200 md:text-xl">→ от идеи и массы вопросов</p>
-              <p className="text-slate-200 md:text-xl">
-                → к понятной ИТ-архитектуре и сервисам
-              </p>
-              <p className="text-slate-200 md:text-xl">
-                → к работающему прототипу (MVP) и продукту
-              </p>
-              <p className="text-slate-200 md:text-xl">
-                → и, наконец, к вашей устойчивой цифровой экосистеме!
-              </p>
+              <div className="space-y-2">
+                <p className="text-slate-800 font-semibold text-base md:text-lg">
+                  Когда:
+                </p>
+
+                <p className="text-slate-700 text-base md:text-lg">
+                  → нужно срочно разобраться с ИТ
+                </p>
+
+                <p className="text-slate-700 text-base md:text-lg">
+                  → нет времени погружаться в технологии
+                </p>
+
+                <p className="text-slate-700 text-base md:text-lg">
+                  → важно не ошибиться с архитектурой и подрядчиками
+                </p>
+
+                <p className="text-slate-700 text-base md:text-lg">
+                  → требуется понятный и рабочий результат
+                </p>
+
+                <p className="pt-2 text-slate-800 font-medium text-base md:text-lg">
+                  Можно сразу обратиться ко мне.
+                </p>
+              </div>
             </motion.div>
 
             {/* CTA */}
@@ -119,25 +145,16 @@ export function HeroSection() {
               <DiscussIdeaDialog />
             </motion.div>
 
-            {/* CTO-строка */}
+            {/* Микротекст под CTA */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 text-xl italic text-slate-400"
+              className="mt-3 text-sm text-slate-600 md:text-base"
             >
-              с Вашим персональным ИТ-консультантом
-            </motion.p>
-
-            {/* Сноска CTO */}
-            <motion.p
-              variants={itemVariants}
-              className="mt-4 max-w-xl text-sm leading-snug text-slate-500 md:text-base md:leading-normal"
-            >
-              * CTO — роль, отвечающая за архитектуру, стек используемых технологий, ИТ-процессы и
-              технологическое развитие продукта.
+              Можно просто обсудить ситуацию — первая консультация бесплатна.
             </motion.p>
           </motion.div>
 
-          {/* RIGHT: фото (новое) */}
+          {/* RIGHT: фото */}
           <motion.div
             variants={itemVariants}
             initial="hidden"
@@ -146,26 +163,38 @@ export function HeroSection() {
           >
           <div
             className="
-              relative
-              h-[420px] w-[320px]
-              overflow-hidden
-              rounded-2xl
-              bg-white
-              shadow-xl
+    relative
+    h-[420px] w-[320px]
+    overflow-hidden
+    rounded-2xl
+    bg-white
+
+    ring-1 ring-black/5
+    shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
+
+    transition
+    duration-200
+    will-change-transform
+
+    hover:-translate-y-1
+    hover:ring-black/10
+    hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
             "
           >
             <Image
-              src="/images/hero/leonid-portrait-v2.jpg"
+              src="/images/hero/leonid-portrait-v3.png"
               alt="Леонид Кляйман"
               fill
               priority
               className="object-cover object-center"
             />
 
-              {/* мягкий низ для «премиума» и читаемости рядом */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05070B]/35 via-transparent to-transparent" />
-            </div>
+            {/* верхний мягкий блик */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-transparent" />
 
+            {/* мягкий низ для гармонии со светлой темой */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent" />
+          </div>
           </motion.div>
         </div>
       </div>
