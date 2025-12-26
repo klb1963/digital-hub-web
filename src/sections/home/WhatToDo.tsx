@@ -239,14 +239,14 @@ function CardItem({ card }: { card: Card }) {
             {card.icon}
           </div>
           <div className="min-w-0">
-            <h3 className="text-lg font-semibold text-slate-900">{card.title}</h3>
-            <p className="mt-1 text-sm leading-relaxed text-slate-700">
+            <h3 className="text-xl font-semibold text-slate-900">{card.title}</h3>
+            <p className="mt-2 text-base leading-relaxed text-slate-700">
               {card.description}
             </p>
           </div>
         </div>
 
-        <ul className="mt-4 space-y-2 text-sm text-slate-700">
+        <ul className="mt-5 space-y-2.5 text-base text-slate-700">
           {card.bullets.map((b) => (
             <li key={b} className="flex gap-2">
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#06BE81]" />
@@ -263,7 +263,7 @@ function CardItem({ card }: { card: Card }) {
             rounded-lg
             bg-[#05070B]
             px-4 py-2
-            text-sm font-semibold
+            text-base font-semibold
             text-[#06BE81]
 
             transition
@@ -310,7 +310,7 @@ export function WhatToDoSection() {
       {
         title: "Разработка веб-сервиса (SaaS)",
         description:
-          "Сервис для вашего бизнеса: личный кабинет, CRM-логика, подписки, интеграции — от идеи до продакшена.",
+          "Что нужно бизнесу от ИТ: от идеи до рабочего продукта с пользователями.",
         bullets: [
             "Постановка задачи и ТЗ",
             "Понимание пользователей и их сценариев",
@@ -327,7 +327,7 @@ export function WhatToDoSection() {
       {
         title: "Развертывание Интернет-приложений",
         description:
-          "Видеосвязь, мессенджер, HelpDesk, LMS — поднимаю и настраиваю так, чтобы это реально работало.",
+          "ВКС, мессенджер, HelpDesk и пр. — поднимаю и настраиваю так, чтобы это реально работало.",
         bullets: [
             "Выбор правильного сервиса/продукта под задачу и бюджет",
             "Настройка и кастомизация под ваши нужды",

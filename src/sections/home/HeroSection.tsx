@@ -90,7 +90,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-4 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
             >
-              Я стоюна стороне бизнеса.
+              Я стою на стороне бизнеса.
               <br />
               Помогаю жить с информациоными технологиями в мире и согласии.
             </motion.p>
