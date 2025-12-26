@@ -203,10 +203,10 @@ function CardItem({ card }: { card: Card }) {
   return (
       <motion.div
         variants={itemVariants}
+        data-card
         className="
         snap-start
         shrink-0
-
         w-full
         sm:w-[72%]
         md:w-[520px]
@@ -361,10 +361,24 @@ export function WhatToDoSection() {
     [],
   );
 
-    const scrollByPx = (px: number) => {
+    const scrollByPage = (dir: "left" | "right") => {
         const el = scrollerRef.current;
         if (!el) return;
-        el.scrollBy({ left: px, behavior: "smooth" });
+        const delta = el.clientWidth; // ширина видимой области
+        el.scrollBy({ left: dir === "left" ? -delta : delta, behavior: "smooth" });
+    };
+
+    const scrollByCard = (dir: "left" | "right") => {
+      const el = scrollerRef.current;
+      if (!el) return;
+
+      const card = el.querySelector<HTMLElement>("[data-card]");
+      if (!card) return;
+
+      const gap = 24; // gap-6
+      const delta = card.offsetWidth + gap;
+
+      el.scrollBy({ left: dir === "left" ? -delta : delta, behavior: "smooth" });
     };
 
     return (
@@ -396,8 +410,8 @@ export function WhatToDoSection() {
 
                     {/* стрелки — mobile only, справа сверху над карточками */}
                     <div className="absolute right-4 top-[9.5rem] z-20 flex gap-2 md:hidden">
-                        <ScrollButton dir="left" onClick={() => scrollByPx(-360)} />
-                        <ScrollButton dir="right" onClick={() => scrollByPx(360)} />
+                        <ScrollButton dir="left" onClick={() => scrollByPage("left")} />
+                        <ScrollButton dir="right" onClick={() => scrollByPage("right")} />
                     </div>
 
                     {/* Mobile/tablet: horizontal gallery. Desktop: fixed-width “3 cards” viewport */}
@@ -424,8 +438,8 @@ export function WhatToDoSection() {
 
                     {/* стрелки на десктопе/планшете */}
                     <div className="mt-3 ml-auto hidden shrink-0 items-center gap-2 md:flex">
-                        <ScrollButton dir="left" onClick={() => scrollByPx(-360)} />
-                        <ScrollButton dir="right" onClick={() => scrollByPx(360)} />
+                      <ScrollButton dir="left" onClick={() => scrollByCard("left")} />
+                      <ScrollButton dir="right" onClick={() => scrollByCard("right")} />
                     </div>
 
                     {/* маленькая подсказка для мобилок */}
