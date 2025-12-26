@@ -52,7 +52,7 @@ export function HeroSection() {
       />
 
       {/* Контент поверх подложки */}
-      <div className="relative mx-auto max-w-6xl px-6 pt-8 pb-16 md:pt-32 md:pb-24">
+      <div className="relative mx-auto max-w-6xl px-6 pt-2 pb-16 md:pt-16 md:pb-24">
         <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_360px]">
           {/* LEFT */}
           <motion.div
@@ -72,7 +72,7 @@ export function HeroSection() {
             {/* Роль */}
             <motion.p
               variants={itemVariants}
-              className="mt-3 text-sm text-slate-600 md:text-base"
+              className="mt-2 text-sm text-slate-600 md:text-base"
             >
               ИТ-консалтинг &amp; ИИ-инженерия
             </motion.p>
@@ -80,7 +80,7 @@ export function HeroSection() {
             {/* Позиционирование */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
+              className="mt-2 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
             >
               Ваш персональный IT-консультант
             </motion.p>
@@ -88,7 +88,7 @@ export function HeroSection() {
             {/* Миссия / позиционирование */}
             <motion.p
               variants={itemVariants}
-              className="mt-4 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
+              className="mt-2 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
             >
               Я стою на стороне бизнеса.
               <br />
@@ -113,28 +113,28 @@ export function HeroSection() {
                 hover:shadow-[0_18px_45px_rgba(15,23,42,0.12),0_6px_16px_rgba(15,23,42,0.08)]
               "
             >
-              <div className="space-y-2">
-                <p className="text-slate-800 font-semibold text-base md:text-lg">
+              <div className="space-y-1">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   Когда:
                 </p>
 
-                <p className="text-slate-700 text-base md:text-lg">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   → нужно срочно запустить или реанимировать IT-проект,
                 </p>
 
-                <p className="text-slate-700 text-base md:text-lg">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   → при этом нет времени разбираться в новых технологиях, языках и платформах,
                 </p>
 
-                <p className="text-slate-700 text-base md:text-lg">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   → и важно не ошибиться с архитектурой, а главное,  с подрядчиками,
                 </p>
 
-                <p className="text-slate-700 text-base md:text-lg">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   → при этом понятный и рабочий результат нужен был еще вчера,
                 </p>
 
-                <p className="pt-2 text-slate-800 font-medium text-base md:text-lg">
+                <p className="text-base leading-normal text-slate-700 md:text-lg">
                   то можно сразу обратиться ко мне.
                 </p>
               </div>
