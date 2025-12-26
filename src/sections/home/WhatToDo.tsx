@@ -207,7 +207,7 @@ function CardItem({ card }: { card: Card }) {
         snap-start
         shrink-0
 
-        w-[88%]
+        w-full
         sm:w-[72%]
         md:w-[520px]
         lg:w-[352px] lg:min-w-[352px] lg:max-w-[352px]
@@ -409,7 +409,7 @@ export function WhatToDoSection() {
                             flex gap-6
                             overflow-x-auto
                             pb-2
-                            px-4 lg:px-0
+                            px-0
                             snap-x snap-mandatory
                             [-ms-overflow-style:none]
                             [scrollbar-width:none]
