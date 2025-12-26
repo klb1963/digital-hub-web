@@ -259,15 +259,23 @@ function CardItem({ card }: { card: Card }) {
           <Link
             href={card.href}
             className="
-              inline-flex items-center gap-2
-              text-sm font-semibold
-              text-[#06BE81]
-              transition
-              hover:opacity-80
-              focus-visible:outline-none
-              focus-visible:ring-2 focus-visible:ring-[#06BE81]/40
-              focus-visible:ring-offset-4 focus-visible:ring-offset-white/60
-              rounded-md
+            inline-flex items-center gap-2
+            rounded-lg
+            bg-[#05070B]
+            px-4 py-2
+            text-sm font-semibold
+            text-[#06BE81]
+
+            transition
+            hover:-translate-y-0.5
+            hover:bg-[#0B0F16]
+            hover:shadow-[0_8px_24px_rgba(5,7,11,0.35)]
+
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#06BE81]/50
+            focus-visible:ring-offset-2
+            focus-visible:ring-offset-white
             "
           >
             {card.cta} <ArrowRightIcon />
@@ -287,26 +295,49 @@ export function WhatToDoSection() {
         title: "Модернизация или создание сайта",
         description:
           "Понятный сайт, который отвечает на вопросы клиента и приводит к заявке — без “магии” и лишнего шума.",
-        bullets: ["Структура и тексты", "Техническая сборка и скорость", "SEO/аналитика/формы"],
-        href: "/projects", // подставим конкретный кейс позже
+        bullets: [
+            "Выбор хостинга и доменного имени", 
+            "Перезд или стпрт на новой, самой модной платформе", 
+            "Структура и меню", 
+            "Контент, его переиспользование и автопубликации",
+            "Техническая сборка и скорость загрузки", 
+            "SEO/аналитика/формы"
+        ],
+        href: "/projects/open-digital-hub", //конкретный кейс
         cta: "Посмотреть пример",
         icon: <GlobeIcon />,
       },
       {
-        title: "Разработка полезного SaaS",
+        title: "Разработка веб-сервиса (SaaS)",
         description:
           "Сервис для вашего бизнеса: личный кабинет, CRM-логика, подписки, интеграции — от идеи до продакшена.",
-        bullets: ["Архитектура и стек", "MVP за разумный срок", "Интеграции и автоматизация"],
-        href: "/projects",
+        bullets: [
+            "Постановка задачи и ТЗ",
+            "Понимание пользователей и их сценариев",
+            "Перевод с бизнес-языка на программистский",
+            "Выбор архитектуры и стека", 
+            "Разработка MVP за разумный срок",
+            "Интеграции и автоматизация",
+            "Запуск и сопровождение"
+        ],
+        href: "/projects/yachtpricer",
         cta: "Кейс/демо",
         icon: <SaaSIcon />,
       },
       {
-        title: "Развертывание нужного ПО",
+        title: "Развертывание Интернет-приложений",
         description:
           "Видеосвязь, мессенджер, HelpDesk, LMS — поднимаю и настраиваю так, чтобы это реально работало.",
-        bullets: ["Docker/Traefik/домен", "Пользователи и доступы", "Мониторинг и бэкапы"],
-        href: "/projects",
+        bullets: [
+            "Выбор правильного сервиса/продукта под задачу и бюджет",
+            "Настройка и кастомизация под ваши нужды",
+            "Домены и безопасность (SSL, GDPR)", 
+            "Пользователи и доступы (SSO)", 
+            "Мониторинг состояния и бэкапы", 
+            "Интеграции с почтой и мессенджерами", 
+            "Обучение и инструкции для команды"
+        ],
+        href: "/projects/meet-leonidk",
         cta: "Что уже делал",
         icon: <ToolsIcon />,
       },
@@ -314,8 +345,16 @@ export function WhatToDoSection() {
         title: "Песочница или MVP под IT-проект",
         description:
           "Быстрый прототип, чтобы проверить гипотезу и принять решение — делать дальше или остановиться.",
-        bullets: ["Прототип + аналитика", "Риски и “узкие места”", "План следующего шага"],
-        href: "/projects",
+        bullets: [
+            "Целеполагание и гипотезы",
+            "Каркас и пользовательские сценарии",
+            "Выбор провайдеров и технологий",
+            "Конфигурация VPS и окружения",
+            "Подключение внешних API и сервисов",
+            "Прототип + аналитика",
+            "Риски и “узкие места”",
+            "План следующего шага"],
+        href: "/projects/seatmap-abc360",
         cta: "Посмотреть MVP",
         icon: <RocketIcon />,
       },

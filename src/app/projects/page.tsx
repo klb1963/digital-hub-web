@@ -1,6 +1,7 @@
 // src/app/projects/page.tsx
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Projects — Open Digital Hub",
@@ -89,6 +90,15 @@ export default function ProjectsPage() {
     <main className="bg-[#05070B] text-slate-100">
       <div className="mx-auto max-w-5xl px-6 pb-24 pt-16">
         <header className="mb-10">
+          <div className="mb-6 text-sm md:text-base">
+            <Link
+              href="/"
+              className="text-slate-400 transition hover:text-emerald-300"
+            >
+              ← На главную
+            </Link>
+          </div>
+
           <p className="text-l mb-8 font-medium uppercase tracking-[0.2em] text-emerald-400/80">
             Projects & Cases
           </p>

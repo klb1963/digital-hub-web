@@ -33,9 +33,9 @@ export default async function ProjectPage({
 
   return (
     <main className="bg-[#05070B] text-slate-100">
-      <div className="mx-auto max-w-5xl px-6 pt-16 pb-24">
+      <div className="mx-auto max-w-5xl px-6 pt-16 pb-24 text-base leading-relaxed text-slate-200 md:text-lg">
         {/* Навигация назад */}
-        <div className="mb-6 text-sm">
+        <div className="mb-6 text-sm md:text-base">
           <Link
             href="/projects"
             className="text-slate-400 transition hover:text-emerald-300"
@@ -60,7 +60,7 @@ export default async function ProjectPage({
             </p>
           )}
 
-          <p className="mt-3 text-sm text-slate-300 md:text-base">
+          <p className="mt-3 text-slate-200">
             {project.description}
           </p>
 
@@ -94,7 +94,7 @@ export default async function ProjectPage({
                   <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
                     Бизнес-задача
                   </h3>
-                  <p className="mt-2 text-sm text-slate-300">
+                  <p className="mt-2 text-slate-200">
                     {project.businessGoal}
                   </p>
                 </div>
@@ -107,7 +107,7 @@ export default async function ProjectPage({
                     <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400/80">
                       В чём сложность
                     </h3>
-                    <p className="mt-2 text-sm text-slate-300">
+                    <p className="mt-2 text-slate-200">
                       {project.challenge}
                     </p>
                   </div>
@@ -123,7 +123,7 @@ export default async function ProjectPage({
                     </h3>
 
                     {Array.isArray(project.solution) ? (
-                      <ul className="mt-2 space-y-1.5 text-sm text-slate-300">
+                      <ul className="mt-2 space-y-2 text-slate-200">
                         {project.solution.map((item, idx) => (
                           <li key={idx} className="flex gap-2">
                             <span className="mt-[7px] h-[3px] w-[10px] flex-shrink-0 rounded-full bg-emerald-400/70" />
@@ -132,7 +132,7 @@ export default async function ProjectPage({
                         ))}
                       </ul>
                     ) : (
-                      <p className="mt-2 text-sm text-slate-300">
+                      <p className="mt-2 text-slate-200">
                         {project.solution}
                       </p>
                     )}
@@ -149,7 +149,7 @@ export default async function ProjectPage({
                     </h3>
 
                     {Array.isArray(project.results) ? (
-                      <ul className="mt-2 space-y-1.5 text-sm text-slate-300">
+                      <ul className="mt-2 space-y-2 text-slate-200">
                         {project.results.map((item, idx) => (
                           <li key={idx} className="flex gap-2">
                             <span className="mt-[7px] h-[3px] w-[10px] flex-shrink-0 rounded-full bg-emerald-400/70" />
@@ -158,7 +158,7 @@ export default async function ProjectPage({
                         ))}
                       </ul>
                     ) : (
-                      <p className="mt-2 text-sm text-slate-300">
+                      <p className="mt-2 text-slate-200">
                         {project.results}
                       </p>
                     )}
@@ -171,10 +171,10 @@ export default async function ProjectPage({
 
         {/* CTA внизу intro-блока */}
         <section className="mt-10 border-t border-slate-800 pt-6">
-          <p className="text-m text-slate-300">
+          <p className="text-slate-200">
             Хотите обсудить похожий проект?
           </p>
-          <p className="mt-1 text-m text-slate-300">
+          <p className="mt-1 text-slate-200">
             Напишите пару слов о проекте — мы вместе посмотрим, какой путь
             реалистичен по срокам, бюджету и архитектуре.
           </p>

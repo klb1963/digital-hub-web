@@ -92,7 +92,7 @@ export function HeroSection() {
             >
               Я на стороне бизнеса — не подрядчиков и не технологий.
               <br />
-              Помогаю разобраться в IT и довести задачу до работающего решения.
+              Помогаю жить с информациоными технологиями в мире и согласии.
             </motion.p>
 
             {/* Why here and now */}
@@ -119,23 +119,23 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-slate-700 text-base md:text-lg">
-                  → нужно срочно разобраться с ИТ
+                  → нужно срочно запустить или реанимировать IT-проект,
                 </p>
 
                 <p className="text-slate-700 text-base md:text-lg">
-                  → нет времени погружаться в технологии
+                  → при этом нет времени разбираться в новых технологиях, языках и платформах,
                 </p>
 
                 <p className="text-slate-700 text-base md:text-lg">
-                  → важно не ошибиться с архитектурой и подрядчиками
+                  → и важно не ошибиться с архитектурой, а главное,  с подрядчиками,
                 </p>
 
                 <p className="text-slate-700 text-base md:text-lg">
-                  → требуется понятный и рабочий результат
+                  → при этом понятный и рабочий результат нужен был еще вчера,
                 </p>
 
                 <p className="pt-2 text-slate-800 font-medium text-base md:text-lg">
-                  Можно сразу обратиться ко мне.
+                  то можно сразу обратиться ко мне.
                 </p>
               </div>
             </motion.div>
@@ -150,7 +150,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-3 text-sm text-slate-600 md:text-base"
             >
-              Можно просто обсудить ситуацию — первая консультация бесплатна.
+              Или просто обсудить ситуацию — первая консультация бесплатна.
             </motion.p>
           </motion.div>
 
