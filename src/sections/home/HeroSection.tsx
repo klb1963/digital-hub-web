@@ -90,7 +90,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-4 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
             >
-              Я на стороне бизнеса — не подрядчиков и не технологий.
+              Я стоюна стороне бизнеса.
               <br />
               Помогаю жить с информациоными технологиями в мире и согласии.
             </motion.p>
@@ -194,6 +194,7 @@ export function HeroSection() {
 
             {/* мягкий низ для гармонии со светлой темой */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent" />
+            
           </div>
           </motion.div>
         </div>

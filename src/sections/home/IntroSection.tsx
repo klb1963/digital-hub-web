@@ -32,7 +32,6 @@ export function IntroSection() {
               rounded-3xl border border-slate-800/80
               bg-slate-950/70
               px-6 py-10 sm:px-10 sm:py-12
-              shadow-[0_18px_45px_rgba(0,0,0,0.75)]
             "
           >
             {/* Лёгкий цветовой градиент поверх фона */}
@@ -48,13 +47,9 @@ export function IntroSection() {
 
             {/* Основной контент интро */}
             <div className="relative space-y-6 text-base leading-relaxed text-slate-200 md:text-lg">
-
               <h2 className="text-3xl font-semibold text-slate-50">Что я делаю</h2>
 
-              {/* <p className="mt-2 text-xl text-slate-400">
-                Чем могу быть полезен: от MVP до цифровой платформы и архитектуры.
-              </p> */}
-
+              <div className="space-y-4">
                 {/* 1) Архитектура */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
@@ -64,8 +59,7 @@ export function IntroSection() {
                         Архитектура и проектирование
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Помогаю сформировать ясную архитектуру продукта: бизнес-логику, модель данных, интеграции,
-                        технические решения и безопасный маршрут развития системы — от MVP до масштабирования.
+                        Помогаю сформировать ясную архитектуру продукта: бизнес-логику, модель данных, интеграции, технические решения и безопасный маршрут развития системы — от MVP до масштабирования.
                       </p>
                     </div>
                   </div>
@@ -80,15 +74,12 @@ export function IntroSection() {
                         CTO-as-a-service
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и
-                        технологическую стратегию — без необходимости нанимать CTO в штат.
+                        Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и технологическую стратегию — без необходимости нанимать CTO в штат.
                       </p>
                     </div>
                   </div>
                 </div>
-              </div>
 
-                            <div className="mt-6 space-y-4">
                 {/* 3) MVP */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
@@ -98,9 +89,7 @@ export function IntroSection() {
                         MVP и прототипы
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Быстро создаю версии продукта, которые сразу приносят пользу и дают бизнес-результат: от
-                        лендингов и одностраничных приложений до сложных систем с авторизацией, оплатами и
-                        интеграциями.
+                        Быстро создаю версии продукта, которые сразу приносят пользу и дают бизнес-результат: от лендингов и одностраничных приложений до сложных систем с авторизацией, оплатами и интеграциями.
                       </p>
                     </div>
                   </div>
@@ -115,12 +104,16 @@ export function IntroSection() {
                         Собираю ваш персональный Digital Hub
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Создаю под ключ <span className="font-semibold text-slate-100">цифровую платформу для вашего личного бренда</span> — сайт,
-                        блог, CRM, LMS, видеоконференция, структурированный чат комьюнити, личные кабинеты и оплаты.
+                        Создаю под ключ{" "}
+                        <span className="font-semibold text-slate-100">
+                          цифровую платформу для вашего личного бренда
+                        </span>{" "}
+                        — сайт, блог, CRM, LMS, видеоконференция, структурированный чат комьюнити, личные кабинеты и оплаты.
                       </p>
                     </div>
                   </div>
                 </div>
+              </div>
 
               <p className="pt-2 text-base text-slate-400">
                 Рабочие языки: русский, английский, немецкий. Базируюсь в регионе Аугсбурга (Германия), работаю полностью онлайн.
