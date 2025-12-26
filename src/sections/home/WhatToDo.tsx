@@ -205,11 +205,10 @@ function CardItem({ card }: { card: Card }) {
         variants={itemVariants}
         className="
         snap-start
-        
         shrink-0
-        w-[calc(100%+2rem)]
 
-        sm:w-[78%]
+        w-[88%]
+        sm:w-[72%]
         md:w-[520px]
         lg:w-[352px] lg:min-w-[352px] lg:max-w-[352px]
         "
