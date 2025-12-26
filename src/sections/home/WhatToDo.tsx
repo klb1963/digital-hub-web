@@ -320,7 +320,7 @@ export function WhatToDoSection() {
             "Запуск и сопровождение"
         ],
         href: "/projects/yachtpricer",
-        cta: "Кейс/демо",
+        cta: "Реальный кейс",
         icon: <SaaSIcon />,
       },
       {
