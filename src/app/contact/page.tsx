@@ -22,7 +22,7 @@ export default function ContactPage() {
             Contact
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-50 md:text-4xl">
-            Давайте обсудим вашу идею или проект
+            Давайте обсудим вашу задачу или проект
           </h1>
           <p className="mt-4 max-w-2xl text-sm text-slate-300 md:text-base">
             Напишите пару слов об идее, продукте или текущем проекте — я лично

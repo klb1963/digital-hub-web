@@ -14,7 +14,7 @@ export function Footer() {
             © {year} Leonid Kleimann · Open Digital Hub
           </p>
           <p className="mt-1 text-xs text-neutral-500">
-            AI-Consulting & AI-Engineering · CTO-as-a-Service
+            IT-Consulting & AI-Engineering · CTO-as-a-Service
           </p>
         </div>
 

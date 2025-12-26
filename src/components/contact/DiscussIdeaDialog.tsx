@@ -119,7 +119,7 @@ export function DiscussIdeaDialog() {
                 {!success && (
                   <>
                     <h2 className="text-lg font-semibold text-neutral-900">
-                      Давайте обсудим вашу идею или проект!
+                      Давайте обсудим вашу задачу или проект!
                     </h2>
                     <p className="mt-1 text-sm text-neutral-500">
                       Заполните короткую форму — я отвечу лично и предложу следующий шаг.
