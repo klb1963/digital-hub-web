@@ -56,7 +56,7 @@ export function IntroSection() {
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Архитектура и проектирование
+                        Определяю архитектуру и описываю проект
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
                         Помогаю сформировать ясную архитектуру продукта: бизнес-логику, модель данных, интеграции, технические решения и безопасный маршрут развития системы — от MVP до масштабирования.
@@ -71,7 +71,7 @@ export function IntroSection() {
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        CTO-as-a-service
+                        Выбираю технологический стек
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
                         Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и технологическую стратегию — без необходимости нанимать CTO в штат.
@@ -86,10 +86,11 @@ export function IntroSection() {
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        MVP и прототипы
+                        Разрабатываю прототип или MVP
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Быстро создаю версии продукта, которые сразу приносят пользу и дают бизнес-результат: от лендингов и одностраничных приложений до сложных систем с авторизацией, оплатами и интеграциями.
+                        Быстро создаю песочницу (площадку для разработки), а затем рабочий прототип или минимально жизнеспособный продукт (MVP) 
+                        с использованием современных фреймворков и облачных сервисов.
                       </p>
                     </div>
                   </div>
@@ -101,7 +102,7 @@ export function IntroSection() {
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Собираю ваш персональный Digital Hub
+                        По особому заказу собираю ваш персональный Digital Hub
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
                         Создаю под ключ{" "}

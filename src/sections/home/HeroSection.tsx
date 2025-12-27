@@ -82,7 +82,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-2 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
             >
-              Ваш персональный IT-консультант
+              Ваш ИТ-мастер на все руки
             </motion.p>
 
             {/* Миссия / позиционирование */}
@@ -90,10 +90,8 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-2 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
             >
-              Я стою на стороне бизнеса.
-              <br />
-              Помогаю жить с информациоными технологиями в мире и согласии.
-            </motion.p>
+              архитектор, разработчик, проджект-менеджер и ИИ-инженер в одном лице
+            </motion.p> 
 
             {/* Why here and now */}
             <motion.div
@@ -119,11 +117,11 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → нужно срочно запустить или реанимировать IT-проект,
+                  → нужно срочно что-то запустить или реанимировать в Интернете,
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → при этом нет времени разбираться в новых технологиях, языках и платформах,
+                  → при этом нет времени разбираться в технологиях и платформах,
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
@@ -131,7 +129,7 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → при этом понятный и рабочий результат нужен был еще вчера,
+                  → при этом результат нужен был еще вчера,
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
@@ -141,7 +139,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* CTA */}
-            <motion.div variants={itemVariants} className="mt-4 mb-4">
+            <motion.div variants={itemVariants} className="mt-6 mb-6">
               <DiscussIdeaDialog />
             </motion.div>
 

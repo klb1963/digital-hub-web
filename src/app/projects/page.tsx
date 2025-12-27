@@ -103,19 +103,16 @@ export default function ProjectsPage() {
             Projects & Cases
           </p>
 
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-            Проекты, над которыми я работаю как архитектор и CTO-практик
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-3xl">
+            Проекты, над которыми я работаю как проджект-менеджер, архитектор, дизайнер, 
+            разработчик, тестировщик и ... это кайф!
           </h1>
 
-          <p className="mt-4 max-w-3xl text-sm text-slate-300 md:text-base">
-            Здесь собраны живые продукты и MVP, в которых я отвечаю за
-            архитектуру, разработку, техническое развитие и путь от идеи до
-            устойчивой системы.
+          <p className="mt-4 max-w-3xl text-base text-slate-300 md:text-xl">
+            Здесь собраны продукты и MVP, в которых я отвечаю за путь от идеи до
+            реализации. Без соисполнителей и субподрядчиков, но с помощью ИИ.
           </p>
 
-          <p className="mt-4 max-w-3xl text-xl font-bold text-slate-300 md:text-xl">
-            Без соисполнителей и субподрядчиков, но с помощью ИИ.
-          </p>
         </header>
 
         <div className="space-y-6">
