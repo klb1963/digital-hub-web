@@ -69,13 +69,13 @@ export function HeroSection() {
               Леонид Кляйман
             </motion.h1>
 
-            {/* Роль */}
+            {/* Роль 
             <motion.p
               variants={itemVariants}
               className="mt-2 text-sm text-slate-600 md:text-base"
             >
               ИТ-консалтинг &amp; ИИ-инженерия
-            </motion.p>
+            </motion.p> */}
 
             {/* Позиционирование */}
             <motion.p
@@ -97,12 +97,14 @@ export function HeroSection() {
             <motion.div
               variants={itemVariants}
               className="
+                relative
                 mt-4 mb-4
+                overflow-hidden
                 rounded-2xl
-                border border-slate-200
                 bg-white/70
                 px-6 py-5
-                shadow-sm
+                ring-1 ring-slate-200/70
+                shadow-[0_10px_28px_rgba(15,23,42,0.08)]
                 backdrop-blur
                 transition
                 duration-200
@@ -111,6 +113,12 @@ export function HeroSection() {
                 hover:shadow-[0_18px_45px_rgba(15,23,42,0.12),0_6px_16px_rgba(15,23,42,0.08)]
               "
             >
+              {/* left accent bar */}
+              <span
+                aria-hidden="true"
+                className="absolute left-0 top-0 h-full w-[3px] bg-[#06BE81]"
+              />
+              
               <div className="space-y-1">
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
                   Когда:
@@ -121,12 +129,12 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → при этом нет времени разбираться в технологиях и платформах,
+                  → при этом нет времени разбираться в архитектуре, технологиях и платформах,
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → и важно не ошибиться с архитектурой, а главное,  с подрядчиками,
-                </p>
+                  → и очень страшно опять ошибиться в выборе исполнителей,
+                </p>                
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
                   → при этом результат нужен был еще вчера,
@@ -161,22 +169,24 @@ export function HeroSection() {
           >
           <div
             className="
-    relative
-    h-[420px] w-[320px]
-    overflow-hidden
-    rounded-2xl
-    bg-white
+            relative
+            h-[420px] w-[320px]
+            overflow-hidden
+            rounded-2xl
 
-    ring-1 ring-black/5
-    shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
+            bg-white/70
+            backdrop-blur-md
+            ring-1 ring-black/5
 
-    transition
-    duration-200
-    will-change-transform
+            shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
 
-    hover:-translate-y-1
-    hover:ring-black/10
-    hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
+            transition
+            duration-200
+            will-change-transform
+
+            hover:-translate-y-1
+            hover:ring-black/10
+            hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
             "
           >
             <Image
