@@ -52,7 +52,7 @@ export function HeroSection() {
       />
 
       {/* Контент поверх подложки */}
-      <div className="relative mx-auto max-w-6xl px-6 pt-2 pb-16 md:pt-16 md:pb-24">
+      <div className="relative mx-auto max-w-6xl px-6 pt-4 pb-16 md:pt-16 md:pb-24">
         <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_360px]">
           {/* LEFT */}
           <motion.div
