@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer"; 
+import { AnalyticsWithConsent } from "../components/AnalyticsWithConsent";
 
 // Шрифты, как у тебя
 const geistSans = Geist({
@@ -63,9 +63,12 @@ export default function RootLayout({
         {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
         <main className="pt-4 sm:pt-6">
           {children}
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         </main>
+
         <Footer />
+
+        {/* TODO(GDPR): показывать cookie/consent баннер и загружать GA4 только после согласия */}
+        <AnalyticsWithConsent gaId={process.env.NEXT_PUBLIC_GA_ID!} />
       </body>
     </html>
   );
