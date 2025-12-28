@@ -37,6 +37,18 @@ export function AnalyticsWithConsent({ gaId }: { gaId: string }) {
     setConsent(readConsentCookie());
   }, []);
 
+  // ⬇️ слушаем сброс consent из футера ("Manage cookies")
+  React.useEffect(() => {
+    const handler = () => {
+      setConsent(null);
+    };
+
+    window.addEventListener("cookie-consent-reset", handler);
+    return () => {
+      window.removeEventListener("cookie-consent-reset", handler);
+    };
+  }, []);  
+
   const accept = () => {
     writeConsentCookie("accepted");
     setConsent("accepted");

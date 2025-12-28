@@ -1,9 +1,19 @@
 // src/components/Footer.tsx
 
 import Link from "next/link";
+import { ManageCookiesButton } from "./ManageCookiesButton";
 
 export function Footer() {
   const year = new Date().getFullYear();
+
+  const manageCookies = () => {
+    // удаляем cookie
+    document.cookie =
+      "cookie_consent=; Path=/; Max-Age=0; SameSite=Lax";
+
+    // сообщаем AnalyticsWithConsent
+    window.dispatchEvent(new Event("cookie-consent-reset"));
+  };
 
   return (
     <footer className="mt-12 border-t border-neutral-800 bg-black/90">
@@ -20,10 +30,7 @@ export function Footer() {
 
         {/* Правая часть — ссылки */}
         <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm">
-          <Link
-            href="/projects"
-            className="hover:text-emerald-300 transition"
-          >
+          <Link href="/projects" className="hover:text-emerald-300 transition">
             Projects
           </Link>
           <Link href="/blog" className="hover:text-emerald-300 transition">
@@ -37,6 +44,12 @@ export function Footer() {
           </Link>
 
           <span className="hidden h-3 w-px bg-neutral-700 sm:inline-block" />
+
+          <Link href="/privacy" className="hover:text-emerald-300 transition">
+            Privacy
+          </Link>
+
+          <ManageCookiesButton />
 
           <a
             href="mailto:hello@leonidk.de"
