@@ -133,11 +133,11 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → и очень страшно опять ошибиться в выборе исполнителей,
+                  → и очень страшно ошибиться в выборе исполнителей (о, эти великие программисты и дизайнеры!),
                 </p>                
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  → при этом результат нужен был еще вчера,
+                  → а результат нужен был, как всегда, еще вчера,
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
