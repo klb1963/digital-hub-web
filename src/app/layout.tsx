@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Леонид Кляйман – Open Digital Hub",
-  description: "Цифровые продукты для личного бренда и бизнеса",
+  description: "Ваш ИТ-мастер на все руки – архитектор, разработчик, проджект-менеджер и ИИ-инженер в одном лице.",
   icons: {
     icon: [
       // главный фавикон — НОВЫЙ путь
