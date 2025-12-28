@@ -44,3 +44,7 @@ public/odh*
 *.zip
 .pnpm-store/
 .env
+
+# local hero portraits (do not commit)
+public/images/hero/leonid-portrait-v4.png
+public/images/hero/leonid-portrait-v5.png

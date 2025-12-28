@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer"; 
@@ -62,6 +63,7 @@ export default function RootLayout({
         {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
         <main className="pt-4 sm:pt-6">
           {children}
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         </main>
         <Footer />
       </body>

@@ -10,6 +10,7 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
+    "@next/third-parties": "^16.1.1",
     "@payloadcms/richtext-lexical": "^3.69.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.561.0",
