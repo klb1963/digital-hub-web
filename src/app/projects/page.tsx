@@ -57,6 +57,17 @@ const projects: ProjectCard[] = [
     previewImage: "/images/projects/digital-hub-02.png",
   },
   {
+    slug: "frozenocean",
+    title: "FrozenOcean.travel — сайт полярных яхтенных экспедиций (EN/DE/RU)",
+    role: "Lead Developer & Product Engineering",
+    period: "2025",
+    shortDescription:
+      "Маркетинговый сайт и каталог экспедиций: мультиязычность (i18n), страницы экспедиций и флота, карточки с доступностью и ценами, единый стиль UI и аккуратная типографика.",
+    stack: ["React", "TypeScript", "Tailwind", "i18next", "Vite"],
+    status: "production",
+    previewImage: "/images/projects/frozenocean-01.png",
+  },
+  {
     slug: "meet-leonidk",
     title: "Meet LeonidK — персональная система видеоконференцсвязи",
     role: "Product & Architecture",
