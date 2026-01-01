@@ -406,11 +406,11 @@ export function WhatToDoSection() {
                         </div>
                     </div>
 
-                    {/* стрелки — mobile only, справа сверху над карточками */}
+                    {/* стрелки — mobile only, справа сверху над карточками 
                     <div className="absolute right-4 top-[9.5rem] z-20 flex gap-2 md:hidden">
                         <ScrollButton dir="left" onClick={() => scrollByPage("left")} />
                         <ScrollButton dir="right" onClick={() => scrollByPage("right")} />
-                    </div>
+                    </div> */}
 
                     {/* Mobile/tablet: horizontal gallery. Desktop: fixed-width “3 cards” viewport */}
                     <div className="relative mt-10 lg:w-[1104px] lg:max-w-none lg:mx-0">
