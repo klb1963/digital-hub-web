@@ -82,7 +82,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-2 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
             >
-              Берусь за ИТ-проекты и привожу их в порядок
+              Берусь за существующие ИТ-проекты и привожу их в порядок
             </motion.p>
 
             {/* Подзаголовок */}
