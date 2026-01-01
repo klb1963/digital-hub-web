@@ -25,6 +25,7 @@ export function IntroSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
         >
+          {/* Карточка в стиле Tailwind Header Section */}
           <div
             className="
               relative overflow-hidden
@@ -33,6 +34,7 @@ export function IntroSection() {
               px-6 py-10 sm:px-10 sm:py-12
             "
           >
+            {/* Лёгкий цветовой градиент поверх фона */}
             <div
               className="
                 pointer-events-none absolute inset-0
@@ -43,79 +45,74 @@ export function IntroSection() {
               "
             />
 
+            {/* Основной контент интро */}
             <div className="relative space-y-6 text-base leading-relaxed text-slate-200 md:text-lg">
-              <h2 className="text-3xl font-semibold text-slate-50">
-                Чем я могу быть полезен вашему бизнесу
-              </h2>
+              <h2 className="text-3xl font-semibold text-slate-50">Что я делаю</h2>
 
               <div className="space-y-4">
-                {/* 1) Диагностика */}
+                {/* 1) Архитектура */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Разбираюсь в существующем ИТ-проекте
+                        Описываю проект и определяю архитектуру
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Провожу ИТ-диагностику: изучаю текущую архитектуру,
-                        код, платформы, интеграции и процессы —
-                        чтобы стало понятно, как всё устроено на самом деле
-                        и где находятся риски.
+                        Помогаю сформировать ясную архитектуру продукта: 
+                        бизнес-логику, модель данных, интеграции, 
+                        технические решения и горизонт развития системы 
+                        — от MVP до масштабирования.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* 2) Порядок и контроль */}
+                {/* 2) CTO-as-a-service */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Навожу порядок и возвращаю контроль владельцу
+                        Выбираю технологический стек
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Документирую решения, упрощаю архитектуру,
-                        устраняю технический хаос и зависимость
-                        от одного разработчика или подрядчика —
-                        чтобы проект перестал быть «чёрным ящиком».
+                        Беру на себя роль технического руководителя: выстраиваю архитектуру, процессы, качество разработки и технологическую стратегию — без необходимости нанимать CTO в штат.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* 3) Развитие без переплаты */}
+                {/* 3) MVP */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Помогаю развивать проект без космических бюджетов
+                        Разрабатываю прототип или MVP
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Предлагаю реалистичный план развития:
-                        что действительно стоит дорабатывать,
-                        что можно отложить, а от чего лучше отказаться —
-                        с понятными сроками и затратами.
+                        Быстро создаю песочницу (площадку для разработки), а затем рабочий прототип или минимально жизнеспособный продукт (MVP) 
+                        с использованием современных фреймворков и облачных сервисов.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* 4) Долгосрочное сопровождение */}
+                {/* 4) Digital Hub */}
                 <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 px-4 py-4">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl leading-none text-slate-100">⦿</span>
                     <div>
                       <p className="text-lg font-semibold text-slate-100 md:text-xl">
-                        Работаю как IT-партнёр, а не разовый исполнитель
+                        По особому заказу собираю ваш персональный Digital Hub
                       </p>
                       <p className="mt-1 text-slate-200/90 leading-normal">
-                        Подключаюсь к проекту на регулярной основе
-                        (20–50 часов в месяц), помогаю принимать
-                        технические решения и сопровождаю развитие —
-                        без долгосрочных контрактов и бюрократии.
+                        Создаю под ключ{" "}
+                        <span className="font-semibold text-slate-100">
+                          цифровую платформу для вашего личного бренда
+                        </span>{" "}
+                        — сайт, блог, CRM, LMS, видеоконференция, структурированный чат комьюнити, личные кабинеты и оплаты.
                       </p>
                     </div>
                   </div>
@@ -123,8 +120,7 @@ export function IntroSection() {
               </div>
 
               <p className="pt-2 text-base text-slate-400">
-                Рабочие языки: русский, английский, немецкий. Базируюсь в Германии
-                (регион Аугсбурга), работаю полностью онлайн.
+                Рабочие языки: русский, английский, немецкий. Базируюсь в регионе Аугсбурга (Германия), работаю полностью онлайн.
               </p>
             </div>
           </div>

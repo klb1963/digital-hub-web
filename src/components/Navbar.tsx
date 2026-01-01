@@ -39,7 +39,7 @@ export function Navbar() {
           <Image
             src="/logo-odh-512x256.png" // logo-odh-512x256.png logo-odh-512x256-inverted.png
             alt="Open Digital Hub logo"
-            width={100}
+            width={90}
             height={50}
             className="
             object-contain

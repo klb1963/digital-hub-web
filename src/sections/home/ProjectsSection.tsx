@@ -57,12 +57,11 @@ export function ProjectsSection() {
               </p>
 
               <h2 className="mt-3 text-xl font-semibold leading-snug text-neutral-50 md:text-2xl">
-                От идеи и эксперимента до работающих цифровых продуктов
+                Практика работы с реальными ИТ-проектами
               </h2>
 
               <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-400 md:text-lg">
-                Несколько проектов, в которых виден мой подход к архитектуре, MVP
-                и работе с бизнесом.
+                Несколько проектов, в которых виден мой подход к работе с бизнесом.
               </p>
             </div>
 

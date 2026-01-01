@@ -28,27 +28,22 @@ export function CtaSection() {
           className="rounded-3xl border border-slate-800 bg-slate-900/30 px-6 py-10 text-center shadow-[0_0_40px_rgba(0,0,0,0.45)] md:px-10 md:py-14"
         >
           <h2 className="text-2xl font-semibold tracking-tight text-slate-50 md:text-3xl">
-            Хотите понять, что происходит с вашим ИТ-проектом?
-            <br/>
-            И что делать дальше?
+            Есть идея или проект, который нужно воплотить в цифровую реальность?
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 md:text-lg">
-            Начнём с <span className="font-semibold text-slate-100">ИТ-диагностики проекта</span>.
-            За 2 часа разберём текущую ситуацию: платформу, интеграции, доступы,
-            «узкие места» и риски — и составим понятный план дальнейших шагов.
+            Давайте обсудим ваши задачи, ограничения и возможный путь: от
+            первых решений по архитектуре до MVP и устойчивой цифровой
+            экосистемы вокруг продукта или вашего персонального бренда.
           </p>
 
           <div className="mt-10 flex justify-center">
             <DiscussIdeaDialog />
           </div>
 
-          <p className="mt-8 text-lg text-slate-200">
-            Формат — онлайн-сессия. Можно продолжить сотрудничество или
-            остановиться на этапе диагностики. 
-            <br/>
-            Без обязательств — с фокусом на ясность и
-            конкретные следующие шаги.
+          <p className="mt-8 text-lg text-slate-500">
+            Формат — короткий созвон или онлайн-сессия. Без обязательств, с
+            фокусом на ясность и следующие шаги.
           </p>
         </motion.div>
       </div>

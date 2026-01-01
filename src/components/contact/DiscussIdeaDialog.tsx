@@ -26,7 +26,6 @@ export function DiscussIdeaDialog() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   const closeModal = () => {
     setIsOpen(false);
 
@@ -74,7 +73,7 @@ export function DiscussIdeaDialog() {
   return (
     <>
       {/* CTA button (Hero or Default style) */}
-        <button
+      <button
         type="button"
         onClick={() => setIsOpen(true)}
         className="
@@ -105,21 +104,20 @@ export function DiscussIdeaDialog() {
           focus-visible:ring-2
           focus-visible:ring-[#06BE81]/50
         "
-        >
-        Обсудить задачу
-        </button>
+      >
+        Обсудить мой проект
+      </button>
 
       {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="mx-4 w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
-
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
                 {!success && (
                   <>
                     <h2 className="text-lg font-semibold text-neutral-900">
-                      Давайте обсудим вашу задачу или проект!
+                      Обсудим ваш проект
                     </h2>
                     <p className="mt-1 text-sm text-neutral-500">
                       Заполните короткую форму — я отвечу лично и предложу следующий шаг.
@@ -132,6 +130,7 @@ export function DiscussIdeaDialog() {
                 type="button"
                 onClick={closeModal}
                 className="rounded-full p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600"
+                aria-label="Закрыть"
               >
                 ×
               </button>
@@ -140,7 +139,7 @@ export function DiscussIdeaDialog() {
             {success ? (
               <div className="space-y-4">
                 <p className="text-sm text-neutral-700">
-                  Спасибо! Ваша идея уже у меня в инбоксе. Скоро я вам отвечу.
+                  Спасибо! Сообщение получено. Скоро отвечу вам и предложу следующий шаг.
                 </p>
 
                 <button
@@ -159,142 +158,141 @@ export function DiscussIdeaDialog() {
                 </button>
               </div>
             ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-
-            {/* Honeypot-поле для ботов — скрытое от людей */}
-            <div className="hidden" aria-hidden="true">
-              <label>
-                Company
-                <input
-                  type="text"
-                  autoComplete="off"
-                  tabIndex={-1}
-                  value={form.company}
-                  onChange={(e) =>
-                    setForm({ ...form, company: e.target.value })
-                  }
-                />
-              </label>
-            </div>
-
-            {/* Имя + Email в два столбца */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {/* Name */}
-                <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-neutral-600">
-                    Имя <span className="text-red-500">*</span>
-                </label>
-                <input
-                    value={form.name}
-                    onChange={(e) =>
-                    setForm({ ...form, name: e.target.value })
-                    }
-                    className="
-                    w-full rounded-xl border border-neutral-200
-                    bg-neutral-50 px-3 py-2 text-sm
-                    text-neutral-900
-                    placeholder:text-neutral-400
-                    focus:border-neutral-400 focus:bg-white
-                    "
-                    placeholder="Как к вам обращаться?"
-                    required
-                />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot-поле для ботов — скрытое от людей */}
+                <div className="hidden" aria-hidden="true">
+                  <label>
+                    Company
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      tabIndex={-1}
+                      value={form.company}
+                      onChange={(e) =>
+                        setForm({ ...form, company: e.target.value })
+                      }
+                    />
+                  </label>
                 </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-neutral-600">
-                    Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                    value={form.email}
-                    onChange={(e) =>
-                    setForm({ ...form, email: e.target.value })
-                    }
-                    type="email"
-                    className="
-                    w-full rounded-xl border border-neutral-200
-                    bg-neutral-50 px-3 py-2 text-sm
-                    text-neutral-900
-                    placeholder:text-neutral-400
-                    focus:border-neutral-400 focus:bg-white
-                    "
-                    placeholder="you@example.com"
-                    required
-                />
+                {/* Имя + Email в два столбца */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {/* Name */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium text-neutral-600">
+                      Имя <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      value={form.name}
+                      onChange={(e) =>
+                        setForm({ ...form, name: e.target.value })
+                      }
+                      className="
+                        w-full rounded-xl border border-neutral-200
+                        bg-neutral-50 px-3 py-2 text-sm
+                        text-neutral-900
+                        placeholder:text-neutral-400
+                        focus:border-neutral-400 focus:bg-white
+                      "
+                      placeholder="Как к вам обращаться?"
+                      required
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-medium text-neutral-600">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm({ ...form, email: e.target.value })
+                      }
+                      type="email"
+                      className="
+                        w-full rounded-xl border border-neutral-200
+                        bg-neutral-50 px-3 py-2 text-sm
+                        text-neutral-900
+                        placeholder:text-neutral-400
+                        focus:border-neutral-400 focus:bg-white
+                      "
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
                 </div>
-            </div> {/* ← закрываем grid */}
 
-            {/* Phone */}
-            <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-neutral-600">
-                Телефон (необязательно)
-                </label>
-                <input
-                value={form.phone}
-                onChange={(e) =>
-                    setForm({ ...form, phone: e.target.value })
-                }
-                className="
-                    w-full rounded-xl border border-neutral-200
-                    bg-neutral-50 px-3 py-2 text-sm
-                    text-neutral-900
-                    placeholder:text-neutral-400
-                    focus:border-neutral-400 focus:bg-white
-                "
-                placeholder="+49 ..."
-                />
-            </div>
+                {/* Phone */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-medium text-neutral-600">
+                    Телефон (необязательно)
+                  </label>
+                  <input
+                    value={form.phone}
+                    onChange={(e) =>
+                      setForm({ ...form, phone: e.target.value })
+                    }
+                    className="
+                      w-full rounded-xl border border-neutral-200
+                      bg-neutral-50 px-3 py-2 text-sm
+                      text-neutral-900
+                      placeholder:text-neutral-400
+                      focus:border-neutral-400 focus:bg-white
+                    "
+                    placeholder="+49 ..."
+                  />
+                </div>
 
-            {/* Message */}
-            <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-neutral-600">
-                Напишите пару слов об идее или проекте{" "}
-                <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                value={form.message}
-                onChange={(e) =>
-                    setForm({ ...form, message: e.target.value })
-                }
-                className="
-                    min-h-[100px] w-full rounded-xl border border-neutral-200
-                    bg-neutral-50 px-3 py-2 text-sm
-                    text-neutral-900
-                    placeholder:text-neutral-400
-                    focus:border-neutral-400 focus:bg-white
-                "
-                placeholder="Что вы хотите создать?"
-                required
-                />
-            </div>
+                {/* Message */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-medium text-neutral-600">
+                    Коротко опишите проект{" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={form.message}
+                    onChange={(e) =>
+                      setForm({ ...form, message: e.target.value })
+                    }
+                    className="
+                      min-h-[110px] w-full rounded-xl border border-neutral-200
+                      bg-neutral-50 px-3 py-2 text-sm
+                      text-neutral-900
+                      placeholder:text-neutral-400
+                      focus:border-neutral-400 focus:bg-white
+                    "
+                    placeholder="Что есть сейчас и что хотите улучшить? (сайт/магазин/система, платформа, что не устраивает)"
+                    required
+                  />
+                </div>
 
-            {/* Error */}
-            {error && <p className="text-sm text-red-600">{error}</p>}
+                {/* Error */}
+                {error && <p className="text-sm text-red-600">{error}</p>}
 
-            {/* Submit CTA */}
-            <button
-                type="submit"
-                disabled={isSubmitting}
-                className="
-                inline-flex w-full items-center justify-center
-                rounded-full bg-black
-                px-7 py-3.5
-                text-base font-semibold text-white
-                shadow-[0_4px_12px_rgba(0,0,0,0.35)]
-                transition-transform transition-shadow duration-200
-                hover:-translate-y-0.5
-                hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)]
-                disabled:cursor-not-allowed disabled:opacity-60
-                "
-            >
-                {isSubmitting ? "Отправка..." : "Отправить запрос"}
-            </button>
+                {/* Submit CTA */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="
+                    inline-flex w-full items-center justify-center
+                    rounded-full bg-black
+                    px-7 py-3.5
+                    text-base font-semibold text-white
+                    shadow-[0_4px_12px_rgba(0,0,0,0.35)]
+                    transition-transform transition-shadow duration-200
+                    hover:-translate-y-0.5
+                    hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)]
+                    disabled:cursor-not-allowed disabled:opacity-60
+                  "
+                >
+                  {isSubmitting ? "Отправка..." : "Отправить"}
+                </button>
 
-            <p className="text-[11px] text-neutral-400">
-                Нажимая кнопку, вы соглашаетесь получить ответ по указанным контактам.
-            </p>
-            </form>
+                <p className="text-[11px] text-neutral-400">
+                  Нажимая кнопку, вы соглашаетесь получить ответ по указанным контактам.
+                </p>
+              </form>
             )}
           </div>
         </div>

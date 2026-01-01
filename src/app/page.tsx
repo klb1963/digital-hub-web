@@ -10,6 +10,8 @@ import { FocusSection } from '@/sections/home/FocusSection';
 import { WhatToDoSection } from '@/sections/home/WhatToDo';
 import { SectionDivider } from '@/components/SectionDivider';
 import { IntroSection } from '@/sections/home/IntroSection';
+import { HeroSectionNew } from '@/sections/home/HeroSectionNew';
+import { HeroSkillsOrbit } from '@/sections/home/HeroSkillsOrbit';
 
 export default function HomePage() {
   return (
@@ -26,7 +28,8 @@ export default function HomePage() {
       <ProcessSection />
       <AboutMeSection />
       <CtaSection />
-      {/* <FooterSection /> */}
+      {/* <HeroSkillsOrbit/> */}
+      {/* <HeroSectionNew/> */}
     </main>
   );
 }
