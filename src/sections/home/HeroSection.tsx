@@ -88,19 +88,22 @@ export function HeroSection() {
             {/* Подзаголовок */}
             <motion.p
               variants={itemVariants}
-              className="mt-3 max-w-2xl text-base leading-relaxed text-slate-700 md:text-lg"
+              className="mt-3 max-w-2xl text-base leading-relaxed text-slate-800 md:text-lg"
             >
               Помогаю владельцам бизнеса разобраться, стабилизировать и развивать сайты,
-              интернет-магазины и внутренние системы — без космических бюджетов и зависимости
+              интернет-магазины и внутренние ИТ-системы — без космических бюджетов и зависимости
               от одного программиста или агентства.
             </motion.p>
 
             {/* Микрострока формата */}
             <motion.p
-              variants={itemVariants}
-              className="mt-3 text-sm text-slate-600 md:text-base"
+            variants={itemVariants}
+            className="mt-3 text-sm text-slate-700 md:text-base"
             >
-              Формат работы: 20–50 часов в месяц · 60 €/час · без долгосрочных контрактов
+            <span className="font-semibold text-slate-900">
+                Формат работы:
+            </span>{' '}
+            20–50 часов в месяц · 60 €/час · без долгосрочных контрактов
             </motion.p>
 
             {/* Входной оффер */}
@@ -142,6 +145,10 @@ export function HeroSection() {
                   Разберём текущую ситуацию, найдём узкие места и риски, наметим приоритеты —
                   чтобы вы понимали, что делать дальше и сколько это может стоить.
                 </p>
+                <p className="text-sm leading-relaxed text-slate-600 md:text-base">
+                  Начинаем с ИТ-диагностики — и шаг за шагом идём
+                  от хаоса или нуля к рабочему результату за адекватный бюджет.
+                </p>
               </div>
             </motion.div>
 
@@ -156,6 +163,10 @@ export function HeroSection() {
               className="mt-3 text-sm text-slate-600 md:text-base"
             >
               Напишите пару строк о проекте, будем разбираться.
+              <br/>
+              <p className="text-sm italic font-bold leading-relaxed text-slate-900 md:text-base">
+                ИТ-диагностика делается бесплатно и ни к чему не обязывает.
+              </p>
             </motion.p>
           </motion.div>
 

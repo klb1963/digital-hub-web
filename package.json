@@ -10,6 +10,7 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@next/third-parties": "^16.1.1",
     "@payloadcms/richtext-lexical": "^3.69.0",
     "framer-motion": "^12.23.24",

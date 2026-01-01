@@ -209,7 +209,7 @@ export default function FaqPage() {
           <div className="mt-8 flex justify-center">
             <AskQuestionDialog />
           </div>
-          <p className="mt-5 text-sm text-slate-500">
+          <p className="mt-5 text-sm text-slate-200 md:text-base">
             Я отвечаю лично. Без спама и рассылок — только предметный диалог.
           </p>
         </div>

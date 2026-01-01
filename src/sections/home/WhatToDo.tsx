@@ -359,13 +359,6 @@ export function WhatToDoSection() {
     [],
   );
 
-    const scrollByPage = (dir: "left" | "right") => {
-        const el = scrollerRef.current;
-        if (!el) return;
-        const delta = el.clientWidth; // ширина видимой области
-        el.scrollBy({ left: dir === "left" ? -delta : delta, behavior: "smooth" });
-    };
-
     const scrollByCard = (dir: "left" | "right") => {
       const el = scrollerRef.current;
       if (!el) return;
