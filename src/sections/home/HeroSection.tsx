@@ -82,7 +82,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-2 text-2xl font-semibold leading-snug text-slate-800 md:text-3xl"
             >
-              Берусь за существующие ИТ-проекты и привожу их в порядок
+              Берусь за ИТ-проекты и привожу их в порядок
             </motion.p>
 
             {/* Подзаголовок */}
@@ -138,7 +138,7 @@ export function HeroSection() {
                 </p>
 
                 <p className="text-base leading-normal text-slate-700 md:text-lg">
-                  2 часа · конкретные выводы · план дальнейших шагов
+                  2 часа консультации · выводы · план дальнейших шагов
                 </p>
 
                 <p className="text-sm leading-relaxed text-slate-600 md:text-base">
@@ -147,7 +147,7 @@ export function HeroSection() {
                 </p>
                 <p className="text-sm leading-relaxed text-slate-600 md:text-base">
                   Начинаем с ИТ-диагностики — и шаг за шагом идём
-                  от хаоса или нуля к рабочему результату за адекватный бюджет.
+                  с нуля до результата за адекватный бюджет.
                 </p>
               </div>
             </motion.div>
