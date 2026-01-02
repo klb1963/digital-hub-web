@@ -146,8 +146,10 @@ export function HeroSection() {
                   чтобы вы понимали, что делать дальше и сколько это может стоить.
                 </p>
                 <p className="text-sm leading-relaxed text-slate-600 md:text-base">
-                  Начинаем с ИТ-диагностики — и шаг за шагом идём
-                  с нуля до результата за адекватный бюджет.
+                  Начинаем с ИТ-диагностики — и {' '} 
+                  <span className="font-semibold text-[#04A974]">
+                    шаг за шагом идём c нуля до результата за адекватный бюджет.
+                  </span>
                 </p>
               </div>
             </motion.div>
@@ -164,7 +166,7 @@ export function HeroSection() {
             >
               Напишите пару строк о проекте, будем разбираться.
               <br/>
-              <p className="text-sm italic font-bold leading-relaxed text-slate-900 md:text-base">
+              <p className="mt-2 text-sm italic font-bold leading-relaxed text-slate-900 md:text-base">
                 ИТ-диагностика делается бесплатно и ни к чему не обязывает.
               </p>
             </motion.p>

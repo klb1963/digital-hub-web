@@ -17,11 +17,11 @@ type GetStartedFormData = {
 };
 
 const INTEREST_OPTIONS = [
-  "Консультация",
-  "MVP",
-  "Анализ требований",
   "Аудит проекта",
   "Rescue / реанимация проекта",
+  "Консультация",
+  "Анализ требований",
+  "MVP",
   "CTO-наставничество",
 ];
 
@@ -357,7 +357,7 @@ export function GetStartedDialog() {
                   />
                 </div>
 
-                {/* Какая часть опыта полезна */}
+                {/* Какая часть опыта полезна 
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-medium text-neutral-600">
                     Какая часть моего опыта или компетенций кажется вам наиболее полезной?
@@ -376,8 +376,9 @@ export function GetStartedDialog() {
                     placeholder="Например: архитектура SaaS, построение MVP, DevOps, интеграции, AI-сервисы…"
                   />
                 </div>
+                */}
 
-                {/* Формат взаимодействия */}
+                {/* Формат взаимодействия 
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-medium text-neutral-600">
                     К какому формату взаимодействия вы готовы?
@@ -396,6 +397,7 @@ export function GetStartedDialog() {
                     placeholder="Например: разовая сессия, серия консультаций, архитектурный проект, CTO-as-a-Service…"
                   />
                 </div>
+                */}
 
                 {/* Где о вас почитать */}
                 <div className="flex flex-col gap-1">
