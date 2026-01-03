@@ -4,46 +4,8 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
 
   images: {
-    // 🔴 КЛЮЧЕВОЙ ФИКС
-    // unoptimized: true,
 
-    remotePatterns: [
-      
-      {
-        protocol: 'https',
-        hostname: 'www.google.com',
-        pathname: '/images/**',
-      },
-
-      // ─────────────────────────
-      // ✅ ЛОКАЛЬНЫЙ PAYLOAD
-      // ─────────────────────────
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/**',
-      },
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '3000',
-        pathname: '/**',
-      },
-
-      // ─────────────────────────
-      // ✅ БOЕВОЙ PAYLOAD / API
-      // ─────────────────────────
-      {
-        protocol: 'https',
-        hostname: 'api.leonidk.de',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cms.leonidk.de',
-        pathname: '/media/**',
-      },
+    remotePatterns: [  
       {
         protocol: 'https',
         hostname: 'api.leonidk.de',
@@ -52,7 +14,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cms.leonidk.de',
-        pathname: '/**',
+        pathname: '/api/media/file/**',
       },
     ],
   },
