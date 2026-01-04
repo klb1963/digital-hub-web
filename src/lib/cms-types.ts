@@ -102,3 +102,73 @@ export type Post = {
   content?: unknown;
   layout?: LayoutBlock[] | null;
 };
+
+// ─────────────────────────────────────────────
+// IT Worries Quiz (Payload Global)
+// ─────────────────────────────────────────────
+
+export type ItWorriesModeKey = 'TEST' | 'FORMAL' | 'JOKES';
+
+export type ItWorriesSeverity = 'GREEN' | 'YELLOW' | 'RED' | 'RED_HOT';
+
+export type ItWorriesQuestionKey =
+  | 'hosting'
+  | 'domains'
+  | 'backups'
+  | 'budget'
+  | 'access'
+  | 'ownership';
+
+export type ItWorriesMode = {
+  id?: string;
+  modeKey: ItWorriesModeKey;
+  label: string;
+  description: string;
+  badge?: string | null;
+};
+
+export type ItWorriesLocalizedText = {
+  test: string;
+  formal: string;
+  jokes: string;
+};
+
+export type ItWorriesAnswer = {
+  id?: string;
+  severity: ItWorriesSeverity;
+  label: ItWorriesLocalizedText;
+};
+
+export type ItWorriesQuestion = {
+  id?: string;
+  questionKey: ItWorriesQuestionKey;
+  prompt: ItWorriesLocalizedText;
+  answers: ItWorriesAnswer[];
+};
+
+export type ItWorriesResult = {
+  title: string;
+  body: unknown; // richText lexical JSON
+  ctaLabel: string;
+  ctaHref: string;
+};
+
+export type ItWorriesQuizGlobal = {
+  id?: number | string;
+  heroTitle: string;
+  heroSubtitle?: string | null;
+  disclaimer?: unknown;
+  modes: ItWorriesMode[];
+  questions: ItWorriesQuestion[];
+  results: {
+    green: ItWorriesResult;
+    yellow: ItWorriesResult;
+    red: ItWorriesResult;
+  };
+  scoring: {
+    greenMaxScore: number;
+    yellowMaxScore: number;
+    redHotForcesAtLeastYellow?: boolean;
+    ownershipRedHotForcesRed?: boolean;
+  };
+};

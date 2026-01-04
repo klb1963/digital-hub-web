@@ -5,6 +5,7 @@ import type {
   Category,
   Post,
   PayloadListResponse,
+  ItWorriesQuizGlobal,
 } from './cms-types';
 
 type NextFetchOptions = {
@@ -27,7 +28,7 @@ function getCmsBaseServer(): string {
 }
 
 // ✅ Re-export types for server usage (optional)
-export type { Category, Post } from './cms-types';
+export type { Category, Post, ItWorriesQuizGlobal } from './cms-types';
 
 // ─────────────────────────────────────────────
 // Общая функция fetch’а из Payload CMS
@@ -154,5 +155,22 @@ export async function getAllPostSlugs(): Promise<string[]> {
   } catch (err) {
     console.error('Failed to load post slugs from CMS', err);
     return [];
+  }
+}
+
+// ─────────────────────────────────────────────
+// IT Worries Quiz (Global)
+// ─────────────────────────────────────────────
+
+export async function getItWorriesQuiz(): Promise<ItWorriesQuizGlobal | null> {
+  try {
+    // globals endpoint in Payload: /api/globals/<slug>
+    const data = await fetchFromCMS<ItWorriesQuizGlobal>(
+      '/api/globals/it-worries-quiz?depth=2',
+    );
+    return data;
+  } catch (err) {
+    console.error('Failed to load it-worries-quiz global from CMS', err);
+    return null;
   }
 }
