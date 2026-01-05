@@ -1,6 +1,8 @@
 // src/app/it-clarity/page.tsx
 
 import Link from "next/link";
+import { RichTextRenderer } from '@/components/RichText';
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 
 type Level = "GREEN" | "YELLOW" | "RED";
 
@@ -11,65 +13,60 @@ function normalizeLevel(input: unknown): Level | null {
   return null;
 }
 
-const copyByLevel: Record<
-  Level,
-  {
-    badge: string;
-    title: string;
-    subtitle: string;
-    bullets: string[];
-    ctaPrimaryLabel: string;
-    ctaPrimaryHref: string;
-    ctaSecondaryLabel: string;
-    ctaSecondaryHref: string;
-  }
-> = {
-  GREEN: {
-    badge: "Уровень: GREEN",
-    title: "У вас хороший IT-порядок. Осталось не потерять темп.",
-    subtitle:
-      "Судя по квизу, база уже выглядит здорово. Это отличный момент, чтобы зафиксировать процессы и убрать “точки риска”, пока всё спокойно.",
-    bullets: [
-      "Проверим, что доступы, домены и хостинг оформлены прозрачно и корректно.",
-      "Сверим бэкапы: что именно сохраняется, как быстро восстанавливаемся и кто отвечает.",
-      "Соберём короткий IT-паспорт проекта: где что лежит и что делать в аварийной ситуации.",
-    ],
-    ctaPrimaryLabel: "Хочу IT-паспорт (15 минут)",
-    ctaPrimaryHref: "/contact?from=it-clarity&level=GREEN",
-    ctaSecondaryLabel: "Пройти квиз ещё раз",
-    ctaSecondaryHref: "/it-worries-quiz",
-  },
-  YELLOW: {
-    badge: "Уровень: YELLOW",
-    title: "Есть риски. Не критично — но лучше закрыть их сейчас.",
-    subtitle:
-      "Часть вещей держится на догадках или устных договорённостях. Это поправимо, если быстро навести структуру.",
-    bullets: [
-      "Определим 2–3 ключевые зоны риска и зафиксируем правила.",
-      "Настроим базовую защиту: доступы, бэкапы, ответственность, бюджет.",
-      "Соберём план на ближайшие 2–4 недели, чтобы выйти в GREEN.",
-    ],
-    ctaPrimaryLabel: "Хочу план до GREEN",
-    ctaPrimaryHref: "/contact?from=it-clarity&level=YELLOW",
-    ctaSecondaryLabel: "Посмотреть FAQ",
-    ctaSecondaryHref: "/faq",
-  },
-  RED: {
-    badge: "Уровень: RED",
-    title: "Сейчас IT — источник уязвимости. Нужна быстрая стабилизация.",
-    subtitle:
-      "Ключевые вещи не под контролем — а значит любой сбой может обернуться потерей денег, времени или данных.",
-    bullets: [
-      "Срочно фиксируем владение: домены, аккаунты, доступы и права.",
-      "Проверяем и настраиваем бэкапы с реальным восстановлением.",
-      "Готовим антикризисный чек-лист на случай сбоя.",
-    ],
-    ctaPrimaryLabel: "Нужна быстрая стабилизация",
-    ctaPrimaryHref: "/contact?from=it-clarity&level=RED",
-    ctaSecondaryLabel: "Вернуться к квизу",
-    ctaSecondaryHref: "/it-worries-quiz",
-  },
+function isSerializedEditorState(v: unknown): v is SerializedEditorState {
+  return (
+    typeof v === 'object' &&
+    v !== null &&
+    'root' in (v as Record<string, unknown>)
+  );
+}
+
+type PayloadItClarityResponse = {
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  levels?: Array<{
+    level?: Level | string | null;
+    badge?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    body?: unknown; // lexical json
+    ctaPrimaryLabel?: string | null;
+    ctaPrimaryHref?: string | null;
+    ctaSecondaryLabel?: string | null;
+    ctaSecondaryHref?: string | null;
+  }> | null;
 };
+
+function getPayloadBaseURL() {
+  // Локально у тебя payload на 3000 (docker проброс 127.0.0.1:3000->3000)
+  // В проде лучше держать PAYLOAD_PUBLIC_SERVER_URL или PAYLOAD_URL.
+  return (
+    process.env.PAYLOAD_PUBLIC_SERVER_URL ||
+    process.env.PAYLOAD_URL ||
+    "http://localhost:3000"
+  );
+}
+
+async function fetchItClarity(): Promise<PayloadItClarityResponse | null> {
+  const base = getPayloadBaseURL();
+  const url = `${base.replace(/\/$/, "")}/api/globals/it-clarity?depth=2`;
+
+  try {
+    const res = await fetch(url, {
+      // под твою ISR-логику (у тебя часто revalidate=60)
+      next: { revalidate: 60 },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) return null;
+    const json = (await res.json()) as PayloadItClarityResponse;
+    return json;
+  } catch {
+    return null;
+  }
+}
 
 export default async function ItClarityPage({
   searchParams,
@@ -77,11 +74,34 @@ export default async function ItClarityPage({
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = (await searchParams) ?? {};
-
   const level = normalizeLevel(sp.level);
   const from = typeof sp.from === "string" ? sp.from : undefined;
 
-  const content = level ? copyByLevel[level] : null;
+  const cms = await fetchItClarity();
+
+  const heroTitle =
+    cms?.heroTitle?.trim() || "IT Clarity — разбор результата";
+  const heroSubtitle =
+    cms?.heroSubtitle?.trim() ||
+    "Короткий разбор и следующие шаги — в зависимости от вашего результата.";
+
+  const levelItem = level
+    ? cms?.levels?.find((x) => normalizeLevel(x.level) === level) ?? null
+    : null;
+
+  const content = levelItem
+    ? {
+        badge: levelItem.badge || `Уровень: ${level}`,
+        title: levelItem.title || heroTitle,
+        subtitle: levelItem.subtitle || heroSubtitle,
+        body: levelItem.body,
+        ctaPrimaryLabel: levelItem.ctaPrimaryLabel || "Связаться",
+        ctaPrimaryHref:
+          levelItem.ctaPrimaryHref || `/contact?from=it-clarity&level=${level}`,
+        ctaSecondaryLabel: levelItem.ctaSecondaryLabel || "Назад",
+        ctaSecondaryHref: levelItem.ctaSecondaryHref || "/it-worries-quiz",
+      }
+    : null;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
@@ -89,22 +109,21 @@ export default async function ItClarityPage({
         <section className="space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
             <span className="font-medium">IT Clarity</span>
-            <span className="opacity-70">
-              {from ? `from: ${from}` : "страница"}
-            </span>
+            <span className="opacity-70">{from ? `from: ${from}` : "страница"}</span>
           </div>
 
           <h1 className="text-3xl font-semibold leading-tight">
-            {content ? content.title : "IT Clarity — разбор результата"}
+            {content ? content.title : heroTitle}
           </h1>
 
-          {content ? (
-            <p className="text-base opacity-80">{content.subtitle}</p>
-          ) : (
-            <p className="text-base opacity-80">
+          <p className="text-base opacity-80">
+            {content ? content.subtitle : heroSubtitle}
+          </p>
+
+          {!content && (
+            <p className="text-sm opacity-70">
               Укажи параметр{" "}
-              <code className="rounded bg-black/5 px-1 py-0.5">level</code>:
-              {" "}
+              <code className="rounded bg-black/5 px-1 py-0.5">level</code>:{" "}
               <code className="rounded bg-black/5 px-1 py-0.5">GREEN</code>,{" "}
               <code className="rounded bg-black/5 px-1 py-0.5">YELLOW</code> или{" "}
               <code className="rounded bg-black/5 px-1 py-0.5">RED</code>.
@@ -117,14 +136,13 @@ export default async function ItClarityPage({
             <div className="rounded-2xl border border-black/10 p-6">
               <div className="text-xs opacity-60">{content.badge}</div>
 
-              <ul className="mt-4 space-y-2 text-sm">
-                {content.bullets.map((b) => (
-                  <li key={b} className="flex gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-black/40" />
-                    <span className="opacity-90">{b}</span>
-                  </li>
-                ))}
-              </ul>
+              {content.body ? (
+                <div className="prose prose-sm mt-4 max-w-none">
+                <RichTextRenderer
+                    content={isSerializedEditorState(content.body) ? content.body : null}
+                />
+                </div>
+              ) : null}
 
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 <Link

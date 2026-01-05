@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 type Item = {
@@ -20,17 +20,26 @@ export default function GalleryLightboxClient({ items }: Props) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
-  const hasMany = safeItems.length > 1;
+  const len = safeItems.length;
+  const hasMany = len > 1;
   const current = safeItems[index];
 
-  const close = () => setOpen(false);
-  const openAt = (i: number) => {
+  const close = useCallback(() => setOpen(false), []);
+
+  const openAt = useCallback((i: number) => {
     setIndex(i);
     setOpen(true);
-  };
+  }, []);
 
-  const prev = () => setIndex((i) => (i - 1 + safeItems.length) % safeItems.length);
-  const next = () => setIndex((i) => (i + 1) % safeItems.length);
+  const prev = useCallback(() => {
+    if (len <= 1) return;
+    setIndex((i) => (i - 1 + len) % len);
+  }, [len]);
+
+  const next = useCallback(() => {
+    if (len <= 1) return;
+    setIndex((i) => (i + 1) % len);
+  }, [len]);
 
   useEffect(() => {
     if (!open) return;
@@ -44,7 +53,7 @@ export default function GalleryLightboxClient({ items }: Props) {
 
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [open, hasMany, safeItems.length]);
+  }, [open, hasMany, close, prev, next]);
 
   // блокируем скролл под модалкой
   useEffect(() => {
@@ -56,7 +65,7 @@ export default function GalleryLightboxClient({ items }: Props) {
     };
   }, [open]);
 
-  if (safeItems.length === 0) return null;
+  if (len === 0) return null;
 
   return (
     <>
@@ -133,7 +142,7 @@ export default function GalleryLightboxClient({ items }: Props) {
                   </div>
                   {hasMany && (
                     <div className="shrink-0 text-xs text-neutral-400">
-                      {index + 1}/{safeItems.length}
+                      {index + 1}/{len}
                     </div>
                   )}
                 </div>
