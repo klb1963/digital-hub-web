@@ -71,14 +71,15 @@ const copyByLevel: Record<
   },
 };
 
-export default function ItClarityPage({
+export default async function ItClarityPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const level = normalizeLevel(searchParams?.level);
-  const from =
-    typeof searchParams?.from === "string" ? searchParams?.from : undefined;
+  const sp = (await searchParams) ?? {};
+
+  const level = normalizeLevel(sp.level);
+  const from = typeof sp.from === "string" ? sp.from : undefined;
 
   const content = level ? copyByLevel[level] : null;
 
