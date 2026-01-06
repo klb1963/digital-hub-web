@@ -38,12 +38,13 @@ type PayloadItClarityResponse = {
 };
 
 function getPayloadBaseURL() {
-  // Локально у тебя payload на 3000 (docker проброс 127.0.0.1:3000->3000)
-  // В проде лучше держать PAYLOAD_PUBLIC_SERVER_URL или PAYLOAD_URL.
   return (
+    process.env.NEXT_PUBLIC_CMS_URL ||
     process.env.PAYLOAD_PUBLIC_SERVER_URL ||
     process.env.PAYLOAD_URL ||
-    "http://localhost:3000"
+    (process.env.NODE_ENV === 'production'
+      ? 'https://api.leonidk.de'
+      : 'http://localhost:3000')
   );
 }
 
@@ -51,14 +52,11 @@ async function fetchItClarity(): Promise<PayloadItClarityResponse | null> {
   const base = getPayloadBaseURL();
   const url = `${base.replace(/\/$/, "")}/api/globals/it-clarity?depth=2`;
 
-  try {
-    const res = await fetch(url, {
-      // под твою ISR-логику (у тебя часто revalidate=60)
-      next: { revalidate: 60 },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+        const res = await fetch(url, {
+            // ISR: страница будет пересобираться раз в 60 секунд
+            next: { revalidate: 60 },
+        });
 
     if (!res.ok) return null;
     const json = (await res.json()) as PayloadItClarityResponse;
@@ -103,66 +101,66 @@ export default async function ItClarityPage({
       }
     : null;
 
-  return (
-    <main className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
-      <div className="space-y-8">
-        <section className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
-            <span className="font-medium">IT Clarity</span>
-            <span className="opacity-70">{from ? `from: ${from}` : "страница"}</span>
-          </div>
+    return (
+        <main className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
+            <div className="space-y-8">
+                <section className="space-y-4">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
+                        <span className="font-medium">IT Clarity</span>
+                        <span className="opacity-70">{from ? `from: ${from}` : "страница"}</span>
+                    </div>
 
-          <h1 className="text-3xl font-semibold leading-tight">
-            {content ? content.title : heroTitle}
-          </h1>
+                    <h1 className="text-3xl font-semibold leading-tight">
+                        {content ? content.title : heroTitle}
+                    </h1>
 
-          <p className="text-base opacity-80">
-            {content ? content.subtitle : heroSubtitle}
-          </p>
+                    <p className="text-base opacity-80">
+                        {content ? content.subtitle : heroSubtitle}
+                    </p>
 
-          {!content && (
-            <p className="text-sm opacity-70">
-              Укажи параметр{" "}
-              <code className="rounded bg-black/5 px-1 py-0.5">level</code>:{" "}
-              <code className="rounded bg-black/5 px-1 py-0.5">GREEN</code>,{" "}
-              <code className="rounded bg-black/5 px-1 py-0.5">YELLOW</code> или{" "}
-              <code className="rounded bg-black/5 px-1 py-0.5">RED</code>.
-            </p>
-          )}
-        </section>
+                    {!content && (
+                        <p className="text-sm opacity-70">
+                            Укажи параметр{" "}
+                            <code className="rounded bg-black/5 px-1 py-0.5">level</code>:{" "}
+                            <code className="rounded bg-black/5 px-1 py-0.5">GREEN</code>,{" "}
+                            <code className="rounded bg-black/5 px-1 py-0.5">YELLOW</code> или{" "}
+                            <code className="rounded bg-black/5 px-1 py-0.5">RED</code>.
+                        </p>
+                    )}
+                </section>
 
-        {content && (
-          <section className="space-y-4">
-            <div className="rounded-2xl border border-black/10 p-6">
-              <div className="text-xs opacity-60">{content.badge}</div>
+                {content && (
+                    <section className="space-y-4">
+                        <div className="rounded-2xl border border-black/10 p-6">
+                            <div className="text-xs opacity-60">{content.badge}</div>
 
-              {content.body ? (
-                <div className="prose prose-sm mt-4 max-w-none">
-                <RichTextRenderer
-                    content={isSerializedEditorState(content.body) ? content.body : null}
-                />
-                </div>
-              ) : null}
+                            {content.body ? (
+                                <div className="prose prose-sm mt-4 max-w-none">
+                                    <RichTextRenderer
+                                        content={isSerializedEditorState(content.body) ? content.body : null}
+                                    />
+                                </div>
+                            ) : null}
 
-              <div className="mt-6 flex flex-wrap items-center gap-2">
-                <Link
-                  href={content.ctaPrimaryHref}
-                  className="rounded-xl bg-black px-4 py-2 text-sm text-white"
-                >
-                  {content.ctaPrimaryLabel}
-                </Link>
+                            <div className="mt-6 flex flex-wrap items-center gap-2">
+                                <Link
+                                    href={content.ctaPrimaryHref}
+                                    className="rounded-xl bg-black px-4 py-2 text-sm text-white"
+                                >
+                                    {content.ctaPrimaryLabel}
+                                </Link>
 
-                <Link
-                  href={content.ctaSecondaryHref}
-                  className="rounded-xl border border-black/10 px-4 py-2 text-sm opacity-80 hover:opacity-100"
-                >
-                  {content.ctaSecondaryLabel}
-                </Link>
-              </div>
+                                <Link
+                                    href={content.ctaSecondaryHref}
+                                    className="rounded-xl border border-black/10 px-4 py-2 text-sm opacity-80 hover:opacity-100"
+                                >
+                                    {content.ctaSecondaryLabel}
+                                </Link>
+                            </div>
+                        </div>
+                    </section>
+                )}
             </div>
-          </section>
-        )}
-      </div>
-    </main>
-  );
+        </main>
+    );
 }
