@@ -23,6 +23,46 @@ type PostWithSEO = Post & {
   seo?: PostSEO | null;
 };
 
+function isSerializedEditorState(value: unknown): value is SerializedEditorState {
+  if (!value || typeof value !== 'object') return false;
+  // в SerializedEditorState всегда есть root (объект)
+  return 'root' in value;
+}
+
+function hasLexicalRoot(value: unknown): value is SerializedEditorState {
+  if (!value || typeof value !== 'object') return false;
+  const rec = value as Record<string, unknown>;
+  const root = rec.root;
+  if (!root || typeof root !== 'object') return false;
+  const rootRec = root as Record<string, unknown>;
+  return typeof rootRec.type === 'string';
+}
+
+function lexicalToPlainText(value: unknown): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (!hasLexicalRoot(value)) return '';
+
+  const parts: string[] = [];
+
+  const walk = (node: unknown) => {
+    if (!node || typeof node !== 'object') return;
+    const rec = node as Record<string, unknown>;
+
+    const text = rec.text;
+    if (typeof text === 'string' && text) parts.push(text);
+
+    const children = rec.children;
+    if (Array.isArray(children)) {
+      for (const child of children) walk(child);
+    }
+  };
+
+  walk((value as unknown as Record<string, unknown>).root);
+
+  return parts.join(' ').replace(/\s+/g, ' ').trim();
+}
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
   'https://leonidk.de';
@@ -195,8 +235,8 @@ export async function generateMetadata(
 
   const description =
     postWithSEO.seo?.seoDescription ??
-    post.excerpt ??
-    'Заметки, архитектура, MVP и история Open Digital Hub.';
+    (lexicalToPlainText(post.excerpt) ||
+      'Заметки, архитектура, MVP и история Open Digital Hub.');
 
   const cmsPublicBaseUrl = getCmsPublicBase();
 
@@ -341,7 +381,23 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       {/* Excerpt */}
       {post.excerpt && (
-        <p className="mb-4 text-lg text-gray-700">{post.excerpt}</p>
+        <div className="mb-4">
+          {isSerializedEditorState(post.excerpt) ? (
+            <RichTextRenderer
+              content={post.excerpt}
+              className="
+                prose prose-lg prose-neutral max-w-none
+                prose-p:my-3
+                prose-ol:list-decimal prose-ol:pl-6
+                prose-ul:list-disc prose-ul:pl-6
+                prose-li:my-1
+                prose-strong:font-semibold
+              "
+            />
+          ) : (
+            <p className="text-lg text-gray-700">{String(post.excerpt)}</p>
+          )}
+        </div>
       )}
 
       {/* Обложка */}
@@ -445,9 +501,21 @@ export default async function BlogPostPage({ params }: PageProps) {
                       </h3>
 
                       {related.excerpt && (
-                        <p className="text-sm text-neutral-600 line-clamp-2">
-                          {related.excerpt}
-                        </p>
+                        <div className="text-sm text-neutral-600 line-clamp-2">
+                          {hasLexicalRoot(related.excerpt) ? (
+                          <RichTextRenderer
+                            content={related.excerpt as unknown as SerializedEditorState | null}
+                            className="
+                              prose prose-sm max-w-none
+                              prose-ol:list-decimal prose-ol:pl-5
+                              prose-ul:list-disc prose-ul:pl-5
+                              prose-li:my-0
+                            "
+                          />
+                          ) : (
+                            <p>{lexicalToPlainText(related.excerpt)}</p>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>

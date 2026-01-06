@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import type { Post, Category } from '@/lib/cms';
+import { RichText } from '@payloadcms/richtext-lexical/react';
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 
 type BlogListProps = {
   posts: Post[];
@@ -59,6 +61,45 @@ function normalizePayloadMediaUrl(absUrl: string, publicBase: string) {
   }
 }
 
+function lexicalToPlainText(value: unknown): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (!hasLexicalRoot(value)) return '';
+
+  const parts: string[] = [];
+
+  const walk = (node: unknown) => {
+    if (!node || typeof node !== 'object') return;
+
+    const rec = node as Record<string, unknown>;
+
+    const text = rec.text;
+    if (typeof text === 'string' && text) parts.push(text);
+
+    const children = rec.children;
+    if (Array.isArray(children)) {
+      for (const child of children) walk(child);
+    }
+  };
+
+  // value: SerializedEditorState, но мы обходим как unknown-safe
+  walk((value as SerializedEditorState).root);
+
+  return parts.join(' ').replace(/\s+/g, ' ').trim();
+}
+
+function hasLexicalRoot(value: unknown): value is SerializedEditorState {
+  if (!value || typeof value !== 'object') return false;
+
+  const rec = value as Record<string, unknown>;
+  const root = rec.root;
+
+  if (!root || typeof root !== 'object') return false;
+
+  const rootRec = root as Record<string, unknown>;
+  return typeof rootRec.type === 'string';
+}
+
 export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps) {
   const searchParams = useSearchParams();
 
@@ -103,10 +144,18 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
   // 2) фильтр по тексту (title + excerpt)
   if (normalizedQuery) {
     filteredPosts = filteredPosts.filter((post) => {
+      let excerptText = '';
+
+      if (hasLexicalRoot(post.excerpt)) {
+        excerptText = lexicalToPlainText(post.excerpt);
+      } else if (typeof post.excerpt === 'string') {
+        excerptText = post.excerpt;
+      }
+
       const haystack = (
         (post.title ?? '') +
         ' ' +
-        (post.excerpt ?? '')
+        excerptText
       ).toLowerCase();
 
       return haystack.includes(normalizedQuery);
@@ -316,12 +365,24 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
                       {post.title}
                     </Link>
                   </h2>
-
-                  {post.excerpt && (
-                    <p className="text-sm text-neutral-600">
-                      {post.excerpt}
-                    </p>
-                  )}
+                {post.excerpt && (
+                  <div className="text-sm text-neutral-600">
+                    {hasLexicalRoot(post.excerpt) ? (
+                      <RichText
+                        data={post.excerpt}
+                          className="
+                          prose prose-sm max-w-none
+                          prose-p:my-2
+                          prose-ol:list-decimal prose-ol:pl-5
+                          prose-ul:list-disc prose-ul:pl-5
+                          prose-li:my-0
+                        "
+                      />
+                    ) : (
+                      <p>{lexicalToPlainText(post.excerpt)}</p>
+                    )}
+                  </div>
+                )}
 
                   <div className="pt-1">
                     <Link
