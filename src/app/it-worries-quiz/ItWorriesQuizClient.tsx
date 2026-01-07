@@ -181,8 +181,25 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
 
       {/* MODE SELECTOR */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Режим</h2>
+        <h2 className="text-lg font-semibold">Режим прохождения</h2>
+        <p
+        className="
+            inline-flex items-center gap-2
+            rounded-full
+            border border-black/10
+            bg-black/5
+            px-4 py-2
+            text-sm
+            text-black/80
 
+            dark:border-white/20
+            dark:bg-white/10
+            dark:text-white/80
+        "
+        >
+        <span className="text-base">🧭</span>
+        Выберите стиль вопросов, который вам ближе
+        </p>
         <div className="grid gap-3 md:grid-cols-3">
           {quiz.modes.map((m) => {
             const active = m.modeKey === mode;
@@ -192,8 +209,10 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
                 type="button"
                 onClick={() => setMode(m.modeKey)}
                 className={[
-                  'rounded-2xl border p-4 text-left transition',
-                  active ? 'border-black/30 bg-black/5' : 'border-black/10 hover:bg-black/5',
+                'rounded-xl border px-4 py-3 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 dark:focus-visible:ring-white/50',
+                active
+                    ? 'border-black/30 bg-black/5 ring-2 ring-black/25 dark:border-white/60 dark:bg-white/14 dark:ring-white/60'
+                    : 'border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10',
                 ].join(' ')}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -244,8 +263,10 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
                     type="button"
                     onClick={() => pickAnswer(a.severity)}
                     className={[
-                      'rounded-xl border px-4 py-3 text-left text-sm transition',
-                      active ? 'border-black/30 bg-black/5' : 'border-black/10 hover:bg-black/5',
+                    'rounded-xl border px-4 py-3 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 dark:focus-visible:ring-white/50',
+                    active
+                        ? 'border-black/30 bg-black/5 ring-2 ring-black/25 dark:border-white/60 dark:bg-white/14 dark:ring-white/60'
+                        : 'border-black/10 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/10',
                     ].join(' ')}
                   >
                     {label}

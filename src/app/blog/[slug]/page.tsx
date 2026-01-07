@@ -68,11 +68,12 @@ const SITE_URL =
   'https://leonidk.de';
 
 function getCmsPublicBase(): string {
-  return (
+  const base =
     process.env.NEXT_PUBLIC_CMS_URL ||
     process.env.CMS_URL ||
-    ''
-  ).replace(/\/$/, '');
+    (process.env.NODE_ENV === 'production' ? 'https://api.leonidk.de' : 'http://localhost:3000');
+
+  return base.replace(/\/$/, '');
 }
 
 function resolveMediaUrl(pathOrUrl?: string | null, base?: string) {
