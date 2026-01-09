@@ -8,10 +8,13 @@ import { useSearchParams } from 'next/navigation';
 import type { Post, Category } from '@/lib/cms';
 import { RichText } from '@payloadcms/richtext-lexical/react';
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+import { TagCloud, type TagStat } from './TagCloud';
 
 type BlogListProps = {
   posts: Post[];
   categories: Category[];
+  tagStats: TagStat[];
+  activeTag?: string;
   cmsPublicBaseUrl: string;
 };
 
@@ -100,7 +103,13 @@ function hasLexicalRoot(value: unknown): value is SerializedEditorState {
   return typeof rootRec.type === 'string';
 }
 
-export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps) {
+export function BlogList({ 
+    posts,
+    categories,
+    tagStats,
+    activeTag,
+    cmsPublicBaseUrl,
+}: BlogListProps) {
   const searchParams = useSearchParams();
 
   const activeCategorySlug = searchParams.get('category') ?? 'all';
@@ -125,6 +134,18 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
   let filteredPosts = posts;
+  // 0) фильтр по тегу
+  if (activeTag) {
+    filteredPosts = filteredPosts.filter((post) =>
+      post.tags?.some(
+        (tag) =>
+          tag
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, '-') === activeTag
+      )
+    );
+  }
 
   // 1) фильтр по категории
   if (activeCategorySlug !== 'all') {
@@ -201,6 +222,7 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
 
   return (
     <>
+
       {/* Форма поиска */}
       <form
         action="/blog"
@@ -301,6 +323,12 @@ export function BlogList({ posts, categories, cmsPublicBaseUrl }: BlogListProps)
               </Link>
             );
           })}
+        </div>
+      )}
+
+      {tagStats.length > 0 && (
+        <div className="pt-2">
+          <TagCloud tags={tagStats} activeTag={activeTag} />
         </div>
       )}
 

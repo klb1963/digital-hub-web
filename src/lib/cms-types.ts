@@ -83,6 +83,7 @@ export type Post = {
   id: number;
   title: string;
   slug: string;
+  tags?: string[];
   excerpt?: string | null;
   publishDate?: string | null;
   category?:
