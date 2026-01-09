@@ -159,10 +159,10 @@ export async function getAllPostSlugs(): Promise<string[]> {
 }
 
 // ─────────────────────────────────────────────
-// IT Worries Quiz (Global)
+// IT Worries Test (Global) - named quiz in Payload
 // ─────────────────────────────────────────────
 
-export async function getItWorriesQuiz(): Promise<ItWorriesQuizGlobal | null> {
+export async function getItWorriesTest(): Promise<ItWorriesQuizGlobal | null> {
   try {
     // globals endpoint in Payload: /api/globals/<slug>
     const data = await fetchFromCMS<ItWorriesQuizGlobal>(
@@ -170,7 +170,7 @@ export async function getItWorriesQuiz(): Promise<ItWorriesQuizGlobal | null> {
     );
     return data;
   } catch (err) {
-    console.error('Failed to load it-worries-quiz global from CMS', err);
+    console.error('Failed to load it-worries-test global from CMS', err);
     return null;
   }
 }

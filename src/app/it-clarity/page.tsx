@@ -97,7 +97,7 @@ export default async function ItClarityPage({
         ctaPrimaryHref:
           levelItem.ctaPrimaryHref || `/contact?from=it-clarity&level=${level}`,
         ctaSecondaryLabel: levelItem.ctaSecondaryLabel || "Назад",
-        ctaSecondaryHref: levelItem.ctaSecondaryHref || "/it-worries-quiz",
+        ctaSecondaryHref: levelItem.ctaSecondaryHref || "/it-worries-test",
       }
     : null;
 
