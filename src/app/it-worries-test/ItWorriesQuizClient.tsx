@@ -167,7 +167,7 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
       <section className="space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs">
           <span className="font-medium">IT-беспокойство</span>
-          <span className="opacity-70">квиз</span>
+          <span className="opacity-70">тест</span>
         </div>
 
         <h1 className="text-3xl font-semibold leading-tight">{quiz.heroTitle}</h1>

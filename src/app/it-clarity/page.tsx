@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { RichTextRenderer } from '@/components/RichText';
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
+import ItClarityEmailCapture from '@/components/ItClarityEmailCapture';
 
 type Level = "GREEN" | "YELLOW" | "RED";
 
@@ -141,6 +142,8 @@ export default async function ItClarityPage({
                                     />
                                 </div>
                             ) : null}
+
+                            <ItClarityEmailCapture level="GREEN" persona="captain" />
 
                             <div className="mt-6 flex flex-wrap items-center gap-2">
                                 <Link
