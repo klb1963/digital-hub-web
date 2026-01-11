@@ -7,6 +7,12 @@ import ItClarityEmailCapture from '@/components/ItClarityEmailCapture';
 
 type Level = "GREEN" | "YELLOW" | "RED";
 
+function normalizeFrom(input?: string) {
+  if (!input) return undefined;
+  if (input === 'quiz') return 'test';
+  return input;
+}
+
 function normalizeLevel(input: unknown): Level | null {
   if (typeof input !== "string") return null;
   const v = input.trim().toUpperCase();
@@ -74,7 +80,8 @@ export default async function ItClarityPage({
 }) {
   const sp = (await searchParams) ?? {};
   const level = normalizeLevel(sp.level);
-  const from = typeof sp.from === "string" ? sp.from : undefined;
+  const from =
+    typeof sp.from === "string" ? normalizeFrom(sp.from) : undefined;
 
   const cms = await fetchItClarity();
 
