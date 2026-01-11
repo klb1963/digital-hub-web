@@ -354,11 +354,12 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
                   className="
                   inline-flex items-center justify-center
                   rounded-xl
-                  border border-black/20
-                  bg-white
+                  bg-white/90
                   px-6 py-4
                   text-base font-medium
-                  hover:bg-black/5
+                  text-black
+                  shadow
+                  hover:bg-white
                   transition
                 "
                 >

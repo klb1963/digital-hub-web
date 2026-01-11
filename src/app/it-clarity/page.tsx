@@ -154,7 +154,7 @@ export default async function ItClarityPage({
 
               <div className="mt-8 rounded-2xl bg-black/5 p-4 sm:p-6">
                 <div className="mb-3 text-sm text-black/70">
-                  Что вы хотите сделать дальше?
+                  Что дальше?
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-stretch gap-3">
@@ -184,11 +184,12 @@ export default async function ItClarityPage({
                     className="
                     inline-flex items-center justify-center
                     rounded-xl
-                    border border-black/20
-                    bg-white
+                    bg-white/90
                     px-6 py-4
                     text-base font-medium
-                    hover:bg-black/5
+                    text-black
+                    shadow
+                    hover:bg-white
                     transition
                   "
                   >
