@@ -150,27 +150,56 @@ export default async function ItClarityPage({
                                 </div>
                             ) : null}
 
-                            <ItClarityEmailCapture level="GREEN" persona="captain" />
+              <ItClarityEmailCapture level="GREEN" persona="captain" />
 
-                            <div className="mt-6 flex flex-wrap items-center gap-2">
-                                <Link
-                                    href={content.ctaPrimaryHref}
-                                    className="rounded-xl bg-black px-4 py-2 text-sm text-white"
-                                >
-                                    {content.ctaPrimaryLabel}
-                                </Link>
+              <div className="mt-8 rounded-2xl bg-black/5 p-4 sm:p-6">
+                <div className="mb-3 text-sm text-black/70">
+                  Что вы хотите сделать дальше?
+                </div>
 
-                                <Link
-                                    href={content.ctaSecondaryHref}
-                                    className="rounded-xl border border-black/10 px-4 py-2 text-sm opacity-80 hover:opacity-100"
-                                >
-                                    {content.ctaSecondaryLabel}
-                                </Link>
-                            </div>
-                        </div>
-                    </section>
-                )}
+                <div className="flex flex-col sm:flex-row items-stretch gap-3">
+                  <Link
+                    href={content.ctaPrimaryHref}
+                    className="
+                    inline-flex items-center justify-center
+                    rounded-xl
+                    bg-[#06BA7E]
+                    px-6 py-4
+                    text-base font-semibold
+                    text-white
+                    shadow-lg
+                    hover:bg-[#059a69]
+                    focus-visible:outline
+                    focus-visible:outline-2
+                    focus-visible:outline-offset-2
+                    focus-visible:outline-[#06BA7E]
+                    transition
+                  "
+                  >
+                    {content.ctaPrimaryLabel}
+                  </Link>
+
+                  <Link
+                    href={content.ctaSecondaryHref}
+                    className="
+                    inline-flex items-center justify-center
+                    rounded-xl
+                    border border-black/20
+                    bg-white
+                    px-6 py-4
+                    text-base font-medium
+                    hover:bg-black/5
+                    transition
+                  "
+                  >
+                    {content.ctaSecondaryLabel}
+                  </Link>
+                </div>
+              </div>
             </div>
-        </main>
-    );
+          </section>
+        )}
+      </div>
+    </main>
+  );
 }

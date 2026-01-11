@@ -320,22 +320,53 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
               <RenderLexical value={quiz.results[resultKey].body} />
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-2">
+            {/* CTA BLOCK */}
+            <div className="mt-8 rounded-2xl bg-black/5 p-4 sm:p-6">
+              <div className="mb-3 text-sm text-black/70">
+                Что вы хотите сделать дальше?
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch gap-3">
               <a
                 href={quiz.results[resultKey].ctaHref}
-                className="rounded-xl bg-black px-4 py-2 text-sm text-white"
+                className="
+                inline-flex items-center justify-center
+                rounded-xl
+                bg-[#06BA7E]
+                px-6 py-4
+                text-base font-semibold
+                text-white
+                shadow-lg
+                hover:bg-[#059a69]
+                focus-visible:outline
+                focus-visible:outline-2
+                focus-visible:outline-offset-2
+                focus-visible:outline-[#06BA7E]
+                transition
+                "
               >
                 {quiz.results[resultKey].ctaLabel}
               </a>
 
-              <button
-                type="button"
-                onClick={resetAll}
-                className="rounded-xl border border-black/10 px-4 py-2 text-sm opacity-80 hover:opacity-100"
-              >
-                Пройти ещё раз
-              </button>
+                <button
+                  type="button"
+                  onClick={resetAll}
+                  className="
+                  inline-flex items-center justify-center
+                  rounded-xl
+                  border border-black/20
+                  bg-white
+                  px-6 py-4
+                  text-base font-medium
+                  hover:bg-black/5
+                  transition
+                "
+                >
+                  Пройти ещё раз
+                </button>
+              </div>
             </div>
+            {/* /CTA BLOCK */}
           </div>
         </section>
       )}
