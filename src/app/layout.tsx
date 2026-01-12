@@ -61,7 +61,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
-        <main className="pt-4 sm:pt-6">
+        <main className="pt-0">
           {children}
         </main>
 

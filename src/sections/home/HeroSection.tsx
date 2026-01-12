@@ -35,13 +35,26 @@ export function HeroSection() {
         className="
           pointer-events-none
           absolute inset-0
-          opacity-[0.02] md:opacity-[0.03]
+          opacity-[0.05] md:opacity-[0.09]
           hero-binary-bg
           hero-binary-animated
         "
       />
 
-      {/* Светлая вуаль для читаемости */}
+      {/* Анимированная линия */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="
+            absolute -inset-x-10 h-[3px]
+            bg-[#06BA7E]/60
+            blur-[0.5px]
+            will-change-[top,opacity]
+            animate-scan
+          "
+        />
+      </div>
+
+      {/* Светлая вуаль для читаемости 
       <div
         className="
           pointer-events-none
@@ -49,11 +62,11 @@ export function HeroSection() {
           bg-gradient-to-b
           from-white/95 via-white/85 to-white/95
         "
-      />
+      /> */}
 
       {/* Контент поверх подложки */}
       <div className="relative mx-auto max-w-6xl px-6 pt-4 pb-16 md:pt-16 md:pb-24">
-        <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_420px]">
           {/* LEFT */}
           <motion.div
             variants={containerVariants}
@@ -97,13 +110,13 @@ export function HeroSection() {
 
             {/* Микрострока формата */}
             <motion.p
-            variants={itemVariants}
-            className="mt-3 text-sm text-slate-700 md:text-base"
+              variants={itemVariants}
+              className="mt-3 text-sm text-slate-700 md:text-base"
             >
-            <span className="font-semibold text-slate-900">
+              <span className="font-semibold text-slate-900">
                 Формат работы:
-            </span>{' '}
-            20–50 часов в месяц · 60 €/час · без долгосрочных контрактов
+              </span>{' '}
+              20–50 часов в месяц · 60 €/час · без долгосрочных контрактов
             </motion.p>
 
             {/* Входной оффер */}
@@ -146,7 +159,7 @@ export function HeroSection() {
                   чтобы вы понимали, что делать дальше и сколько это может стоить.
                 </p>
                 <p className="text-sm leading-relaxed text-slate-600 md:text-base">
-                  Начинаем с ИТ-диагностики — и {' '} 
+                  Начинаем с ИТ-диагностики — и {' '}
                   <span className="font-semibold text-[#04A974]">
                     шаг за шагом идём c нуля до результата за адекватный бюджет.
                   </span>
@@ -165,41 +178,99 @@ export function HeroSection() {
               className="mt-3 text-sm text-slate-600 md:text-base"
             >
               Напишите пару строк о проекте, будем разбираться.
-              <br/>
+              <br />
               <p className="mt-2 text-sm italic font-bold leading-relaxed text-slate-900 md:text-base">
                 ИТ-диагностика делается бесплатно и ни к чему не обязывает.
               </p>
             </motion.p>
           </motion.div>
 
-          {/* RIGHT: фото */}
+          {/* RIGHT: banner + фото */}
           <motion.div
             variants={itemVariants}
             initial="hidden"
             animate="visible"
-            className="mx-auto w-full max-w-[320px] md:max-w-none"
+            className="mx-auto w-full space-y-12 md:max-w-none"
           >
+            {/* БАННЕР */}
             <div
               className="
-                relative
-                h-[420px] w-[320px]
-                overflow-hidden
-                rounded-2xl
+              relative
+              overflow-hidden
+              rounded-2xl
+              border border-emerald-200/60
+              bg-white/70
+              p-5
+              backdrop-blur
 
-                bg-white/70
-                backdrop-blur-md
-                ring-1 ring-black/5
+              shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
+              ring-1 ring-black/5
 
-                shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
-
-                transition
-                duration-200
-                will-change-transform
-
-                hover:-translate-y-1
-                hover:ring-black/10
-                hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
+              transition
+              duration-200
+              will-change-transform
+              hover:-translate-y-1
+              hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
               "
+            >
+              <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#06BA7E]/20 blur-2xl" />
+              <div className="pointer-events-none absolute -left-12 -bottom-12 h-40 w-40 rounded-full bg-[#06BA7E]/10 blur-2xl" />
+
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#06BA7E]/10 px-3 py-1 text-xs font-semibold text-[#047a56]">
+                <span className="h-2 w-2 rounded-full bg-[#06BA7E]" />
+                2 минуты · бесплатно
+              </div>
+
+              <div className="mt-3 flex items-start gap-3">
+                <div className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#06BA7E] text-white shadow-md">
+                  <span className="text-lg">🧭</span>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="text-base font-semibold text-slate-900">
+                    IT-тест для владельцев бизнеса
+                  </div>
+
+                  <div className="text-sm text-slate-700">
+                    За 2 минуты поймёте: <span className="font-semibold">ИТ под контролем</span> —
+                    или система держится «на честном слове».
+                  </div>
+
+                  <a
+                    href="/it-worries-test"
+                    className="
+                    inline-flex items-center justify-center
+                    rounded-xl
+                    bg-[#06BA7E]
+                    px-5 py-3
+                    text-sm font-semibold
+                    text-white
+                    shadow-[0_12px_25px_rgba(6,186,126,0.35)]
+                    hover:bg-[#06BA7E]/90
+                    transition
+                  "
+                  >
+                    Пройти тест →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* ФОТО */}
+            <div
+              className="
+              relative
+              h-[420px] w-full
+              overflow-hidden
+              rounded-2xl
+              bg-white/70
+              backdrop-blur-md
+              ring-1 ring-black/5
+              shadow-[0_18px_45px_rgba(15,23,42,0.18),0_6px_16px_rgba(15,23,42,0.12)]
+              transition duration-200 will-change-transform
+              hover:-translate-y-1 hover:ring-black/10
+              hover:shadow-[0_26px_65px_rgba(15,23,42,0.22),0_10px_24px_rgba(15,23,42,0.16)]
+            "
             >
               <Image
                 src="/images/hero/leonid-portrait-v3.png"
@@ -209,13 +280,13 @@ export function HeroSection() {
                 className="object-cover object-center"
               />
 
-              {/* верхний мягкий блик */}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/25 via-transparent to-transparent" />
-
-              {/* мягкий низ для гармонии со светлой темой */}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent" />
             </div>
           </motion.div>
+
+
+
         </div>
       </div>
     </section>

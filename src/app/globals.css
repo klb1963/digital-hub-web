@@ -140,3 +140,22 @@ body {
     @apply my-1;
   }
 }
+
+@keyframes scan {
+  0%   { top: -8px; opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { opacity: 0.7; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@layer utilities {
+  .animate-scan {
+    animation: scan 6s ease-in-out infinite;
+    will-change: top, opacity;
+  }
+  .animate-scanFast {
+    animation: scan 2s linear infinite;
+    will-change: top, opacity;
+  }
+}
