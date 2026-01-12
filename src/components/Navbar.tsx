@@ -40,8 +40,8 @@ export function Navbar() {
           <Image
             src="/logo-odh-512x256.png" // logo-odh-512x256.png logo-odh-512x256-inverted.png
             alt="Open Digital Hub logo"
-            width={90}
-            height={50}
+            width={120}
+            height={60}
             className="
             object-contain
             transition
