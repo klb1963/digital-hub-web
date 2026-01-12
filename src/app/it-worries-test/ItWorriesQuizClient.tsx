@@ -323,7 +323,7 @@ export default function ItWorriesQuizClient({ quiz }: Props) {
             {/* CTA BLOCK */}
             <div className="mt-8 rounded-2xl bg-black/5 p-4 sm:p-6">
               <div className="mb-3 text-sm text-black/70">
-                Что вы хотите сделать дальше?
+                Следующий шаг:
               </div>
 
               <div className="flex flex-col sm:flex-row items-stretch gap-3">
