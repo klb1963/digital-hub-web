@@ -29,7 +29,7 @@ export function IntroSection() {
           variants={introVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.15 }}
         >
           <div className="relative overflow-hidden rounded-3xl border border-slate-800/80 bg-slate-950/70 px-6 py-12 sm:px-10">
             {/* Gradient */}
