@@ -103,21 +103,21 @@ export function HeroSection() {
               variants={itemVariants}
               className="mt-3 max-w-2xl text-base leading-relaxed text-slate-800 md:text-lg"
             >
-              Помогаю владельцам бизнеса разобраться, стабилизировать и развивать сайты,
-              интернет-магазины и внутренние ИТ-системы — без космических бюджетов и зависимости
+              Помогаю владельцам бизнеса разобраться в их ИТ-проектах и развивать сайты,
+              интернет-магазины и внутренние системы — без космических бюджетов и зависимости
               от одного программиста или агентства.
             </motion.p>
 
-            {/* Микрострока формата */}
+            {/* Микрострока формата 
             <motion.p
               variants={itemVariants}
               className="mt-3 text-sm text-slate-700 md:text-base"
-            >
+            >*
               <span className="font-semibold text-slate-900">
                 Формат работы:
               </span>{' '}
               20–50 часов в месяц · 60 €/час · без долгосрочных контрактов
-            </motion.p>
+            </motion.p> /}
 
             {/* Входной оффер */}
             <motion.div
@@ -228,17 +228,18 @@ export function HeroSection() {
 
                 <div className="space-y-2">
                   <div className="text-base font-semibold text-slate-900">
-                    IT-тест для владельцев бизнеса
+                    Тест для владельцев бизнеса
                   </div>
 
                   <div className="text-sm text-slate-700">
-                    За 2 минуты поймёте: <span className="font-semibold">ИТ под контролем</span> —
-                    или система держится «на честном слове».
+                    За 2 минуты выявите <span className="font-semibold">ключевые IT-риски</span>,
+                    которые могут принести вам <span className="font-semibold"> большие проблемы</span>.
                   </div>
 
                   <a
                     href="/it-worries-test"
                     className="
+                    mt-2
                     inline-flex items-center justify-center
                     rounded-xl
                     bg-[#06BA7E]
