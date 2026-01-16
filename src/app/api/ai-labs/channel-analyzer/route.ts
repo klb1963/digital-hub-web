@@ -1,6 +1,8 @@
 // src/app/api/ai-labs/channel-analyzer/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
+
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 const EMAIL = process.env.PAYLOAD_SERVICE_EMAIL || ''
@@ -48,7 +50,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { channelInput, reportLanguage, depth, purposeHint } = body
 
-    const userId = 'DEV_USER' // позже заменим на Clerk userId
+    const userId = getCurrentUserId(req)
+
     const channel = normalizeChannel(channelInput)
 
     const token = await getPayloadToken()

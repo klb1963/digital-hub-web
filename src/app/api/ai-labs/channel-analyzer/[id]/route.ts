@@ -1,6 +1,7 @@
 // src/app/api/ai-labs/channel-analyzer/[id]/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 const EMAIL = process.env.PAYLOAD_SERVICE_EMAIL || ''
@@ -35,6 +36,8 @@ export async function GET(
   try {
     const { id } = await ctx.params
 
+    const currentUserId = getCurrentUserId(_req)
+
     const token = await getPayloadToken()
 
     // 1) читаем request
@@ -60,6 +63,10 @@ export async function GET(
 
     const requestJson = await reqRes.json()
     const request = requestJson?.doc ?? requestJson
+
+    if (String(request?.userId ?? '') !== String(currentUserId)) {
+        return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 })
+    }
 
     if (request?.status !== 'READY') {
       return NextResponse.json({
