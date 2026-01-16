@@ -105,7 +105,7 @@ export function DiscussIdeaDialog() {
           focus-visible:ring-[#06BE81]/50
         "
       >
-        Обсудить мой проект
+        Обсудить проект
       </button>
 
       {/* Modal */}
