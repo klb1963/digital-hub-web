@@ -2,32 +2,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
+import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
-const EMAIL = process.env.PAYLOAD_SERVICE_EMAIL || ''
-const PASSWORD = process.env.PAYLOAD_SERVICE_PASSWORD || ''
-
-async function getPayloadToken(): Promise<string> {
-  if (!EMAIL || !PASSWORD) {
-    throw new Error('Missing PAYLOAD_SERVICE_EMAIL or PAYLOAD_SERVICE_PASSWORD')
-  }
-
-  const res = await fetch(`${PAYLOAD_API_URL}/api/users/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: EMAIL, password: PASSWORD }),
-    cache: 'no-store',
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Payload login failed (${res.status}): ${text}`)
-  }
-
-  const json = await res.json()
-  if (!json?.token) throw new Error('Payload login succeeded but token is missing')
-  return json.token as string
-}
 
 export async function GET(
   _req: NextRequest,
@@ -38,7 +15,7 @@ export async function GET(
 
     const currentUserId = getCurrentUserId(_req)
 
-    const token = await getPayloadToken()
+    const token = await getPayloadServiceToken()
 
     // 1) читаем request
     const reqRes = await fetch(

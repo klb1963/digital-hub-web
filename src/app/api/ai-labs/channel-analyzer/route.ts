@@ -2,44 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
-
-
-const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
-const EMAIL = process.env.PAYLOAD_SERVICE_EMAIL || ''
-const PASSWORD = process.env.PAYLOAD_SERVICE_PASSWORD || ''
-
-async function getPayloadToken(): Promise<string> {
-  if (!EMAIL || !PASSWORD) {
-    throw new Error(
-      `Missing credentials: email="${EMAIL}", passwordLength=${PASSWORD.length}`
-    )
-  }
-
-  const res = await fetch(`${PAYLOAD_API_URL}/api/users/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: EMAIL,
-      password: PASSWORD,
-    }),
-    cache: 'no-store',
-  })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(
-      `Payload login failed (${res.status}) with email="${EMAIL}": ${text}`
-    )
-  }
-
-  const json = await res.json()
-
-  if (!json?.token) {
-    throw new Error('Payload login succeeded but token is missing')
-  }
-
-  return json.token as string
-}
+import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'
 
 function normalizeChannel(input: string): string {
   return input.trim().replace(/^https?:\/\/t\.me\//, '').replace(/^@/, '').trim()
@@ -54,7 +17,9 @@ export async function POST(req: NextRequest) {
 
     const channel = normalizeChannel(channelInput)
 
-    const token = await getPayloadToken()
+    const token = await getPayloadServiceToken()
+
+    const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 
     const res = await fetch(`${PAYLOAD_API_URL}/api/ai-labs-channel-analysis-requests`, {
       method: 'POST',
