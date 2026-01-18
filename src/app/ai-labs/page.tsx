@@ -156,6 +156,11 @@ export default function AiLabsPage() {
     return s.length > 0 && depth >= 200 && depth <= 500;
   }, [channelInput, depth]);
 
+  // ✅ Минимальный фикс: пока есть активный request — не создаем новый
+  const isBusy = useMemo(() => {
+    return status === "CREATED" || status === "PROCESSING";
+  }, [status]);
+
   function stopPolling() {
     if (pollingTimerRef.current) {
       window.clearInterval(pollingTimerRef.current);
@@ -172,58 +177,69 @@ export default function AiLabsPage() {
     const ac = new AbortController();
     abortRef.current = ac;
 
-    const res = await fetch(`/api/ai-labs/channel-analyzer/${id}`, {
-      method: "GET",
-      cache: "no-store",
-      signal: ac.signal,
-    });
+    try {
+      const res = await fetch(`/api/ai-labs/channel-analyzer/${id}`, {
+        method: "GET",
+        cache: "no-store",
+        signal: ac.signal,
+      });
 
-    const data = (await res.json()) as PollResponse;
+      const data = (await res.json()) as PollResponse;
 
-    if (!res.ok) {
+      if (!res.ok) {
+        setStatus("FAILED");
+        const err =
+          "error" in data && data.error != null ? data.error : "POLL_FAILED";
+        const msg =
+          "message" in data && data.message != null ? data.message : "";
+        setError(`${errToText(err)}${msg ? `: ${errToText(msg)}` : ""}`.trim());
+        stopPolling();
+        return;
+      }
+
+      if (isPollReady(data)) {
+        setStatus("READY");
+        setResult(data.result ?? null);
+        setMeta(data.meta ?? null);
+        setError(null);
+        stopPolling();
+        return;
+      }
+
+      setStatus("PROCESSING");
+    } catch (e: unknown) {
+      // ✅ Abort — это штатно (мы сами abort'им предыдущий fetch при новом тике)
+      if (typeof e === "object" && e !== null && "name" in e) {
+        const name = (e as { name?: unknown }).name;
+        if (name === "AbortError") return;
+      }
+
       setStatus("FAILED");
-      const err =
-        "error" in data && data.error != null ? data.error : "POLL_FAILED";
-      const msg =
-        "message" in data && data.message != null ? data.message : "";
-      setError(`${errToText(err)}${msg ? `: ${errToText(msg)}` : ""}`.trim());
+      setError(e instanceof Error ? e.message : "Polling error");
       stopPolling();
-      return;
     }
-
-    if (isPollReady(data)) {
-      setStatus("READY");
-      setResult(data.result ?? null);
-      setMeta(data.meta ?? null);
-      setError(null);
-      stopPolling();
-      return;
-    }
-
-    setStatus("PROCESSING");
   }
 
   function startPolling(id: string) {
     stopPolling();
     setStatus("PROCESSING");
 
-    pollOnce(id).catch((e: unknown) => {
-      setStatus("FAILED");
-      setError(e instanceof Error ? e.message : "Polling error");
-      stopPolling();
-    });
+    // pollOnce теперь сам ловит ошибки (и игнорит AbortError)
+    void pollOnce(id);
 
     pollingTimerRef.current = window.setInterval(() => {
-      pollOnce(id).catch((e: unknown) => {
-        setStatus("FAILED");
-        setError(e instanceof Error ? e.message : "Polling error");
-        stopPolling();
-      });
+      void pollOnce(id);
     }, 1500);
   }
 
   async function onSubmit() {
     if (!canSubmit || isSubmitting) return;
+
+    // ✅ Минимальный фикс: если уже есть активный request — просто продолжаем polling
+    if (requestId && (status === "CREATED" || status === "PROCESSING")) {
+      startPolling(requestId);
+      return;
+    }
 
     setIsSubmitting(true);
     setError(null);
@@ -357,7 +373,7 @@ export default function AiLabsPage() {
           <input type="hidden" value={purposeHint} readOnly />
 
           <button
-            disabled={!canSubmit || isSubmitting}
+            disabled={!canSubmit || isSubmitting || isBusy}
             onClick={onSubmit}
             className="rounded-xl bg-white px-4 py-2 text-sm text-black disabled:opacity-50"
           >
