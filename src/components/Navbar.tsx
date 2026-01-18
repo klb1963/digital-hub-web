@@ -12,6 +12,7 @@ const navItems = [
   { label: "Главная", href: "/" },
   { label: "Проекты", href: "/projects" },
   { label: "Блог", href: "/blog" },
+  { label: "AI-Labs", href: "/ai-labs" },
   { label: "IT-тест", href: "/it-worries-test" },
   { label: "FAQ", href: "/faq" },
   { label: "Контакты", href: "/contact" },
