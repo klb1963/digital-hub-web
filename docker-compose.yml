@@ -10,6 +10,7 @@ services:
     networks:
       - internal
       - web
+      - payload_internal
 
     labels:
       - "traefik.enable=true"
@@ -72,4 +73,6 @@ networks:
   web:
     external: true
   internal:
+    internal: true
+  payload_internal:
     internal: true
