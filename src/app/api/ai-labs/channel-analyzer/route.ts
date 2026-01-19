@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { channelInput, reportLanguage, depth, purposeHint } = body
 
-    const userId = getCurrentUserId(req)
+    const currentUserId = await getCurrentUserId()
     const channel = normalizeChannel(channelInput)
 
     const token = await getPayloadServiceToken()
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         Authorization: `JWT ${token}`,
       },
       body: JSON.stringify({
-        userId,
+        currentUserId,
         channel,
         reportLanguage,
         depth,

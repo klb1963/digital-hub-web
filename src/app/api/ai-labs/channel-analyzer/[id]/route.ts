@@ -1,19 +1,19 @@
 // src/app/api/ai-labs/channel-analyzer/[id]/route.ts
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 
 export async function GET(
-  _req: NextRequest,
+  _req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await ctx.params
 
-    const currentUserId = getCurrentUserId(_req)
+    const currentUserId = await getCurrentUserId()
 
     const token = await getPayloadServiceToken()
 
