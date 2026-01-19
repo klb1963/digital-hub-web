@@ -321,6 +321,12 @@ export default function AiLabsPage() {
   const showSmallSampleWarning =
     status === "READY" && isSmallSample(messagesUsed, requestedLimit);
 
+  // --- Hitnt for disabled reason ---
+    const isDisabled = !canSubmit || isSubmitting || isBusy;
+    const disabledTitle = !canSubmit
+      ? "Введите канал и выберите глубину анализа"
+      : undefined;
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-semibold text-white">
@@ -328,7 +334,7 @@ export default function AiLabsPage() {
       </h1>
 
       {/* FORM */}
-      <div className="mt-8 rounded-2xl border border-neutral-800 bg-black/40 p-5">
+      <div className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
         <div className="grid gap-4 min-w-0">
           <input
             value={channelInput}
@@ -337,17 +343,17 @@ export default function AiLabsPage() {
               if (e.key === "Enter") onSubmit();
             }}
             placeholder="https://t.me/username или @username"
-            className="w-full rounded-xl border border-neutral-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-neutral-600"
+            className="w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-400"
           />
 
           <label className="grid gap-1.5">
-            <span className="text-sm text-neutral-300">Язык отчёта</span>
+            <span className="text-sm font-medium text-neutral-700">Язык отчёта</span>
             <select
               value={reportLanguage}
               onChange={(e) =>
                 setReportLanguage(e.target.value as ReportLanguage)
               }
-              className="w-full rounded-xl border border-neutral-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-neutral-600"
+              className="w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-400"
             >
               <option value="EN">English</option>
               <option value="RU">Русский</option>
@@ -356,7 +362,7 @@ export default function AiLabsPage() {
           </label>
 
           <label className="grid gap-1.5">
-            <span className="text-sm text-neutral-300">
+            <span className="text-sm font-medium text-neutral-700">
               Глубина анализа <span className="text-neutral-500">(200–500)</span>
             </span>
             <input
@@ -365,20 +371,28 @@ export default function AiLabsPage() {
               max={500}
               value={depth}
               onChange={(e) => setDepth(Number(e.target.value))}
-              className="w-full rounded-xl border border-neutral-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-neutral-600"
+              className="w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-400"
             />
           </label>
 
           {/* purposeHint оставляем скрытым, но на будущее */}
           <input type="hidden" value={purposeHint} readOnly />
 
-          <button
-            disabled={!canSubmit || isSubmitting || isBusy}
-            onClick={onSubmit}
-            className="rounded-xl bg-white px-4 py-2 text-sm text-black disabled:opacity-50"
-          >
-            {isSubmitting ? "Анализирую…" : "Получить профиль"}
-          </button>
+          <div title={disabledTitle} className="w-full">
+            <button
+              disabled={isDisabled}
+              onClick={onSubmit}
+              className="
+                w-full rounded-xl px-4 py-2 text-sm font-medium transition
+                bg-emerald-600 text-white hover:bg-emerald-700
+                focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                disabled:bg-emerald-100 disabled:text-emerald-800
+                disabled:cursor-not-allowed disabled:opacity-100
+              "
+            >
+              {isSubmitting ? "Анализирую…" : "Получить профиль"}
+            </button>
+          </div>
 
           <div className="text-sm text-neutral-400">
             Статус: {status} {requestId && `(requestId=${requestId})`}
