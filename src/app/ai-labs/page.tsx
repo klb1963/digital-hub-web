@@ -329,9 +329,14 @@ export default function AiLabsPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-2xl font-semibold text-white">
+      <h1 className="text-2xl font-semibold text-black">
         AI-Labs — анализ Telegram-канала
       </h1>
+      <p>
+        <br/>
+        Получите профиль актуального контента любого публичного Telegram-канала
+        с помощью AI. Введите имя канала (без @) или ссылку на него.
+      </p>
 
       {/* FORM */}
       <div className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
