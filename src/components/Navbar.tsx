@@ -7,6 +7,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { GetStartedDialog } from "@/components/contact/GetStartedDialog";
 import Image from "next/image";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 const navItems = [
   { label: "Главная", href: "/" },
@@ -85,12 +91,26 @@ export function Navbar() {
 
           {/* Login / Register */}
           <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className="text-neutral-400 hover:text-neutral-200 transition-colors text-[15px] sm:text-base"
-            >
-              Вход
-            </Link>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="text-neutral-400 hover:text-neutral-200 transition-colors text-[15px] sm:text-base">
+                  Вход
+                </button>
+              </SignInButton>
+            </SignedOut>
+
+            <SignedIn>
+              <div className="flex items-center gap-2">
+                <UserButton
+                  afterSignOutUrl="/"
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-7 h-7",
+                    },
+                  }}
+                />
+              </div>
+            </SignedIn>
 
             {/* Анкета-заявка Get Started */}
             <GetStartedDialog />
@@ -139,13 +159,22 @@ export function Navbar() {
             ))}
 
             <div className="mt-2 flex flex-col gap-2 border-t border-neutral-800 pt-3">
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-1.5 text-neutral-300 hover:bg-neutral-900 hover:text-white"
-              >
-                Login
-              </Link>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="rounded-md px-2 py-1.5 text-neutral-300 hover:bg-neutral-900 hover:text-white text-left"
+                  >
+                    Вход
+                  </button>
+                </SignInButton>
+              </SignedOut>
+
+              <SignedIn>
+                <div className="px-2 py-1.5">
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              </SignedIn>
 
               {/* В мобильном меню используем ту же анкету */}
               <div className="px-0.5">

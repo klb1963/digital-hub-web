@@ -1,12 +1,13 @@
 // src/lib/ai-labs/getCurrentUserId.ts
 
-import type { NextRequest } from 'next/server'
+import { auth } from '@clerk/nextjs/server'
 
-export function getCurrentUserId(req: NextRequest): string {
-  // dev-mode: позволяем подставлять userId руками
-  const headerUserId = req.headers.get('x-user-id')?.trim()
-  if (headerUserId) return headerUserId
+export async function getCurrentUserId(): Promise<string> {
+  const { userId } = await auth()
 
-  // временный fallback до Clerk
-  return 'DEV_USER'
+  if (!userId) {
+    throw new Error('UNAUTHORIZED')
+  }
+
+  return userId
 }

@@ -10,6 +10,7 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.36.8",
     "@heroicons/react": "^2.2.0",
     "@next/third-parties": "^16.1.1",
     "@payloadcms/richtext-lexical": "^3.69.0",

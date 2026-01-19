@@ -6,6 +6,8 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer"; 
 import { AnalyticsWithConsent } from "../components/AnalyticsWithConsent";
 
+import { ClerkProvider } from '@clerk/nextjs'
+
 // Шрифты, как у тебя
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,18 +59,20 @@ export default function RootLayout({
           bg-gradient-to-b from-black via-neutral-950 to-black
         `}
       >
-        {/* ⬇️ Navbar теперь в layout — появляется на всех страницах */}
-        <Navbar />
+       <ClerkProvider>
+          {/* ⬇️ Navbar теперь в layout — появляется на всех страницах */}
+          <Navbar />
 
-        {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
-        <main className="pt-0">
-          {children}
-        </main>
+          {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
+          <main className="pt-0">
+            {children}
+          </main>
 
-        <Footer />
+          <Footer />
 
-        {/* TODO(GDPR): показывать cookie/consent баннер и загружать GA4 только после согласия */}
-        <AnalyticsWithConsent gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+          {/* TODO(GDPR): показывать cookie/consent баннер и загружать GA4 только после согласия */}
+          <AnalyticsWithConsent gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+       </ClerkProvider>   
       </body>
     </html>
   );
