@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         Authorization: `JWT ${token}`,
       },
       body: JSON.stringify({
-        currentUserId,
+        userId: currentUserId,
         channel,
         reportLanguage,
         depth,
