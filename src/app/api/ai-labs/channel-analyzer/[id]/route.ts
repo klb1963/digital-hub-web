@@ -13,7 +13,17 @@ export async function GET(
   try {
     const { id } = await ctx.params
 
-    const currentUserId = await getCurrentUserId()
+    // open scenario: allow anonymous polling for open_v1/anonym requests
+    let currentUserId: string | null = null
+    try {
+      currentUserId = await getCurrentUserId()
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : ''
+      if (msg !== 'UNAUTHORIZED') {
+        throw e
+      }
+      // keep null
+    }
 
     const token = await getPayloadServiceToken()
 
@@ -41,8 +51,17 @@ export async function GET(
     const requestJson = await reqRes.json()
     const request = requestJson?.doc ?? requestJson
 
-    if (String(request?.userId ?? '') !== String(currentUserId)) {
+    const isOpen =
+      String(request?.userId ?? '') === 'anonym' ||
+      String(request?.analyzerVersion ?? '') === 'open_v1'
+
+    if (!isOpen) {
+      if (!currentUserId) {
+        return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
+      }
+      if (String(request?.userId ?? '') !== String(currentUserId)) {
         return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 })
+      }
     }
 
     if (request?.status !== 'READY') {
