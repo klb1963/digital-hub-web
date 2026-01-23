@@ -13,7 +13,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { channelInput, reportLanguage, depth, purposeHint } = body
 
-    const currentUserId = await getCurrentUserId()
+    // open scenario: allow anonymous runs
+    let currentUserId = 'anonym'
+    try {
+      currentUserId = await getCurrentUserId()
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : ''
+      if (msg !== 'UNAUTHORIZED') {
+        throw e
+      }
+      // keep "anonym"
+    }
+
     const channel = normalizeChannel(channelInput)
 
     const token = await getPayloadServiceToken()
@@ -32,7 +43,7 @@ export async function POST(req: NextRequest) {
         depth,
         purposeHint,
         status: 'PROCESSING',
-        analyzerVersion: 'v1',
+        analyzerVersion: 'open_v1',
       }),
     })
 
