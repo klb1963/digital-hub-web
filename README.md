@@ -23,6 +23,8 @@ http://localhost:3000
 
 npm run dev
 
+**pnpm dev -p 3001**  
+
 Фронтенд доступен на:
 
 http://localhost:3001
