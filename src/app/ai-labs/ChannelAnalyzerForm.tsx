@@ -86,11 +86,11 @@ export function ChannelAnalyzerForm(props: {
             disabled={isDisabled}
             onClick={onSubmit}
             className="
-              w-full rounded-xl px-4 py-2 text-sm font-medium transition
-              bg-emerald-600 text-white hover:bg-emerald-700
-              focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
-              disabled:bg-emerald-100 disabled:text-emerald-800
-              disabled:cursor-not-allowed disabled:opacity-100
+            w-full rounded-xl px-4 py-2 text-sm font-medium transition
+            bg-[#01BD84] text-white hover:bg-[#00a774]
+            focus:outline-none focus:ring-2 focus:ring-[#01BD84] focus:ring-offset-2
+            disabled:bg-[#01BD84]/30 disabled:text-[#0b5f46]
+            disabled:cursor-not-allowed disabled:opacity-100
             "
           >
             {isSubmitting ? "Анализирую…" : "Получить профиль"}

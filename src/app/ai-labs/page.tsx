@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
@@ -9,38 +10,21 @@ import { ChannelAnalyzerForm } from "./ChannelAnalyzerForm";
 import { ChannelAnalyzerReport } from "./ChannelAnalyzerReport";
 import { useChannelAnalyzer } from "./useChannelAnalyzer";
 import { normalizeChannelInput } from "./useChannelAnalyzer";
-
-function Card({
-  title,
-  subtitle,
-  children,
-}: {
-  title: string;
-  subtitle: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-semibold text-black">{title}</h2>
-          <p className="mt-2 text-sm text-black/70">{subtitle}</p>
-        </div>
-      </div>
-      <div className="mt-5">{children}</div>
-    </div>
-  );
-}
+import { Card } from "./Card";
 
 function ButtonLike({
   children,
   onClick,
   disabled,
+  color = "black",
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  color?: "black" | "green";
 }) {
+  const isGreen = color === "green";
+
   return (
     <button
       type="button"
@@ -48,7 +32,10 @@ function ButtonLike({
       disabled={disabled}
       className={[
         "inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium",
-        "border border-black/15 bg-black text-white hover:bg-black/90",
+        "border transition-colors",
+        isGreen
+          ? "border-[#01BD84] bg-[#01BD84] text-white hover:bg-[#00a774]"
+          : "border-black/15 bg-black text-white hover:bg-black/90",
         "disabled:cursor-not-allowed disabled:opacity-60",
       ].join(" ")}
     >
@@ -95,12 +82,13 @@ export default function AiLabsPage() {
         {/* Card #1 */}
         <Card
           title="Понять, стоит ли подписываться на TG-канал"
-          subtitle="Получите профиль актуального контента любого публичного Telegram-канала и базовую статистику по просмотрам/реакциям/комментариям (в пределах данных, доступных через публичный Telegram API)."
+          subtitle="Получите профиль актуального контента любого публичного Telegram-канала и базовую статистику по просмотрам/реакциям/комментариям (в пределах данных публичного Telegram API)."
         >
           <div className="flex flex-wrap items-center gap-3">
-            <ButtonLike onClick={() => setShowAnalyzer(true)}>
+            <ButtonLike color="green" onClick={() => setShowAnalyzer(true)}>
               Проанализировать канал
             </ButtonLike>
+
             <span className="text-sm text-black/60">
               Результат можно посмотреть без регистрации. Сохранение — после входа.
             </span>
@@ -110,42 +98,40 @@ export default function AiLabsPage() {
         {/* Card #2 */}
         <Card
           title="Сравнить TG-каналы (профили и статистику)"
-            subtitle={
-              <div className="space-y-2">
-                <p>
-                  Получите профили нескольких публичных Telegram-каналов,
-                  сохраните их и выполняйте анализ:
-                </p>
-                <ul className="list-disc pl-5">
-                  <li>один канал vs другой</li>
-                  <li>канал сейчас vs 3 месяца назад</li>
-                  <li>канал vs “средний по нише”</li>
-                </ul>
+          subtitle={
+            <div className="space-y-2">
+              <p>
+                Получите профили нескольких публичных Telegram-каналов, сохраните их и выполняйте анализ:
+              </p>
+              <ul className="list-disc pl-5">
+                <li>один канал vs другой</li>
+                <li>канал сейчас vs 3 месяца назад</li>
+                <li>канал vs “средний по нише”</li>
+              </ul>
+            </div>
+          }
+        >
+          {isSignedIn ? (
+            <Link
+              href={compareHref}
+              className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
+            >
+              Перейти к сравнению
+            </Link>
+          ) : (
+            <div className="flex flex-col items-start gap-2">
+              <div className="rounded-lg bg-black/5 px-3 py-2 text-xs text-black/70">
+                🔒 После входа: сравнение каналов, сохранение анализов, история
               </div>
-            }
-          >
-          <div className="flex flex-wrap items-center gap-3">
-            {isSignedIn ? (
               <Link
-                href={compareHref}
+                href={signInHref}
                 className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
               >
-                Перейти к сравнению
+                Вход / Регистрация
               </Link>
-            ) : (
-              <>
-                <span className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-black/5 px-3 py-2 text-sm text-black/70">
-                  🔒 Требует входа
-                </span>
-                <Link
-                  href={signInHref}
-                  className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
-                >
-                  Войти, чтобы сравнивать
-                </Link>
-              </>
-            )}
-          </div>
+            </div>
+          )}
+
         </Card>
       </div>
 
