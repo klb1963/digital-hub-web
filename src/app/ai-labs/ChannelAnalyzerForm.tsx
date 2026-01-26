@@ -2,7 +2,7 @@
 
 "use client";
 
-import type { ReportLanguage, PollStatus } from "./useChannelAnalyzer";
+import type { ReportLanguage, PollStatus } from "../api/ai-labs/types";
 
 export function ChannelAnalyzerForm(props: {
   channelInput: string;
