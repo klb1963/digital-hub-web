@@ -3,9 +3,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReportLanguage, PollStatus, AnalyzerResultWithChannel } from "../api/ai-labs/types";
 
-export type ReportLanguage = "EN" | "RU" | "DE";
-export type PollStatus = "IDLE" | "CREATED" | "PROCESSING" | "READY" | "FAILED";
 
 type CreateResponse = { requestId: string };
 type CreateErrorResponse = { error?: unknown; details?: unknown; message?: unknown };
@@ -50,6 +49,18 @@ export function useChannelAnalyzer() {
   const [meta, setMeta] = useState<unknown>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+const fullResultHref = useMemo(() => {
+  if (!result || typeof result !== "object") return null;
+
+  const r = result as AnalyzerResultWithChannel;
+  const ch = r._result?.channel;
+
+  if (typeof ch !== "string" || !ch.trim()) return null;
+
+  // v=open_v1 by default
+  return `/ai-labs/channel/${encodeURIComponent(ch)}?v=open_v1`;
+}, [result]);
 
   const pollingTimerRef = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);

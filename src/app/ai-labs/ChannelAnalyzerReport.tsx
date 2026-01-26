@@ -2,6 +2,31 @@
 
 "use client";
 
+type InsightPreview = {
+  title: string
+  summary: string
+  why?: string | null
+}
+
+type CharacteristicPost = {
+  bucket: "top" | "typical" | "low" | "thematic"
+  tgMessageId: string
+  url: string
+  date?: string | null
+  views?: number | null
+  snippet?: string | null
+}
+
+type AnalyzerResultOpenV1 = {
+  profile?: AnalyzerProfile
+  stats?: OpenV1Stats
+  sampling?: OpenV1Sampling
+  insightsPreview?: InsightPreview[]
+  characteristicPosts?: CharacteristicPost[]
+  _result?: { id: string | number; channel: string; analyzerVersion?: string; analyzedAt?: string }
+}
+
+
 const CONTENT_TYPE_ORDER = [
     "educational",
     "motivational",
@@ -63,12 +88,26 @@ function pct(x: unknown): string {
     return `${Math.round(x * 100)}%`;
 }
 
+function fmtDate(x: unknown): string {
+  if (typeof x !== "string" || !x) return "—"
+  const d = new Date(x)
+  if (Number.isNaN(d.getTime())) return "—"
+  return d.toLocaleString("ru-RU", { year: "numeric", month: "2-digit", day: "2-digit" })
+}
+
+function bucketLabel(b: CharacteristicPost["bucket"]) {
+  if (b === "top") return "TOP"
+  if (b === "typical") return "TYPICAL"
+  if (b === "low") return "LOW"
+  return b.toUpperCase()
+}
+
 export function ChannelAnalyzerReport(props: { status: string; result: unknown; meta: unknown }) {
     const { status, result, meta } = props;
     if (status !== "READY") return null;
 
     // open_v1 result shape: { stats, sampling, profile, examples }
-    const r = (result ?? null) as unknown;
+    const r = (result ?? null) as AnalyzerResultOpenV1;
 
     const profile: AnalyzerProfile =
         isRecord(r) && isRecord(r.profile) ? (r.profile as AnalyzerProfile) : (isRecord(r) ? (r as AnalyzerProfile) : {});
@@ -78,6 +117,10 @@ export function ChannelAnalyzerReport(props: { status: string; result: unknown; 
 
     const sampling: OpenV1Sampling | null =
         isRecord(r) && isRecord(r.sampling) ? (r.sampling as OpenV1Sampling) : null;
+
+    const insightsPreview: InsightPreview[] = Array.isArray(r?.insightsPreview) ? r.insightsPreview : []
+
+    const characteristicPosts: CharacteristicPost[] = Array.isArray(r?.characteristicPosts) ? r.characteristicPosts : []
 
     const summaryText = (profile.overall_summary ?? "").trim();
 
@@ -105,6 +148,59 @@ export function ChannelAnalyzerReport(props: { status: string; result: unknown; 
                     {summaryText || "Недостаточно данных для summary."}
                 </p>
             </div>
+
+            {/* INSIGHTS PREVIEW */}
+            {insightsPreview.length > 0 && (
+              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
+                <h3 className="text-sm font-semibold text-neutral-900">Инсайты (preview)</h3>
+                <div className="mt-4 grid gap-3">
+                  {insightsPreview.map((x, i) => (
+                    <div key={`${x.title}-${i}`} className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div className="text-sm font-semibold text-neutral-900">{x.title}</div>
+                      <div className="mt-2 text-sm text-neutral-800 whitespace-pre-line">{x.summary}</div>
+                      {x.why ? (
+                        <div className="mt-2 text-xs text-neutral-600 whitespace-pre-line">{x.why}</div>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CHARACTERISTIC POSTS */}
+            {characteristicPosts.length > 0 && (
+              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
+                <h3 className="text-sm font-semibold text-neutral-900">Характерные посты</h3>
+                <div className="mt-4 grid gap-3">
+                  {characteristicPosts.map((p, i) => (
+                    <a
+                      key={`${p.tgMessageId}-${i}`}
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-xl border border-neutral-200 bg-white p-4 hover:bg-neutral-50"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
+                            {bucketLabel(p.bucket)}
+                          </span>
+                          <span className="text-xs text-neutral-600">id {p.tgMessageId}</span>
+                        </div>
+                        <div className="text-xs text-neutral-600">
+                          {fmtDate(p.date)} · {p.views != null ? `${fmtInt(p.views)} views` : "views —"}
+                        </div>
+                      </div>
+                      {p.snippet ? (
+                        <div className="mt-3 text-sm text-neutral-900 whitespace-pre-line">{p.snippet}</div>
+                      ) : (
+                        <div className="mt-3 text-sm text-neutral-500">—</div>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}  
 
             {/* STATS */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">

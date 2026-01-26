@@ -8,6 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { ChannelAnalyzerForm } from "./ChannelAnalyzerForm";
 import { ChannelAnalyzerReport } from "./ChannelAnalyzerReport";
 import { useChannelAnalyzer } from "./useChannelAnalyzer";
+import { normalizeChannelInput } from "./useChannelAnalyzer";
 
 function Card({
   title,
@@ -63,6 +64,14 @@ export default function AiLabsPage() {
   // UI state: show analyzer section when user picks Card #1
   const [showAnalyzer, setShowAnalyzer] = useState(false);
 
+  const fullResultHref = useMemo(() => {
+    if (a.status !== "READY") return null;
+    const slug = normalizeChannelInput(a.channelInput);
+    if (!slug) return null;
+    // v=open_v1 by default (как обсуждали)
+    return `/ai-labs/channel/${encodeURIComponent(slug)}?v=open_v1`;
+  }, [a.status, a.channelInput]);
+
   const compareHref = useMemo(() => {
     // можно поменять на "/ai-labs/history" если сначала делаем "Мои анализы"
     return "/ai-labs/compare";
@@ -70,9 +79,9 @@ export default function AiLabsPage() {
 
   const signInHref = useMemo(() => {
     // типичный путь Clerk; если у тебя другой — заменим
-    const redirect = encodeURIComponent(compareHref);
+    const redirect = encodeURIComponent("/ai-labs");
     return `/sign-in?redirect_url=${redirect}`;
-  }, [compareHref]);
+  }, []);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -188,6 +197,20 @@ export default function AiLabsPage() {
               meta={a.meta}
             />
           </div>
+
+          {isSignedIn && a.status === "READY" && fullResultHref && (
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link
+                href={fullResultHref}
+                className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
+              >
+                Открыть полный результат
+              </Link>
+              <span className="text-sm text-black/60">
+                (Если страница пока 404 — это ок, потом подключим роут. Кнопка уже готова.)
+              </span>
+            </div>
+          )}
 
           {!isSignedIn && a.status === "READY" && (
             <div className="mt-6 rounded-xl border border-black/10 bg-black/5 p-4">

@@ -3,6 +3,7 @@
 import { NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'
+import type { InsightPreview } from '@/lib/ai-labs/types'
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 
@@ -96,9 +97,30 @@ export async function GET(
     const resultJson = await resRes.json()
     const doc = resultJson?.docs?.[0]
 
+    const insightsPreview: Pick<InsightPreview, 'title' | 'summary' | 'why'>[] =
+      (doc?.insights as InsightPreview[] | undefined)
+        ?.slice(0, 2)
+        .map((x) => ({ title: x.title, summary: x.summary, why: x.why ?? null })) ?? []
+
     return NextResponse.json({
       status: 'READY',
-      result: doc?.resultJson ?? null,
+      result: doc
+        ? {
+            ...(doc.resultJson ?? null),
+            // structured v1.1 blocks
+            period: doc.period ?? null,
+            metrics: doc.metrics ?? null,
+            characteristicPosts: doc.characteristicPosts ?? [],
+            insightsPreview,
+            // for link building on /ai-labs
+            _result: {
+              id: doc.id,
+              channel: doc.channel,
+              analyzerVersion: doc.analyzerVersion,
+              analyzedAt: doc.analyzedAt,
+            },
+          }
+        : null,
       meta: doc?.meta ?? null,
     })
   } catch (e: unknown) {
