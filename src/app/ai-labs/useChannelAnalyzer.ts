@@ -50,17 +50,17 @@ export function useChannelAnalyzer() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-const fullResultHref = useMemo(() => {
-  if (!result || typeof result !== "object") return null;
+  const fullResultHref = useMemo(() => {
+    if (!result || typeof result !== "object") return null;
 
-  const r = result as AnalyzerResultWithChannel;
-  const ch = r._result?.channel;
+    const r = result as AnalyzerResultWithChannel;
+    const ch = r._result?.channel;
 
-  if (typeof ch !== "string" || !ch.trim()) return null;
+    if (typeof ch !== "string" || !ch.trim()) return null;
 
-  // v=open_v1 by default
-  return `/ai-labs/channel/${encodeURIComponent(ch)}?v=open_v1`;
-}, [result]);
+    // v=open_v1 by default
+    return `/ai-labs/channel/${encodeURIComponent(ch)}?v=open_v1`;
+  }, [result]);
 
   const pollingTimerRef = useRef<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -214,6 +214,7 @@ const fullResultHref = useMemo(() => {
     isSubmitting,
     canSubmit,
     isBusy,
+    fullResultHref,
 
     // actions
     submit,
