@@ -73,6 +73,12 @@ function isRecord(x: unknown): x is Record<string, unknown> {
     return typeof x === "object" && x !== null;
 }
 
+function metaAccess(meta: unknown): "preview" | "full" | null {
+  if (!isRecord(meta)) return null;
+  const a = meta["access"];
+  return a === "full" || a === "preview" ? a : null;
+}
+
 function safeNum(x: unknown): number | null {
     return typeof x === "number" && Number.isFinite(x) ? x : null;
 }
@@ -102,9 +108,20 @@ function bucketLabel(b: CharacteristicPost["bucket"]) {
   return b.toUpperCase()
 }
 
-export function ChannelAnalyzerReport(props: { status: string; result: unknown; meta: unknown }) {
-    const { status, result, meta } = props;
+export function ChannelAnalyzerReport(props: {
+  status: string;
+  result: unknown;
+  meta: unknown;
+  variant?: "teaser" | "full";
+}) {
+    const { status, result, meta, variant = "teaser" } = props;
+
     if (status !== "READY") return null;
+
+    // fullAllowed определяется сервером (API /channel-result) и приезжает в meta.access
+    // teaser режим всегда режет "глубокие" блоки, даже если access=full
+    const access = metaAccess(meta);
+    const showDeepBlocks = variant !== "teaser" && access === "full";
 
     // open_v1 result shape: { stats, sampling, profile, examples }
     const r = (result ?? null) as AnalyzerResultOpenV1;
@@ -118,9 +135,8 @@ export function ChannelAnalyzerReport(props: { status: string; result: unknown; 
     const sampling: OpenV1Sampling | null =
         isRecord(r) && isRecord(r.sampling) ? (r.sampling as OpenV1Sampling) : null;
 
-    const insightsPreview: InsightPreview[] = Array.isArray(r?.insightsPreview) ? r.insightsPreview : []
-
-    const characteristicPosts: CharacteristicPost[] = Array.isArray(r?.characteristicPosts) ? r.characteristicPosts : []
+    const insightsPreview: InsightPreview[] = Array.isArray(r?.insightsPreview) ? r.insightsPreview : [];
+    const characteristicPosts: CharacteristicPost[] = Array.isArray(r?.characteristicPosts) ? r.characteristicPosts : [];
 
     const summaryText = (profile.overall_summary ?? "").trim();
 
@@ -149,64 +165,43 @@ export function ChannelAnalyzerReport(props: { status: string; result: unknown; 
                 </p>
             </div>
 
-            {/* INSIGHTS PREVIEW */}
-            {insightsPreview.length > 0 && (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Инсайты (preview)</h3>
-                <div className="mt-4 grid gap-3">
-                  {insightsPreview.map((x, i) => (
-                    <div key={`${x.title}-${i}`} className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
-                      <div className="text-sm font-semibold text-neutral-900">{x.title}</div>
-                      <div className="mt-2 text-sm text-neutral-800 whitespace-pre-line">{x.summary}</div>
-                      {x.why ? (
-                        <div className="mt-2 text-xs text-neutral-600 whitespace-pre-line">{x.why}</div>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* CHARACTERISTIC POSTS */}
-            {characteristicPosts.length > 0 && (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Характерные посты</h3>
-                <div className="mt-4 grid gap-3">
-                  {characteristicPosts.map((p, i) => (
-                    <a
-                      key={`${p.tgMessageId}-${i}`}
-                      href={p.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="block rounded-xl border border-neutral-200 bg-white p-4 hover:bg-neutral-50"
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
-                            {bucketLabel(p.bucket)}
-                          </span>
-                          <span className="text-xs text-neutral-600">id {p.tgMessageId}</span>
-                        </div>
-                        <div className="text-xs text-neutral-600">
-                          {fmtDate(p.date)} · {p.views != null ? `${fmtInt(p.views)} views` : "views —"}
-                        </div>
-                      </div>
-                      {p.snippet ? (
-                        <div className="mt-3 text-sm text-neutral-900 whitespace-pre-line">{p.snippet}</div>
-                      ) : (
-                        <div className="mt-3 text-sm text-neutral-500">—</div>
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}  
-
             {/* STATS */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
                 <h3 className="text-sm font-semibold text-neutral-900">Статистика (по доступным метрикам Telegram)</h3>
 
                 <div className="mt-4 grid gap-4">
+
+                    {/* 2x2 cards (views) */}
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div className="rounded-xl border border-neutral-200 bg-white p-4">
+                            <div className="text-xs text-neutral-600">Средние просмотры</div>
+                            <div className="mt-1 text-lg font-semibold text-neutral-900">
+                                {fmtInt(stats?.views?.avg)}
+                            </div>
+                        </div>
+
+                        <div className="rounded-xl border border-neutral-200 bg-white p-4">
+                            <div className="text-xs text-neutral-600">Медиана просмотров</div>
+                            <div className="mt-1 text-lg font-semibold text-neutral-900">
+                                {fmtInt(stats?.views?.median)}
+                            </div>
+                        </div>
+
+                        <div className="rounded-xl border border-neutral-200 bg-white p-4">
+                            <div className="text-xs text-neutral-600">Мин просмотров</div>
+                            <div className="mt-1 text-lg font-semibold text-neutral-900">
+                                {fmtInt(stats?.views?.min)}
+                            </div>
+                        </div>
+
+                        <div className="rounded-xl border border-neutral-200 bg-white p-4">
+                            <div className="text-xs text-neutral-600">Макс просмотров</div>
+                            <div className="mt-1 text-lg font-semibold text-neutral-900">
+                                {fmtInt(stats?.views?.max)}
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="grid gap-2 text-sm text-neutral-900">
                         <div className="flex items-center justify-between">
                             <span className="text-neutral-700">Средние просмотры</span>
@@ -370,25 +365,81 @@ export function ChannelAnalyzerReport(props: { status: string; result: unknown; 
                 </div>
             </div>
 
-            {/* DEBUG JSON */}
-            <details className="rounded-2xl border border-neutral-200 bg-white p-5 min-w-0">
-                <summary className="cursor-pointer text-sm font-medium text-neutral-900">
-                    Показать полный JSON <span className="text-neutral-500">(для тех, кому нужно)</span>
-                </summary>
+               {/* INSIGHTS PREVIEW (FULL ONLY) */}
+            {showDeepBlocks && insightsPreview.length > 0 && (
+              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
+                <h3 className="text-sm font-semibold text-neutral-900">Инсайты (preview)</h3>
+                <div className="mt-4 grid gap-3">
+                  {insightsPreview.map((x, i) => (
+                    <div key={`${x.title}-${i}`} className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div className="text-sm font-semibold text-neutral-900">{x.title}</div>
+                      <div className="mt-2 text-sm text-neutral-800 whitespace-pre-line">{x.summary}</div>
+                      {x.why ? (
+                        <div className="mt-2 text-xs text-neutral-600 whitespace-pre-line">{x.why}</div>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                <pre className="mt-4 max-h-[420px] max-w-full overflow-auto rounded-xl bg-neutral-50 p-4 text-xs text-neutral-900 whitespace-pre-wrap break-words min-w-0">
-                    {JSON.stringify(result, null, 2)}
-                </pre>
+            {/* CHARACTERISTIC POSTS (FULL ONLY) */}
+            {showDeepBlocks && characteristicPosts.length > 0 && (
+              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
+                <h3 className="text-sm font-semibold text-neutral-900">Характерные посты</h3>
+                <div className="mt-4 grid gap-3">
+                  {characteristicPosts.map((p, i) => (
+                    <a
+                      key={`${p.tgMessageId}-${i}`}
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-xl border border-neutral-200 bg-white p-4 hover:bg-neutral-50"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
+                            {bucketLabel(p.bucket)}
+                          </span>
+                          <span className="text-xs text-neutral-600">id {p.tgMessageId}</span>
+                        </div>
+                        <div className="text-xs text-neutral-600">
+                          {fmtDate(p.date)} · {p.views != null ? `${fmtInt(p.views)} views` : "views —"}
+                        </div>
+                      </div>
+                      {p.snippet ? (
+                        <div className="mt-3 text-sm text-neutral-900 whitespace-pre-line">{p.snippet}</div>
+                      ) : (
+                        <div className="mt-3 text-sm text-neutral-500">—</div>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}  
 
-                {meta != null && (
-                    <>
-                        <div className="mt-6 text-sm font-medium text-neutral-900">Meta</div>
-                        <pre className="mt-3 max-h-[420px] max-w-full overflow-auto rounded-xl bg-neutral-50 p-4 text-xs text-neutral-900 whitespace-pre-wrap break-words min-w-0">
-                            {JSON.stringify(meta, null, 2)}
-                        </pre>
-                    </>
-                )}
-            </details>
+
+            {/* DEBUG JSON (FULL ONLY) */}
+            {showDeepBlocks && (
+              <details className="rounded-2xl border border-neutral-200 bg-white p-5 min-w-0">
+                  <summary className="cursor-pointer text-sm font-medium text-neutral-900">
+                      Показать полный JSON <span className="text-neutral-500">(для тех, кому нужно)</span>
+                  </summary>
+
+                  <pre className="mt-4 max-h-[420px] max-w-full overflow-auto rounded-xl bg-neutral-50 p-4 text-xs text-neutral-900 whitespace-pre-wrap break-words min-w-0">
+                      {JSON.stringify(result, null, 2)}
+                  </pre>
+
+                  {meta != null && (
+                      <>
+                          <div className="mt-6 text-sm font-medium text-neutral-900">Meta</div>
+                          <pre className="mt-3 max-h-[420px] max-w-full overflow-auto rounded-xl bg-neutral-50 p-4 text-xs text-neutral-900 whitespace-pre-wrap break-words min-w-0">
+                              {JSON.stringify(meta, null, 2)}
+                          </pre>
+                      </>
+                  )}
+              </details>
+            )}
         </div>
     );
 }

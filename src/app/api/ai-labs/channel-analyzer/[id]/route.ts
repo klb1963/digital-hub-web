@@ -7,6 +7,10 @@ import type { InsightPreview } from '@/lib/ai-labs/types'
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
 
+function asRecord(x: unknown): Record<string, unknown> {
+  return typeof x === 'object' && x !== null ? (x as Record<string, unknown>) : {}
+}
+
 export async function GET(
   _req: Request,
   ctx: { params: Promise<{ id: string }> }
@@ -97,6 +101,9 @@ export async function GET(
     const resultJson = await resRes.json()
     const doc = resultJson?.docs?.[0]
 
+    // unified gating flag for UI (ChannelAnalyzerReport смотрит на meta.access)
+    const access: 'preview' | 'full' = currentUserId ? 'full' : 'preview'
+
     const insightsPreview: Pick<InsightPreview, 'title' | 'summary' | 'why'>[] =
       (doc?.insights as InsightPreview[] | undefined)
         ?.slice(0, 2)
@@ -121,7 +128,9 @@ export async function GET(
             },
           }
         : null,
-      meta: doc?.meta ?? null,
+      meta: doc
+        ? { ...asRecord(doc?.meta), access }
+        : { access },
     })
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : 'Unknown error'

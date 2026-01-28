@@ -2,7 +2,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
@@ -58,6 +57,14 @@ export default function AiLabsPage() {
     // v=open_v1 by default (как обсуждали)
     return `/ai-labs/channel/${encodeURIComponent(slug)}?v=open_v1`;
   }, [a.status, a.channelInput]);
+
+  const fullResultCtaHref = useMemo(() => {
+    if (!fullResultHref) return null;
+    if (isSignedIn) return fullResultHref;
+    const redirect = encodeURIComponent(fullResultHref);
+    return `/sign-in?redirect_url=${redirect}`;
+  }, [fullResultHref, isSignedIn]);
+
 
   const compareHref = useMemo(() => {
     // можно поменять на "/ai-labs/history" если сначала делаем "Мои анализы"
@@ -181,19 +188,23 @@ export default function AiLabsPage() {
               status={a.status}
               result={a.result}
               meta={a.meta}
+              variant="teaser"
             />
           </div>
 
-          {isSignedIn && a.status === "READY" && fullResultHref && (
+          {a.status === "READY" && fullResultCtaHref && (
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
-                href={fullResultHref}
+                href={fullResultCtaHref}
                 className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
+
               >
-                Открыть полный результат
+                Открыть полный отчет
               </Link>
               <span className="text-sm text-black/60">
-                (Если страница пока 404 — это ок, потом подключим роут. Кнопка уже готова.)
+                {isSignedIn
+                  ? "Инсайты, характерные посты и JSON — на полной странице."
+                  : "После входа: сохранение, сравнение и история анализов."}
               </span>
             </div>
           )}
