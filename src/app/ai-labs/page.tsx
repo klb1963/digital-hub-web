@@ -88,7 +88,7 @@ export default function AiLabsPage() {
       <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
         {/* Card #1 */}
         <Card
-          title="Понять, стоит ли подписываться на TG-канал"
+          title="Cтоит ли подписываться на TG-канал?"
           subtitle="Получите профиль актуального контента любого публичного Telegram-канала и базовую статистику по просмотрам/реакциям/комментариям (в пределах данных публичного Telegram API)."
         >
           <div className="flex flex-wrap items-center gap-3">
@@ -140,6 +140,7 @@ export default function AiLabsPage() {
           )}
 
         </Card>
+        
       </div>
 
       {/* Existing analyzer flow (kept intact) */}

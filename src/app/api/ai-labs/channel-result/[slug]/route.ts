@@ -68,10 +68,28 @@ export async function GET(req: Request, ctx: { params: Promise<{ slug: string }>
 
     const access: "preview" | "full" = fullAllowed ? "full" : "preview";
 
+    // characteristicPosts: limit only TYPICAL to 5 (product decision)
+    const characteristicPostsRaw = (doc.characteristicPosts ?? []) as Array<{
+      bucket?: string;
+      [k: string]: unknown;
+    }>;
+
+    const characteristicPosts = fullAllowed
+      ? [
+          ...characteristicPostsRaw.filter((p) => p.bucket === "top"),
+          ...characteristicPostsRaw
+            .filter((p) => p.bucket === "typical")
+            .slice(0, 5),
+          ...characteristicPostsRaw.filter(
+            (p) => p.bucket !== "top" && p.bucket !== "typical"
+          ),
+        ]
+      : [];
+
     // insights preview: 1–2 only, safe for preview
     const insightsPreview: Pick<InsightPreview, "title" | "summary" | "why">[] =
       (doc.insights as InsightPreview[] | undefined)
-        ?.slice(0, 2)
+        ?.slice(0, 3)
         .map((x) => ({ title: x.title, summary: x.summary, why: x.why ?? null })) ?? [];
 
     // --- preview header ONLY (teaser page uses this as "шапку") ---
@@ -97,7 +115,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ slug: string }>
       insightsPreview,
 
       // full-only
-      characteristicPosts: fullAllowed ? doc.characteristicPosts ?? [] : [],
+      characteristicPosts,
 
       // full-only: полные инсайты (с evidencePosts)
       // ChannelAnalyzerReport сейчас это не рендерит — но данные будут в result для дальнейшей унификации.

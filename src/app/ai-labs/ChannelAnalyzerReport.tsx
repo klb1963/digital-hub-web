@@ -108,6 +108,20 @@ function bucketLabel(b: CharacteristicPost["bucket"]) {
   return b.toUpperCase()
 }
 
+function bucketBadgeClass(b: CharacteristicPost["bucket"]) {
+  if (b === "top") {
+    return "bg-[#04A974] text-white"
+  }
+  if (b === "typical") {
+    return "bg-[#FFD230] text-black"
+  }
+  if (b === "low") {
+    return "bg-[#1D4D9E] text-white"
+  }
+  // thematic / unknown
+  return "bg-neutral-100 text-neutral-900"
+}
+
 export function ChannelAnalyzerReport(props: {
   status: string;
   result: unknown;
@@ -167,7 +181,7 @@ export function ChannelAnalyzerReport(props: {
 
             {/* STATS */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Статистика (по доступным метрикам Telegram)</h3>
+                <h2 className="text-lg font-semibold text-neutral-900">Статистика (по доступным метрикам Telegram)</h2>
 
                 <div className="mt-4 grid gap-4">
 
@@ -203,21 +217,6 @@ export function ChannelAnalyzerReport(props: {
                     </div>
 
                     <div className="grid gap-2 text-sm text-neutral-900">
-                        <div className="flex items-center justify-between">
-                            <span className="text-neutral-700">Средние просмотры</span>
-                            <span className="font-medium">{fmtInt(stats?.views?.avg)}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <span className="text-neutral-700">Медиана просмотров</span>
-                            <span className="font-medium">{fmtInt(stats?.views?.median)}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <span className="text-neutral-700">Мин/макс просмотров</span>
-                            <span className="font-medium">
-                                {fmtInt(stats?.views?.min)} / {fmtInt(stats?.views?.max)}
-                            </span>
-                        </div>
-
                         <div className="flex items-center justify-between">
                             <span className="text-neutral-700">Средние реакции</span>
                             <span className="font-medium">{fmtInt(stats?.reactions?.avg)}</span>
@@ -266,7 +265,7 @@ export function ChannelAnalyzerReport(props: {
 
             {/* PROFILE FIELDS */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Профиль канала (структурно)</h3>
+                <h2 className="text-lg font-semibold text-neutral-900">Профиль канала (структурно)</h2>
 
                 <div className="mt-4 grid gap-5 min-w-0">
                     <div className="min-w-0">
@@ -365,13 +364,22 @@ export function ChannelAnalyzerReport(props: {
                 </div>
             </div>
 
-               {/* INSIGHTS PREVIEW (FULL ONLY) */}
+            {/* INSIGHTS PREVIEW (FULL ONLY) */}
             {showDeepBlocks && insightsPreview.length > 0 && (
-              <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Инсайты (preview)</h3>
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-6 min-w-0">
+                    <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-900">
+                        🤖 Инсайты (AI · preview)
+                    </h2>
+                    <div className="mt-2 text-xs text-emerald-700 max-w-prose">
+                        Инсайты сформированы LLM-моделью на основе анализа примеров постов.
+                        Это интерпретация и гипотеза, а не истина или статистически доказанное утверждение.
+                    </div>
                 <div className="mt-4 grid gap-3">
                   {insightsPreview.map((x, i) => (
-                    <div key={`${x.title}-${i}`} className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div
+                          key={`${x.title}-${i}`}
+                          className="rounded-xl border border-emerald-200 bg-white p-4"
+                      >
                       <div className="text-sm font-semibold text-neutral-900">{x.title}</div>
                       <div className="mt-2 text-sm text-neutral-800 whitespace-pre-line">{x.summary}</div>
                       {x.why ? (
@@ -386,7 +394,7 @@ export function ChannelAnalyzerReport(props: {
             {/* CHARACTERISTIC POSTS (FULL ONLY) */}
             {showDeepBlocks && characteristicPosts.length > 0 && (
               <div className="rounded-2xl border border-neutral-200 bg-white p-6 min-w-0">
-                <h3 className="text-sm font-semibold text-neutral-900">Характерные посты</h3>
+                <h2 className="text-lg font-semibold text-neutral-900">Характерные посты</h2>
                 <div className="mt-4 grid gap-3">
                   {characteristicPosts.map((p, i) => (
                     <a
@@ -398,7 +406,12 @@ export function ChannelAnalyzerReport(props: {
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
+                         <span
+                            className={[
+                              "rounded-full px-2 py-1 text-xs font-semibold",
+                              bucketBadgeClass(p.bucket),
+                            ].join(" ")}
+                          >
                             {bucketLabel(p.bucket)}
                           </span>
                           <span className="text-xs text-neutral-600">id {p.tgMessageId}</span>

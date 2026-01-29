@@ -106,7 +106,7 @@ export async function GET(
 
     const insightsPreview: Pick<InsightPreview, 'title' | 'summary' | 'why'>[] =
       (doc?.insights as InsightPreview[] | undefined)
-        ?.slice(0, 2)
+        ?.slice(0, 3)
         .map((x) => ({ title: x.title, summary: x.summary, why: x.why ?? null })) ?? []
 
     return NextResponse.json({
