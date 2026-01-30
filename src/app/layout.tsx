@@ -8,6 +8,8 @@ import { AnalyticsWithConsent } from "../components/AnalyticsWithConsent";
 
 import { ClerkProvider } from '@clerk/nextjs'
 
+import { Toaster } from "sonner";
+
 // Шрифты, как у тебя
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +51,7 @@ export default function RootLayout({
         ⬇️ Добавляем темную тему body + плавный градиент 
         чтобы Navbar идеально лег на фон (как у Payload)
       */}
+
       <body
         className={`
           ${geistSans.variable} 
@@ -66,6 +69,7 @@ export default function RootLayout({
           {/* ⬇️ Сдвигаем контент чуть вниз, чтобы не перекрывался Navbar */}
           <main className="pt-0">
             {children}
+            <Toaster richColors position="top-right" />
           </main>
 
           <Footer />

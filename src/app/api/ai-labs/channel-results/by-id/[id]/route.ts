@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPayloadServiceToken } from "@/lib/ai-labs/getPayloadServiceToken";
 
-const PAY_toggle = process.env.PAYLOAD_API_URL || "http://localhost:3000";
+const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || "http://localhost:3000";
 
 export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   try {
@@ -17,15 +17,42 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string 
 
     const token = await getPayloadServiceToken();
 
-    const res = await fetch(`${PAY_toggle}/api/ai-labs-channel-analysis-results/${encodeURIComponent(id)}`, {
-      method: "DELETE",
-      headers: { Authorization: `JWT ${token}` },
-      cache: "no-store",
-    });
 
-    if (res.status === 404) {
+    // 1) read doc to verify ownership
+    const readRes = await fetch(
+      `${PAYLOAD_API_URL}/api/ai-labs-channel-analysis-results/${encodeURIComponent(id)}`,
+      {
+        headers: { Authorization: `JWT ${token}` },
+        cache: "no-store",
+      }
+    );
+
+    if (readRes.status === 404) {
       return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
     }
+
+    if (!readRes.ok) {
+      const text = await readRes.text();
+      return NextResponse.json({ error: "PAYLOAD_READ_FAILED", details: text }, { status: 500 });
+    }
+
+    const readJson = await readRes.json();
+    const doc = readJson?.doc ?? readJson;
+
+    // 🔒 ownership check
+    if (String(doc?.userId ?? "") !== String(userId)) {
+      return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
+    }
+
+    // 2) delete
+    const res = await fetch(
+      `${PAYLOAD_API_URL}/api/ai-labs-channel-analysis-results/${encodeURIComponent(id)}`,
+      {
+       method: "DELETE",
+       headers: { Authorization: `JWT ${token}` },
+       cache: "no-store", 
+       }
+    );  
 
     if (!res.ok) {
       const text = await res.text();

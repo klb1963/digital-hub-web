@@ -1,6 +1,9 @@
+// src/app/ai-labs/channel/[slug]/ReportHistoryTable.tsx
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 type Row = {
   id: string;
@@ -136,7 +139,7 @@ export function ReportHistoryTable(props: {
     setBusyId(id);
 
     try {
-      const res = await fetch(`/api/ai-labs/channel-results/${encodeURIComponent(id)}`, {
+      const res = await fetch(`/api/ai-labs/channel-results/by-id/${encodeURIComponent(id)}`, {
         method: "DELETE",
         cache: "no-store",
       });
@@ -149,11 +152,12 @@ export function ReportHistoryTable(props: {
             ? (json as Record<string, unknown>)["error"]
             : null;
 
-        alert(`Delete failed: ${maybeErr ?? `HTTP ${res.status}`}`);
+        toast.error(`Удаление не удалось: ${maybeErr ?? `HTTP ${res.status}`}`);
         return;
       }
 
       setRows((xs) => xs.filter((r) => r.id !== id));
+      toast.success("Отчёт удалён");
     } finally {
       setBusyId(null);
     }
@@ -164,8 +168,9 @@ export function ReportHistoryTable(props: {
     setBusyId(id);
 
     try {
+        const tId = toast.loading("Готовлю ссылку…");
       const res = await fetch(
-        `/api/ai-labs/channel-results/${encodeURIComponent(id)}/share`,
+        `/api/ai-labs/channel-results/by-id/${encodeURIComponent(id)}/share`,
         {
           method: "POST",
           cache: "no-store",
@@ -180,7 +185,8 @@ export function ReportHistoryTable(props: {
             ? (json as Record<string, unknown>)["error"]
             : null;
 
-        alert(`Share failed: ${maybeErr ?? `HTTP ${res.status}`}`);
+        toast.dismiss(tId);
+        toast.error(`Шаринг не удался: ${maybeErr ?? `HTTP ${res.status}`}`);
         return;
       }
 
@@ -198,10 +204,17 @@ export function ReportHistoryTable(props: {
           : null;
 
       if (shareUrl) {
-        await navigator.clipboard.writeText(shareUrl);
-        alert("Ссылка скопирована в буфер обмена ✅");
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          toast.dismiss(tId);
+          toast.success("Ссылка скопирована ✅");
+        } catch {
+          toast.dismiss(tId);
+          toast.error("Не удалось скопировать в буфер (clipboard недоступен)");
+        }
       } else {
-        alert("Не удалось получить shareUrl/shareToken из ответа 😅");
+        toast.dismiss(tId);
+        toast.error("Не удалось получить shareUrl/shareToken 😅");
       }
 
       void load();
