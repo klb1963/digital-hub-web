@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
     const PAYLOAD_API_URL = (process.env.PAYLOAD_API_URL || 'http://localhost:3000').replace(/\/$/, '')
 
     const analyzerVersion = 'open_v1' as const
-    // For open_v1 we always store as anonym to allow public polling of results
-    const userIdForRequest = analyzerVersion === 'open_v1' ? 'anonym' : currentUserId  
+    // If user is signed in -> store under their userId, otherwise -> anonym
+    const userIdForRequest = currentUserId
 
     const res = await fetch(`${PAYLOAD_API_URL}/api/ai-labs-channel-analysis-requests`, {
       method: 'POST',

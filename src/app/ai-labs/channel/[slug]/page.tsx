@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@clerk/nextjs/server";
 import { ChannelAnalyzerReport } from "@/app/ai-labs/ChannelAnalyzerReport";
+import { ReportHistoryTable } from "./ReportHistoryTable";
 
 type ChannelResultApiResponse =
   | {
@@ -66,7 +67,7 @@ export default async function ChannelResultPage({
   if (share) qs.set("share", share);
 
   const baseUrl = await getBaseUrl();
-  const apiUrl = `${baseUrl}/api/ai-labs/channel-result/${encodeURIComponent(slug)}?${qs.toString()}`;
+  const apiUrl = `${baseUrl}/api/ai-labs/channel-results/by-channel/${encodeURIComponent(slug)}?${qs.toString()}`;
 
   // IMPORTANT: forward cookies so the API route can see Clerk session on server-side fetch
   const h = await headers();
@@ -167,6 +168,15 @@ export default async function ChannelResultPage({
           result={data.result ?? null} 
           meta={data.meta ?? null}
           variant="full"
+        />
+      </div>
+
+      <div className="mt-10">
+        <ReportHistoryTable
+          channel={String(preview.channel ?? slug)}
+          analyzerVersion={analyzerVersion}
+          isAuthed={isAuthed}
+          signInHref={signInHref}
         />
       </div>
 

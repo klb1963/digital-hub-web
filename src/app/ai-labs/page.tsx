@@ -11,6 +11,12 @@ import { useChannelAnalyzer } from "./useChannelAnalyzer";
 import { normalizeChannelInput } from "./useChannelAnalyzer";
 import { Card } from "./Card";
 
+type AnalyzerResult = {
+  _result?: {
+    channel?: unknown;
+  };
+};
+
 function ButtonLike({
   children,
   onClick,
@@ -52,11 +58,19 @@ export default function AiLabsPage() {
 
   const fullResultHref = useMemo(() => {
     if (a.status !== "READY") return null;
-    const slug = normalizeChannelInput(a.channelInput);
+
+    const result = a.result as AnalyzerResult | null;
+
+    const channelFromResult =
+      typeof result?._result?.channel === "string"
+        ? result._result.channel
+        : "";
+
+    const slug = normalizeChannelInput(channelFromResult || a.channelInput);
     if (!slug) return null;
-    // v=open_v1 by default (как обсуждали)
+
     return `/ai-labs/channel/${encodeURIComponent(slug)}?v=open_v1`;
-  }, [a.status, a.channelInput]);
+  }, [a.status, a.channelInput, a.result]);
 
   const fullResultCtaHref = useMemo(() => {
     if (!fullResultHref) return null;
