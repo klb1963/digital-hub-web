@@ -1,5 +1,11 @@
 // src/app/api/ai-labs/channel-analyzer/[id]/route.ts
 
+// GET /api/ai-labs/channel-analyzer/[id]
+// Возвращает результат анализа по requestId.
+// Используется UI отчёта для polling статуса (QUEUED/RUNNING/READY).
+// Поддерживает open-сценарий (anonym / open_v1) и приватный доступ по userId.
+// Отдаёт preview (анон) или full (авторизованный) + meta.access для UI-гейтинга.
+
 import { NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'

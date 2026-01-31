@@ -1,5 +1,10 @@
 // src/app/api/contact/route.ts
 
+// POST /api/contact
+// Принимает сообщения с контактной формы сайта.
+// Использует honeypot для защиты от ботов, валидирует поля и отправляет email.
+// Дополнительно логирует submission в Payload (Form submissions) для CRM/аналитики.
+
 import { NextResponse } from "next/server";
 import { sendContactEmails } from "@/lib/email";
 

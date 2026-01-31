@@ -1,5 +1,10 @@
 // src/app/api/ai-labs/reports/route.ts
 
+// GET /api/ai-labs/reports
+// Унифицированный список всех отчётов AI-Labs текущего пользователя (кросс-сервисы).
+// Сейчас агрегирует только Channel Analyzer results из Payload.
+// Возвращает “report cards” (subject/openUrl/shareToken/metrics) для страницы /ai-labs/reports.
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPayloadServiceToken } from "@/lib/ai-labs/getPayloadServiceToken";

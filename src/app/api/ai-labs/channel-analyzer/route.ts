@@ -1,5 +1,11 @@
 // src/app/api/ai-labs/channel-analyzer/route.ts
 
+// POST /api/ai-labs/channel-analyzer
+// Создаёт request на анализ канала (нормализует @username / t.me ссылку).
+// Работает в open-режиме (anonym) и для авторизованных пользователей.
+// Пишет request в Payload и best-effort триггерит AI worker.
+// Возвращает requestId для дальнейшего polling результата.
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'

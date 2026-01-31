@@ -1,5 +1,10 @@
 // src/app/api/ai-labs/channel-results/[id]/share/route.ts
 
+// POST /api/ai-labs/channel-results/[id]/share
+// Генерирует (или возвращает существующий) shareToken для отчёта.
+// Используется для расшаривания полного отчёта по публичной ссылке.
+// Требует Clerk auth и проверку ownership; токен хранится в doc.meta.
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { randomUUID } from "crypto";

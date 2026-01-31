@@ -1,5 +1,10 @@
 // src/app/api/ai-labs/channel-results/[id]/route.ts
 
+// DELETE /api/ai-labs/channel-results/[id]
+// Удаляет сохранённый результат анализа по id.
+// Используется в UI истории отчётов (manual cleanup).
+// Требует Clerk auth и строгую проверку ownership (userId).
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPayloadServiceToken } from "@/lib/ai-labs/getPayloadServiceToken";

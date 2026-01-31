@@ -1,5 +1,11 @@
 // src/app/api/ai-labs/channel-results/[slug]/route.ts
 
+// GET /api/ai-labs/channel-results/[slug]
+// Отдаёт готовый отчёт по каналу для публичной/шаринговой страницы.
+// Поддерживает preview/full доступ (анон, Clerk user, shareToken).
+// Используется для “витрины” и расшаривания отчёта по ссылке.
+// Гейтит sensitive-данные (insights, posts) через meta.access.
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPayloadServiceToken } from "@/lib/ai-labs/getPayloadServiceToken";

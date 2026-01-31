@@ -1,3 +1,9 @@
+// /src/app/api/auth/whoami/route.ts
+
+// GET /api/auth/whoami
+// Возвращает текущий Clerk-пользователь или признак анонимного доступа.
+// Используется клиентом для определения auth-состояния и гейтинга UI.
+
 import { currentUser } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 

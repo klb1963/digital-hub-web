@@ -1,5 +1,10 @@
 // src/app/api/ai-labs/channel-analyzer/results/route.ts
 
+// GET /api/ai-labs/channel-analyzer/results
+// Возвращает список последних результатов анализа текущего пользователя.
+// Используется для истории отчётов (history / ReportHistoryTable).
+// Требует авторизацию; данные берутся напрямую из Payload по userId.
+
 import { NextResponse } from 'next/server'
 import { getCurrentUserId } from '@/lib/ai-labs/getCurrentUserId'
 import { getPayloadServiceToken } from '@/lib/ai-labs/getPayloadServiceToken'

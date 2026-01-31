@@ -1,5 +1,15 @@
 // src/app/api/ai-labs/channel-results/route.ts
 
+// GET /api/ai-labs/channel-results
+// Список сохранённых результатов в Payload для текущего Clerk пользователя.
+// По умолчанию фильтрует по channel+analyzerVersion; scope=mine — все мои отчёты.
+// Используется для истории/листинга, возвращает лёгкий “summary” (без тяжёлых полей).
+
+// POST /api/ai-labs/channel-results
+// Создаёт saved result doc в Payload (1:1 с requestId).
+// Используется воркером/беком для сохранения готового отчёта.
+// userId/channel/depth/version денормализуются из Request через Payload hook.
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPayloadServiceToken } from "@/lib/ai-labs/getPayloadServiceToken";
