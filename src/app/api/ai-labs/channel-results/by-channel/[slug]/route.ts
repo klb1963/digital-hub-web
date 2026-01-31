@@ -65,6 +65,11 @@ export async function GET(req: Request, ctx: { params: Promise<{ slug: string }>
       return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
     }
 
+    // Anonymous report detection (server truth)
+    const docUserId = String(doc?.userId ?? "");
+    const isAnonymousReport =
+      !docUserId || docUserId === "anonym" || docUserId === "anonymous";
+
     // Safety: if rid points to a different channel — treat as NOT_FOUND
     if (String(doc?.channel ?? "") !== channel) {
       return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
@@ -144,6 +149,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ slug: string }>
       access,
       shareOk,
       isAuthed,
+      isAnonymousReport,
     };
 
     return NextResponse.json({

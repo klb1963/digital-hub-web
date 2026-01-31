@@ -112,6 +112,10 @@ export default async function ChannelResultPage({
 
   const { preview, access } = data;
 
+  const isAnonymousReport = Boolean(
+    (data.meta as Record<string, unknown> | null)?.["isAnonymousReport"]
+  );
+
   const redirectBack = encodeURIComponent(
     `/ai-labs/channel/${encodeURIComponent(slug)}?v=${encodeURIComponent(analyzerVersion)}&returnTo=${encodeURIComponent(backHref)}`
   );  
@@ -180,6 +184,7 @@ export default async function ChannelResultPage({
           analyzerVersion={analyzerVersion}
           isAuthed={isAuthed}
           signInHref={signInHref}
+          isAnonymousReport={isAnonymousReport}
         />
       </div>
 

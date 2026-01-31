@@ -61,8 +61,9 @@ export function ReportHistoryTable(props: {
   analyzerVersion: string;
   isAuthed: boolean;
   signInHref: string;
+  isAnonymousReport?: boolean;
 }) {
-  const { channel, analyzerVersion, isAuthed, signInHref } = props;
+  const { channel, analyzerVersion, isAuthed, signInHref, isAnonymousReport } = props;
 
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
@@ -223,99 +224,125 @@ export function ReportHistoryTable(props: {
     }
   }
 
-  return (
-    <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold text-neutral-900">Сохранённые отчёты</h2>
-        <button
-          onClick={() => void load()}
-          className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-900 hover:bg-neutral-50"
-        >
-          Обновить
-        </button>
-      </div>
+    return (
+        <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-sm font-semibold text-neutral-900">Сохранённые отчёты</h2>
+                <button
+                    onClick={() => void load()}
+                    className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-900 hover:bg-neutral-50"
+                >
+                    Обновить
+                </button>
+            </div>
 
-      {!isAuthed && (
-        <div className="mt-3 rounded-xl border border-black/10 bg-black/5 p-4 text-sm text-black/70">
-          История отчётов доступна после входа.{" "}
-          <a className="underline" href={signInHref}>
-            Войти
-          </a>
-        </div>
-      )}
+            {/* пользователь НЕ залогинен */}
+            {!isAuthed && (
+                <div className="mt-3 rounded-xl border border-black/10 bg-black/5 p-4 text-sm text-black/70">
+                    История отчётов доступна после входа.{" "}
+                    <a className="underline" href={signInHref}>
+                        Войти
+                    </a>
+                </div>
+            )}
 
-      {loading ? (
-        <div className="mt-4 text-sm text-neutral-500">Загружаю…</div>
-      ) : err ? (
-        <div className="mt-4 rounded-xl border border-red-900/60 bg-red-950/30 p-3 text-sm text-red-200">
-          Ошибка: {err}
-        </div>
-      ) : rows.length === 0 ? (
-        <div className="mt-4 text-sm text-neutral-500">Пока нет сохранённых отчётов.</div>
-      ) : (
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse text-sm">
-            <thead>
-              <tr className="text-left text-neutral-500">
-                <th className="border-b border-neutral-200 pb-2">Дата</th>
-                <th className="border-b border-neutral-200 pb-2">Язык</th>
-                <th className="border-b border-neutral-200 pb-2">Depth</th>
-                <th className="border-b border-neutral-200 pb-2">Views avg/median</th>
-                <th className="border-b border-neutral-200 pb-2">Share</th>
-                <th className="border-b border-neutral-200 pb-2 text-right">Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => {
-                const when = r.analyzedAt ?? r.createdAt ?? null;
-                const shareToken = r.meta?.shareToken ?? null;
+            {/* пользователь залогинен, но отчёт создан анонимно */}
+            {!isAuthed && isAnonymousReport && (
+                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                    <div className="font-semibold">
+                        Отчёт создан без авторизации
+                    </div>
+                    <div className="mt-1">
+                        Этот результат не может быть сохранён.
+                        <br />
+                        Запустите анализ заново, чтобы сохранить отчёт.
+                    </div>
+                </div>
+            )}
 
-                return (
-                  <tr key={r.id} className="hover:bg-neutral-50">
-                    <td className="border-b border-neutral-100 py-3">{fmtDate(when)}</td>
-                    <td className="border-b border-neutral-100 py-3">{r.reportLanguage ?? "—"}</td>
-                    <td className="border-b border-neutral-100 py-3">{r.depth ?? "—"}</td>
-                    <td className="border-b border-neutral-100 py-3">
-                      {fmtInt(r.metrics?.avgViews)} / {fmtInt(r.metrics?.medianViews)}
-                    </td>
-                    <td className="border-b border-neutral-100 py-3">
-                      {shareToken ? (
-                        <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
-                          есть
-                        </span>
-                      ) : (
-                        <span className="text-xs text-neutral-400">—</span>
-                      )}
-                    </td>
-                    <td className="border-b border-neutral-100 py-3 text-right">
-                      <div className="flex justify-end gap-2">
-                        <button
-                          disabled={!isAuthed || busyId === r.id}
-                          onClick={() => void doShare(r.id)}
-                          className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-900 hover:bg-neutral-50 disabled:opacity-50"
-                        >
-                          Зашарить
-                        </button>
-                        <button
-                          disabled={!isAuthed || busyId === r.id}
-                          onClick={() => void doDelete(r.id)}
-                          className="rounded-xl border border-red-200 bg-white px-3 py-1.5 text-xs text-red-700 hover:bg-red-50 disabled:opacity-50"
-                        >
-                          Удалить
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+            {isAuthed && isAnonymousReport && (
+                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                    <div className="font-semibold">Отчёт создан без авторизации</div>
+                    <div className="mt-1">
+                        Этот результат не может быть сохранён.
+                        <br />
+                        Войдите, чтобы запустить анализ и сохранить отчёт.
+                    </div>
+                </div>
+            )}  
 
-      <div className="mt-3 text-xs text-neutral-500">
-        Идея: отчёты автосохраняются, а тут — история + удаление + шаринг.
-      </div>
-    </section>
-  );
+            {loading ? (
+                <div className="mt-4 text-sm text-neutral-500">Загружаю…</div>
+            ) : err ? (
+                <div className="mt-4 rounded-xl border border-red-900/60 bg-red-950/30 p-3 text-sm text-red-200">
+                    Ошибка: {err}
+                </div>
+            ) : rows.length === 0 ? (
+                <div className="mt-4 text-sm text-neutral-500">Пока нет сохранённых отчётов.</div>
+            ) : (
+                <div className="mt-4 overflow-x-auto">
+                    <table className="w-full min-w-[860px] border-collapse text-sm">
+                        <thead>
+                            <tr className="text-left text-neutral-500">
+                                <th className="border-b border-neutral-200 pb-2">Дата</th>
+                                <th className="border-b border-neutral-200 pb-2">Язык</th>
+                                <th className="border-b border-neutral-200 pb-2">Depth</th>
+                                <th className="border-b border-neutral-200 pb-2">Views avg/median</th>
+                                <th className="border-b border-neutral-200 pb-2">Share</th>
+                                <th className="border-b border-neutral-200 pb-2 text-right">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows.map((r) => {
+                                const when = r.analyzedAt ?? r.createdAt ?? null;
+                                const shareToken = r.meta?.shareToken ?? null;
+
+                                return (
+                                    <tr key={r.id} className="hover:bg-neutral-50">
+                                        <td className="border-b border-neutral-100 py-3">{fmtDate(when)}</td>
+                                        <td className="border-b border-neutral-100 py-3">{r.reportLanguage ?? "—"}</td>
+                                        <td className="border-b border-neutral-100 py-3">{r.depth ?? "—"}</td>
+                                        <td className="border-b border-neutral-100 py-3">
+                                            {fmtInt(r.metrics?.avgViews)} / {fmtInt(r.metrics?.medianViews)}
+                                        </td>
+                                        <td className="border-b border-neutral-100 py-3">
+                                            {shareToken ? (
+                                                <span className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-900">
+                                                    есть
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs text-neutral-400">—</span>
+                                            )}
+                                        </td>
+                                        <td className="border-b border-neutral-100 py-3 text-right">
+                                            <div className="flex justify-end gap-2">
+                                                <button
+                                                    disabled={!isAuthed || busyId === r.id}
+                                                    onClick={() => void doShare(r.id)}
+                                                    className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-900 hover:bg-neutral-50 disabled:opacity-50"
+                                                >
+                                                    Зашарить
+                                                </button>
+                                                <button
+                                                    disabled={!isAuthed || busyId === r.id}
+                                                    onClick={() => void doDelete(r.id)}
+                                                    className="rounded-xl border border-red-200 bg-white px-3 py-1.5 text-xs text-red-700 hover:bg-red-50 disabled:opacity-50"
+                                                >
+                                                    Удалить
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {/* <div className="mt-3 text-xs text-neutral-500">
+                Идея: отчёты автосохраняются, а тут — история + удаление + шаринг.
+            </div> */}
+        </section>
+    );
 }
