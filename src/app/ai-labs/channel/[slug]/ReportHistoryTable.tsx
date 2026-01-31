@@ -2,6 +2,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -228,6 +229,7 @@ export function ReportHistoryTable(props: {
         <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-semibold text-neutral-900">Сохранённые отчёты</h2>
+
                 <button
                     onClick={() => void load()}
                     className="rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-900 hover:bg-neutral-50"
@@ -246,30 +248,25 @@ export function ReportHistoryTable(props: {
                 </div>
             )}
 
-            {/* пользователь залогинен, но отчёт создан анонимно */}
-            {!isAuthed && isAnonymousReport && (
-                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-                    <div className="font-semibold">
-                        Отчёт создан без авторизации
-                    </div>
-                    <div className="mt-1">
-                        Этот результат не может быть сохранён.
-                        <br />
-                        Запустите анализ заново, чтобы сохранить отчёт.
-                    </div>
-                </div>
-            )}
-
+            {/* пользователь ЗАЛОГИНЕН, но отчёт создан анонимно */}
             {isAuthed && isAnonymousReport && (
                 <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                     <div className="font-semibold">Отчёт создан без авторизации</div>
                     <div className="mt-1">
                         Этот результат не может быть сохранён.
                         <br />
-                        Войдите, чтобы запустить анализ и сохранить отчёт.
+                        Запустите анализ заново, чтобы сохранить отчёт.
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                        <Link
+                            href="/ai-labs"
+                            className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-amber-300 bg-white text-amber-900 hover:bg-amber-100"
+                        >
+                            Запустить анализ заново
+                        </Link>
                     </div>
                 </div>
-            )}  
+            )}
 
             {loading ? (
                 <div className="mt-4 text-sm text-neutral-500">Загружаю…</div>
