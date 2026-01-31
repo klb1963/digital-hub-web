@@ -50,7 +50,7 @@ export default async function ChannelResultPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ v?: string; share?: string }>;
+  searchParams: Promise<{ v?: string; share?: string; returnTo?: string }>;
 }) {
   const { userId } = await auth();
   const isAuthed = Boolean(userId);
@@ -60,6 +60,9 @@ export default async function ChannelResultPage({
 
   const analyzerVersion = (sp?.v || "open_v1").toString();
   const share = (sp?.share || "").toString();
+  const rawReturnTo = typeof sp?.returnTo === "string" ? sp.returnTo : "";
+  const backHref =
+    rawReturnTo && rawReturnTo.startsWith("/") ? rawReturnTo : "/ai-labs";
 
   // Важно: fetch на наш внутренний API-route (он уже делает gating preview/full)
   const qs = new URLSearchParams();
@@ -99,7 +102,7 @@ export default async function ChannelResultPage({
           {"details" in data && data.details ? ` — ${String(data.details)}` : ""}
         </p>
         <div className="mt-6">
-          <Link href="/ai-labs" className="text-sm underline">
+          <Link href={backHref} className="text-sm underline">
             ← Вернуться в AI-Labs
           </Link>
         </div>
@@ -110,7 +113,7 @@ export default async function ChannelResultPage({
   const { preview, access } = data;
 
   const redirectBack = encodeURIComponent(
-    `/ai-labs/channel/${encodeURIComponent(slug)}?v=${encodeURIComponent(analyzerVersion)}`
+    `/ai-labs/channel/${encodeURIComponent(slug)}?v=${encodeURIComponent(analyzerVersion)}&returnTo=${encodeURIComponent(backHref)}`
   );  
   const signInHref = `/sign-in?redirect_url=${redirectBack}`;
 
@@ -135,7 +138,7 @@ export default async function ChannelResultPage({
 
         <div className="flex flex-wrap items-center gap-2">
           <Link
-            href="/ai-labs"
+            href={backHref}
             className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
           >
             ← Вернуться

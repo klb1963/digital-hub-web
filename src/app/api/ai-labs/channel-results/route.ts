@@ -40,30 +40,37 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url);
 
+    const scope = url.searchParams.get("scope"); // "mine" | null
     const channel = normalizeSlug(url.searchParams.get("channel") || "");
     const analyzerVersion = url.searchParams.get("v") || "open_v1";
 
     const limit = Math.max(1, Math.min(50, safeInt(url.searchParams.get("limit")) ?? 20));
     const page = Math.max(1, safeInt(url.searchParams.get("page")) ?? 1);
 
-    if (!channel) {
+    if (scope !== "mine" && !channel) {
       return NextResponse.json(
         { error: "BAD_REQUEST", message: "Query param `channel` is required" },
         { status: 400 }
       );
     }
 
+    // -------------------------------
+    // Query builder
+    // -------------------------------
     const token = await getPayloadServiceToken();
 
     const qs = new URLSearchParams({
       "where[userId][equals]": userId,
-      "where[channel][equals]": channel,
-      "where[analyzerVersion][equals]": analyzerVersion,
       sort: "-analyzedAt",
       limit: String(limit),
       page: String(page),
       depth: "0", // no relationship expansion
     });
+
+    if (scope !== "mine") {
+      qs.set("where[channel][equals]", channel);
+      qs.set("where[analyzerVersion][equals]", analyzerVersion);
+    }
 
     const res = await fetch(
       `${PAYLOAD_API_URL}/api/ai-labs-channel-analysis-results?${qs.toString()}`,
@@ -95,6 +102,7 @@ export async function GET(req: Request) {
         channel: r["channel"] ?? null,
         analyzerVersion: r["analyzerVersion"] ?? null,
         reportLanguage: r["reportLanguage"] ?? null,
+        service: "channel-analyzer",
         depth: r["depth"] ?? null,
         analyzedAt: r["analyzedAt"] ?? null,
         createdAt: r["createdAt"] ?? null,
@@ -106,6 +114,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       ok: true,
+      scope: scope ?? "channel",
       channel,
       analyzerVersion,
       page: json?.page ?? page,

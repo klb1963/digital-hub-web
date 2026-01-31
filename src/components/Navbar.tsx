@@ -11,6 +11,7 @@ import {
   SignedIn,
   SignedOut,
   SignInButton,
+  useUser,
   UserButton,
 } from "@clerk/nextjs";
 
@@ -27,6 +28,7 @@ const navItems = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname?.startsWith(href);
@@ -87,6 +89,23 @@ export function Navbar() {
                 </Link>
               );
             })}
+
+            {isSignedIn && (
+              <Link
+                href="/ai-labs/reports"
+                className={`relative transition-colors ${
+                  isActive("/ai-labs/reports")
+                    ? "text-white"
+                    : "text-neutral-400 hover:text-neutral-200"
+                }`}
+              >
+                Мои отчёты
+                {isActive("/ai-labs/reports") && (
+                  <span className="absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-white opacity-100 transition-opacity" />
+                )}
+              </Link>
+            )}
+
           </div>
 
           {/* Login / Register */}
@@ -157,6 +176,20 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
+
+             {isSignedIn && (
+              <Link
+                href="/ai-labs/reports"
+                onClick={() => setOpen(false)}
+                className={`block rounded-md px-2 py-1.5 ${
+                  isActive("/ai-labs/reports")
+                    ? "bg-neutral-900 text-white"
+                    : "text-neutral-300 hover:bg-neutral-900 hover:text-white"
+                }`}
+              >
+                Мои отчёты
+              </Link>
+            )}           
 
             <div className="mt-2 flex flex-col gap-2 border-t border-neutral-800 pt-3">
               <SignedOut>

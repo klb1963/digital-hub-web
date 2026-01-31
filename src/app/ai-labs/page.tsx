@@ -79,6 +79,9 @@ export default function AiLabsPage() {
     return `/sign-in?redirect_url=${redirect}`;
   }, [fullResultHref, isSignedIn]);
 
+  const myReportsHref = useMemo(() => {
+    return "/ai-labs/reports";
+  }, []);
 
   const compareHref = useMemo(() => {
     // можно поменять на "/ai-labs/history" если сначала делаем "Мои анализы"
@@ -109,6 +112,15 @@ export default function AiLabsPage() {
             <ButtonLike color="green" onClick={() => setShowAnalyzer(true)}>
               Проанализировать канал
             </ButtonLike>
+
+            {isSignedIn && (
+              <Link
+                href={myReportsHref}
+                className="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium border border-black/15 bg-white text-black hover:bg-black/5"
+              >
+                Мои отчёты
+              </Link>
+            )}
 
             <span className="text-sm text-black/60">
               Результат можно посмотреть без регистрации. Сохранение — после входа.
