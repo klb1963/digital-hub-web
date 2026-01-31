@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ReportLanguage, PollStatus } from "../api/ai-labs/types";
 
 export function ChannelAnalyzerForm(props: {
+  isAuthed: boolean;
   channelInput: string;
   setChannelInput: (v: string) => void;
   reportLanguage: ReportLanguage;
@@ -24,6 +25,7 @@ export function ChannelAnalyzerForm(props: {
   onSubmit: () => void;
 }) {
   const {
+    isAuthed,
     channelInput,
     setChannelInput,
     reportLanguage,
@@ -126,6 +128,17 @@ export function ChannelAnalyzerForm(props: {
             className="w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-400"
           />
         </label>
+
+        {!isAuthed && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+            <div className="font-semibold">Внимание! Вы не вошли в систему.</div>
+            <div className="mt-1">
+              Анализ будет выполнен, но результат нельзя будет сохранить.
+              <br />
+              Войдите или зарегистрируйтесь, чтобы сохранить отчёт.
+            </div>
+          </div>
+        )}
 
         <div title={disabledTitle} className="w-full">
           <button

@@ -122,9 +122,9 @@ export default function AiLabsPage() {
               </Link>
             )}
 
-            <span className="text-sm text-black/60">
-              Результат можно посмотреть без регистрации. Сохранение — после входа.
-            </span>
+            {/* <span className="text-sm text-black/60">
+              Краткий отчет можно посмотреть без регистрации. Сохранение — после входа.
+            </span> */}
           </div>
         </Card>
 
@@ -194,6 +194,7 @@ export default function AiLabsPage() {
 
           <div className="mt-6">
             <ChannelAnalyzerForm
+              isAuthed={Boolean(isSignedIn)}
               channelInput={a.channelInput}
               setChannelInput={a.setChannelInput}
               reportLanguage={a.reportLanguage}
