@@ -22,18 +22,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://leonidk.de"),
   title: "Леонид Кляйман – Open Digital Hub",
   description: "Берусь за существующие ИТ-проекты и привожу их в порядок.",
+
+  openGraph: {
+    type: "website",
+    url: "https://leonidk.de/",
+    title: "Леонид Кляйман – Open Digital Hub",
+    description: "Берусь за существующие ИТ-проекты и привожу их в порядок.",
+    images: [
+      {
+        url: "/og.jpg", // сделай картинку 1200x630
+        width: 1200,
+        height: 630,
+        alt: "Леонид Кляйман – Open Digital Hub",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Леонид Кляйман – Open Digital Hub",
+    description: "Берусь за существующие ИТ-проекты и привожу их в порядок.",
+    images: ["/og.jpg"],
+  },
+
   icons: {
     icon: [
-      // главный фавикон — НОВЫЙ путь
       { url: "/favicon-v2.ico", type: "image/x-icon" },
-      // дополнительный PNG (на всякий случай)
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: ["/favicon-v2.ico"],
   },
   manifest: "/site.webmanifest",
